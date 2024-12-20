@@ -1,13 +1,17 @@
 ﻿using BookStore.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.DATA
 {
-    public class BookContext : DbContext
+    public class BookContext : IdentityDbContext<User>
     {
 
 
-        public DbSet<User> Users { get; set; }
+        public BookContext(DbContextOptions<BookContext> options) : base(options) { }
+
+
 
         public DbSet<Customer> Customers { get; set; }
 
@@ -20,20 +24,24 @@ namespace BookStore.DATA
 
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
-       
 
 
 
-        public BookContext(DbContextOptions<BookContext> options) : base(options) { }
+
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Customer)
-                .WithOne(c => c.User)
-                .HasForeignKey<Customer>(c => c.UserID);
 
+            base.OnModelCreating(modelBuilder);
+
+
+
+            modelBuilder.Entity<Customer>()
+                .HasOne(c => c.User)
+                .WithOne(u => u.Customer)
+                .HasForeignKey<Customer>(c => c.UserID);
 
             modelBuilder.Entity<Customer>()
                 .HasMany(c => c.Orders)
@@ -63,7 +71,7 @@ namespace BookStore.DATA
                  .HasForeignKey(od => od.BookID);
 
 
-               
+
         }
     }
 }

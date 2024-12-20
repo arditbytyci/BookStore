@@ -1,10 +1,14 @@
-﻿namespace BookStore.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace BookStore.Models
 {
     public class Book
     {
         public int BookID { get; set; } // PK
 
         public string Title { get; set; } = null!;
+
+       
         public decimal Price { get; set; }
         public DateTime? PublishedDate { get; set; }
 
