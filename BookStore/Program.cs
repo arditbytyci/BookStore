@@ -5,6 +5,7 @@ using BookStore.Interfaces.CustomerInterface;
 using BookStore.Interfaces.GenreInterface;
 using BookStore.Interfaces.OrderDetailInterface;
 using BookStore.Interfaces.OrderInterface;
+using BookStore.Interfaces.UserInterface;
 using BookStore.Models;
 using BookStore.Repositories.AuthorRepo;
 using BookStore.Repositories.BookRepo;
@@ -12,12 +13,14 @@ using BookStore.Repositories.CustomerRepo;
 using BookStore.Repositories.GenreRepo;
 using BookStore.Repositories.OrderDetailRepo;
 using BookStore.Repositories.OrderRepo;
+using BookStore.Repositories.UserRepo;
 using BookStore.Services.AuthorSvc;
 using BookStore.Services.BookSvc;
 using BookStore.Services.CustomerSvc;
 using BookStore.Services.GenreSvc;
 using BookStore.Services.OrderDetailSvc;
 using BookStore.Services.OrderSvc;
+using BookStore.Services.UserSvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -66,6 +69,10 @@ builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
 //Customer 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+
+//User 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();    
 
 // Retrieve JWT settings
 var key = configuration["Jwt:Key"];

@@ -15,6 +15,7 @@ namespace BookStore.Mapping
             CreateMap<Order, OrderDTO>().ReverseMap();
             CreateMap<OrderDetail, OrderDetailDTO>().ReverseMap();
             CreateMap<Customer, CustomerDTO>().ReverseMap();
+            CreateMap<User, UserDTO>().ReverseMap();    
         }
     }
 }

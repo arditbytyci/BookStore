@@ -1,6 +1,12 @@
-﻿namespace BookStore.Interfaces.UserInterface
+﻿using BookStore.Models;
+
+namespace BookStore.Interfaces.UserInterface
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<User>
     {
+
+
+        
+        
     }
 }
