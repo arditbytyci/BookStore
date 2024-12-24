@@ -1,17 +1,20 @@
 using BookStore.DATA;
 using BookStore.Interfaces.AuthorInterface;
 using BookStore.Interfaces.BookInterface;
+using BookStore.Interfaces.CustomerInterface;
 using BookStore.Interfaces.GenreInterface;
 using BookStore.Interfaces.OrderDetailInterface;
 using BookStore.Interfaces.OrderInterface;
 using BookStore.Models;
 using BookStore.Repositories.AuthorRepo;
 using BookStore.Repositories.BookRepo;
+using BookStore.Repositories.CustomerRepo;
 using BookStore.Repositories.GenreRepo;
 using BookStore.Repositories.OrderDetailRepo;
 using BookStore.Repositories.OrderRepo;
 using BookStore.Services.AuthorSvc;
 using BookStore.Services.BookSvc;
+using BookStore.Services.CustomerSvc;
 using BookStore.Services.GenreSvc;
 using BookStore.Services.OrderDetailSvc;
 using BookStore.Services.OrderSvc;
@@ -59,6 +62,10 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 //OrderDetail
 builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
+
+//Customer 
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 // Retrieve JWT settings
 var key = configuration["Jwt:Key"];
