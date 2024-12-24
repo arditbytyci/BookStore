@@ -1,6 +1,6 @@
 ﻿using BookStore.Models;
 
-namespace BookStore.Interfaces
+namespace BookStore.Interfaces.AuthorInterface
 {
     public interface IAuthorRepository : IRepository<Author>
     {

@@ -10,6 +10,7 @@ namespace BookStore.Mapping
         public MapperProfile()
         {
             CreateMap<Author, AuthorDTO>().ReverseMap();
+            CreateMap<Book, BookDTO>().ReverseMap();
         }
     }
 }

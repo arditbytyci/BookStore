@@ -1,6 +1,6 @@
 ﻿using BookStore.DTO;
 
-namespace BookStore.Services
+namespace BookStore.Services.AuthorSvc
 {
     public interface IAuthorService
     {

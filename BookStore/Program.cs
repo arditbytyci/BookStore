@@ -1,8 +1,11 @@
 using BookStore.DATA;
-using BookStore.Interfaces;
+using BookStore.Interfaces.AuthorInterface;
+using BookStore.Interfaces.BookInterface;
 using BookStore.Models;
-using BookStore.Repositories;
-using BookStore.Services;
+using BookStore.Repositories.AuthorRepo;
+using BookStore.Repositories.BookRepo;
+using BookStore.Services.AuthorSvc;
+using BookStore.Services.BookSvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,8 +29,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddDbContext<BookContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//Author
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
+
+//Book
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookService, BookService>();
 var configuration = builder.Configuration;
 
 // Retrieve JWT settings

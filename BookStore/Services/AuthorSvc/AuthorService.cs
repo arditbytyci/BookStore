@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using BookStore.DTO;
-using BookStore.Interfaces;
+using BookStore.Interfaces.AuthorInterface;
 using BookStore.Models;
 
-namespace BookStore.Services
+namespace BookStore.Services.AuthorSvc
 {
     public class AuthorService : IAuthorService
     {
@@ -34,14 +34,15 @@ namespace BookStore.Services
         public async Task<AuthorDTO?> GetAuthorById(int authorId)
         {
             var author = await _authorRepository.GetByIdAsync(authorId);
-            return author == null ? null : _mapper.Map<AuthorDTO>(author); 
+            return author == null ? null : _mapper.Map<AuthorDTO>(author);
         }
 
-        public async Task<bool> UpdateAuthorAsync(int id,AuthorDTO authorDto)
+        public async Task<bool> UpdateAuthorAsync(int id, AuthorDTO authorDto)
         {
             var author = await _authorRepository.GetByIdAsync(id);
 
-            if (author == null) {
+            if (author == null)
+            {
                 return false;
             }
 

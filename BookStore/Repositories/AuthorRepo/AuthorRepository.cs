@@ -1,9 +1,9 @@
 ﻿using BookStore.DATA;
-using BookStore.Interfaces;
+using BookStore.Interfaces.AuthorInterface;
 using BookStore.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookStore.Repositories
+namespace BookStore.Repositories.AuthorRepo
 {
     public class AuthorRepository : IAuthorRepository
     {
@@ -26,7 +26,7 @@ namespace BookStore.Repositories
         public async Task AddAsync(Author entity) =>
             await _context.Authors.AddAsync(entity);
 
-        public async Task UpdateAsync(Author entity) => 
+        public async Task UpdateAsync(Author entity) =>
              _context.Authors.Update(entity);
 
 
@@ -34,13 +34,13 @@ namespace BookStore.Repositories
         public async Task DeleteAsync(int id)
         {
             var author = await GetByIdAsync(id);
-            
-            if(author != null)
+
+            if (author != null)
             {
                 _context.Authors.Remove(author);
             }
         }
-            
+
         public async Task<IEnumerable<Author>> GetAuthorsWithBooksAsync() =>
             await _context.Authors.Include(a => a.Books).ToListAsync();
 
@@ -48,9 +48,9 @@ namespace BookStore.Repositories
         public async Task<Author> GetAuthorsWithBooksByIdAsync(int id) =>
             await _context.Authors.Include(a => a.Books).FirstOrDefaultAsync(a => a.AuthorID == id);
 
-        public async Task<IEnumerable<Author>> SearchAuthorsByNameAsync(string name) => 
+        public async Task<IEnumerable<Author>> SearchAuthorsByNameAsync(string name) =>
             await _context.Authors.Where(a => a.Name.Contains(name)).ToListAsync();
-                
+
 
 
     }
