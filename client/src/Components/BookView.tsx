@@ -1,17 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Book } from "../Models/Book";
+import axiosClient from "../axiosClient";
 
 const BookView = () => {
-  const [bookData, setBookData] = useState<Book[]>([
-    {
-      BookID: 1,
-      Title: "BookTest",
-      Price: 2.5,
-      PublishedDate: new Date("2024-12-26"),
-      AuthorID: 1,
-      GenreID: 1,
-    },
-  ]);
+  const [bookData, setBookData] = useState<Book[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  const fetchBooks = async () => {
+    try {
+      const res = await axiosClient.get("/book");
+      setBookData(res.data);
+    } catch (error) {
+      setError("Failed to fetch books");
+    }
+  };
 
   return (
     <div>
@@ -29,14 +35,14 @@ const BookView = () => {
         </thead>
         <tbody>
           {/* row 1 */}
-          {bookData.map((b) => (
-            <tr>
-              <th>{b.BookID}</th>
-              <th>{b.Title}</th>
-              <th>{b.Price}</th>
-              <th>{b.PublishedDate.toLocaleDateString()}</th>
-              <th>{b.AuthorID}</th>
-              <th>{b.GenreID}</th>
+          {bookData.map((b, i) => (
+            <tr key={i}>
+              <th>{b.bookID}</th>
+              <th>{b.title}</th>
+              <th>{b.price}</th>
+              <th>{b.publishedDate}</th>
+              <th>{b.authorName}</th>
+              <th>{b.genreName}</th>
             </tr>
           ))}
         </tbody>

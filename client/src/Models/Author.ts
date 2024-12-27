@@ -1,0 +1,6 @@
+export interface Author {
+  authorID: number;
+  name: string;
+  bio: string;
+  birthDate: string;
+}

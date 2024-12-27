@@ -79,6 +79,18 @@ var key = configuration["Jwt:Key"];
 var issuer = configuration["Jwt:Issuer"];
 var audience = configuration["Jwt:Audience"];
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins", policy =>
+    {
+        policy.WithOrigins("http://localhost:5174") // Allow your frontend origin
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+
 if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(issuer) || string.IsNullOrEmpty(audience))
 {
     throw new ArgumentNullException("JWT configuration is missing values.");
@@ -93,6 +105,15 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<BookContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins", builder =>
+    {
+        builder.WithOrigins("http://localhost:5174") // Allow your frontend origin
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -117,6 +138,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+app.UseCors("AllowSpecificOrigins");
+
 
 app.UseHttpsRedirection();
 
