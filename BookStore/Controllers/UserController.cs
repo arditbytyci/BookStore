@@ -44,7 +44,7 @@ namespace BookStore.Controllers
         {
             var createdUser = await _userService.CreateUserAsync(userDto);
 
-            return CreatedAtAction(nameof(GetUserById), new { userId = createdUser.Id }, createdUser);
+            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
         }
 
         [HttpPut("{id}")]

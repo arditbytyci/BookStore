@@ -9,5 +9,11 @@
         public string Role { get; set; } = "Customer";
 
         public DateTime? CreatedAt { get; set; }
+
+        public string? FullName { get; set; }
+
+        public string? Phone {  get; set; }
+
+        public int? CustomerID { get; set; }
     }
 }

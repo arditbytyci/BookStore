@@ -18,25 +18,31 @@ namespace BookStore.Repositories.GenreRepo
 
 
         public async Task<IEnumerable<Genre>> GetAllAsync() =>
-            await _context.Genres.ToListAsync();
+            await _context.Genres.Include(g => g.Books).ToListAsync();
 
 
         public async Task<Genre> GetByIdAsync(int id) =>
             await _context.Genres.FindAsync(id);
 
-        public async Task AddAsync(Genre entity) =>
+        public async Task AddAsync(Genre entity)
+        {
             await _context.Genres.AddAsync(entity);
-
-        public async Task UpdateAsync(Genre entity) =>
-                  _context.Genres.Update(entity);
+            await _context.SaveChangesAsync();
+        }
+        public async Task UpdateAsync(Genre entity)
+        {
+            _context.Genres.Update(entity);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task DeleteAsync(int id)
         {
-            var genre = GetByIdAsync(id);
+            var genre = await GetByIdAsync(id);
 
             if (genre != null)
             {
                 _context.Remove(genre);
+                await _context.SaveChangesAsync();
             }
         }
         

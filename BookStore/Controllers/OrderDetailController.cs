@@ -45,7 +45,7 @@ namespace BookStore.Controllers
         {
             var createdODtl = await _orderDetailService.CreateOrderDetailAsync(orderDetailDto);
 
-            return CreatedAtAction(nameof(GetOrderDetailsById), new { orderDetailId = createdODtl.OrderDetailID }, createdODtl);
+            return CreatedAtAction(nameof(GetOrderDetailsById), new { id = createdODtl.OrderDetailID }, createdODtl);
         }
 
 

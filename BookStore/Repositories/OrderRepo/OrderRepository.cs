@@ -18,23 +18,42 @@ namespace BookStore.Repositories.OrderRepo
 
 
         public async Task<IEnumerable<Order>> GetAllAsync() =>
-            await _context.Orders.ToListAsync();
+           await _context.Orders.
+            Include(o => o.Customer)
+            .Include(o => o.OrderDetails)
+               .ThenInclude(od => od.Book)
+            
+            .ToListAsync();
 
 
-        public async Task<Order> GetByIdAsync(int id) => 
-            await _context.Orders.FindAsync(id);
+        public async Task<Order> GetByIdAsync(int id) =>
+            await _context.Orders.
+            Include(o => o.Customer)
+            .Include(o => o.OrderDetails)
+            .ThenInclude(od => od.Book)
+            .FirstOrDefaultAsync(o => o.OrderID == id);
 
-        public async Task AddAsync(Order entity) =>
+        public async Task AddAsync(Order entity)
+        {
             await _context.Orders.AddAsync(entity);
-
-        public async Task UpdateAsync(Order entity) =>
-             _context.Orders.Update(entity);
+            await _context.SaveChangesAsync();
+        }
+        public async Task UpdateAsync(Order entity)
+        {
+            _context.Orders.Update(entity);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task DeleteAsync(int id)
         {
             var order = await GetByIdAsync(id);
 
-            if (order != null) _context.Orders.Remove(order);
+            if (order != null) { 
+                
+                _context.Orders.Remove(order);
+
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<IEnumerable<Order>> GetOrdersWithCustomersAsync() => 

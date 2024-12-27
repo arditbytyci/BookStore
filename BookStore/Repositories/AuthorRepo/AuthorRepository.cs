@@ -19,16 +19,22 @@ namespace BookStore.Repositories.AuthorRepo
         public async Task<IEnumerable<Author>> GetAllAsync() =>
             await _context.Authors.ToListAsync();
 
+            
+
         public async Task<Author> GetByIdAsync(int id) =>
             await _context.Authors.FindAsync(id);
 
 
-        public async Task AddAsync(Author entity) =>
+        public async Task AddAsync(Author entity) {
             await _context.Authors.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
 
-        public async Task UpdateAsync(Author entity) =>
-             _context.Authors.Update(entity);
-
+        public async Task UpdateAsync(Author entity)
+        {
+            _context.Authors.Update(entity);
+            await _context.SaveChangesAsync();
+        }
 
 
         public async Task DeleteAsync(int id)
@@ -38,6 +44,7 @@ namespace BookStore.Repositories.AuthorRepo
             if (author != null)
             {
                 _context.Authors.Remove(author);
+                await _context.SaveChangesAsync();
             }
         }
 

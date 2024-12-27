@@ -42,7 +42,7 @@ namespace BookStore.Controllers
 
             var createdOrder = await _orderService.CreateOrderAsync(orderDto);
 
-            return CreatedAtAction(nameof(GetOrderById), new { orderId = createdOrder.OrderID }, createdOrder);
+            return CreatedAtAction(nameof(GetOrderById), new { id = createdOrder.OrderID }, createdOrder);
 
         }
 

@@ -24,6 +24,8 @@ namespace BookStore.Controllers
         {
             var books = await _bookService.GetAllBooksAsync();
 
+          
+
             if (books == null) return NotFound();
 
             return Ok(books);
@@ -44,13 +46,12 @@ namespace BookStore.Controllers
 
             var createdBook = await _bookService.CreateBookAsync(bookDto);
 
-            return CreatedAtAction(nameof(GetBookById), new { bookId = createdBook.BookID }, createdBook);
+            return CreatedAtAction(nameof(GetBookById), new { id = createdBook.BookID }, createdBook);
 
         }
 
 
         [HttpPut("{id}")]
-        
         public async Task<IActionResult> UpdateBook(int id, [FromBody] BookDTO bookDto)
         {
             var success = await _bookService.UpdateBookAsync(id, bookDto);

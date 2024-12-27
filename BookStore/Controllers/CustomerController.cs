@@ -43,7 +43,7 @@ namespace BookStore.Controllers
         {
             var createdCustomer = await _customerService.CreateCustomerAsync(customerDTO);
 
-            return CreatedAtAction(nameof(GetCustomerById), new { customerId = createdCustomer.CustomerID }, createdCustomer);
+            return CreatedAtAction(nameof(GetCustomerById), new { id = createdCustomer.CustomerID }, createdCustomer);
         }
 
         [HttpPut("{id}")]

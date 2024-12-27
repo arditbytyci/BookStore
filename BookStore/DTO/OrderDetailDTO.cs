@@ -8,5 +8,9 @@
         //FK
         public int OrderID { get; set; }
         public int BookID { get; set; }
+
+        public string BookName { get; set; } = string.Empty;
+
+        public decimal BookPrice { get; set; }
     }
 }

@@ -46,7 +46,7 @@ namespace BookStore.Controllers
 
 
 
-            return CreatedAtAction(nameof(GetGenreById), new { genreId = createdGenre.GenreID }, createdGenre);
+            return CreatedAtAction(nameof(GetGenreById), new { id = createdGenre.GenreID }, createdGenre);
 
         }
 

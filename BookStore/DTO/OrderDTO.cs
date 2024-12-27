@@ -8,5 +8,9 @@
         public decimal TotalAmount { get; set; }
 
         public int CustomerID { get; set; }
+
+        public string CustomerName { get; set; } = string.Empty;
+
+        public List<OrderDTO> OrderDetails { get; set; } = new List<OrderDTO>();
     }
 }

@@ -15,23 +15,34 @@ namespace BookStore.Repositories.CustomerRepo
         }
 
         public async Task<IEnumerable<Customer>> GetAllAsync() =>
-            await _context.Customers.ToListAsync();
+            await _context.Customers
+            .Include(c => c.User)
+            .Include(c => c.Orders)
+            .ToListAsync();
 
 
         public async Task<Customer> GetByIdAsync(int id) =>
             await _context.Customers.FindAsync(id);
 
-        public async Task AddAsync(Customer entity) =>
+        public async Task AddAsync(Customer entity)
+        {
             await _context.Customers.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
 
-        public async Task UpdateAsync(Customer entity) =>
+        public async Task UpdateAsync(Customer entity)
+        {
             _context.Customers.Update(entity);
-
+            await _context.SaveChangesAsync();
+        }
         public async Task DeleteAsync(int id)
         {
-            var customer = await GetByIdAsync(id);  
+            var customer = await GetByIdAsync(id);
 
-            if(customer != null) _context.Customers.Remove(customer);
+            if (customer != null) { 
+                _context.Customers.Remove(customer);
+                await _context.SaveChangesAsync();
+            }
         }
 
 

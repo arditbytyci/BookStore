@@ -27,9 +27,9 @@ namespace BookStore.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAuthorById(int authorId)
+        public async Task<IActionResult> GetAuthorById(int id)
         {
-            var author = await _authorService.GetAuthorById(authorId);
+            var author = await _authorService.GetAuthorById(id);
 
             if (author == null) return NotFound();
 
@@ -40,7 +40,7 @@ namespace BookStore.Controllers
         public async Task<IActionResult> CreateAuthor([FromBody] AuthorDTO authorDto)
         {
             var createdAuthor = await _authorService.CreateAuthorAsync(authorDto); 
-            return CreatedAtAction(nameof(GetAuthorById), new { authorId = createdAuthor.AuthorID }, createdAuthor);
+            return CreatedAtAction(nameof(GetAuthorById), new { id = createdAuthor.AuthorID }, createdAuthor);
         }
 
         [HttpPut("{id}")]

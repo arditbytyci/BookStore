@@ -17,24 +17,33 @@ namespace BookStore.Repositories.OrderDetailRepo
         }
 
        public async Task<IEnumerable<OrderDetail>> GetAllAsync() => 
-            await _context.OrderDetails.ToListAsync();
+            await _context.OrderDetails.
+            Include(od => od.Book)
+            .ToListAsync();
 
 
 
         public async Task<OrderDetail> GetByIdAsync(int id) =>
             await _context.OrderDetails.FindAsync(id);
 
-        public async Task AddAsync(OrderDetail entity) => 
+        public async Task AddAsync(OrderDetail entity)
+        {
             await _context.OrderDetails.AddAsync(entity);
-
-        public async Task UpdateAsync(OrderDetail entity) =>
-             _context.OrderDetails.Update(entity);
-
+            await _context.SaveChangesAsync();
+        }
+        public async Task UpdateAsync(OrderDetail entity)
+        {
+            _context.OrderDetails.Update(entity);
+            await _context.SaveChangesAsync();
+        }
         public async Task DeleteAsync(int id)
         {
             var order = await GetByIdAsync(id);
 
-            if (order != null) _context.Remove(order);
+            if (order != null) { 
+                _context.Remove(order);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<IEnumerable<OrderDetail>> GetAllOrderDetailsWithOrderAsync() =>
