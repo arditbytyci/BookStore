@@ -4,7 +4,7 @@ import axiosClient from "../axiosClient";
 
 const BookView = () => {
   const [bookData, setBookData] = useState<Book[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchBooks();

@@ -4,7 +4,7 @@ import axiosClient from "../axiosClient";
 
 const AuthorView = () => {
   const [authorData, setAuthorData] = useState<Author[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchAuthors();

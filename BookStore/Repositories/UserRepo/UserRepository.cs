@@ -35,6 +35,12 @@ namespace BookStore.Repositories.UserRepo
 
         public async Task AddAsync(User entity)
         {
+            if (string.IsNullOrEmpty(entity.Id)) { 
+            
+                entity.Id = Guid.NewGuid().ToString();
+            }
+
+
             await _context.Users.AddAsync(entity);
             await _context.SaveChangesAsync();
         }

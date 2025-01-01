@@ -9,6 +9,7 @@
 
         public int CustomerID   { get; set; }
 
+        
         // navigation properties
 
         public Customer Customer { get; set; } = null!; // many - to - one

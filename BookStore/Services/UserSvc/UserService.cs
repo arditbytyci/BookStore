@@ -39,16 +39,16 @@ namespace BookStore.Services.UserSvc
 
         //READ:id 
         
-        public async Task<UserDTO> GetUserByIdAsync(int id)
+        public async Task<UserDTO> GetUserByIdAsync(string id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetUserByIdAsync(id);
 
             return user == null ? null : _mapper.Map<UserDTO>(user);
         }
 
         //UPDATE
 
-        public async Task<bool> UpdateUserAsync(int id, UserDTO userDto)
+        public async Task<bool> UpdateUserAsync(string id, UserDTO userDto)
         {
             var user = await GetUserByIdAsync(id);
 
@@ -59,13 +59,13 @@ namespace BookStore.Services.UserSvc
             return true;
         }
 
-        public async Task<bool> DeleteUserAsync(int id)
+        public async Task<bool> DeleteUserAsync(string id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetUserByIdAsync(id);
 
             if (user == null) return false;
 
-            await _userRepository.DeleteAsync(id);
+            await _userRepository.DeleteUserAsync(id);
 
             return true;
             

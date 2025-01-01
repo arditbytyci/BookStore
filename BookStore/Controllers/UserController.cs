@@ -28,7 +28,7 @@ namespace BookStore.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(int id)
+        public async Task<IActionResult> GetUserById(string id)
         {
             var user = await _userService.GetUserByIdAsync(id);
 
@@ -48,7 +48,7 @@ namespace BookStore.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDTO userDTO)
+        public async Task<IActionResult> UpdateUser(string id, [FromBody] UserDTO userDTO)
         {
             var success = await _userService.UpdateUserAsync(id, userDTO);
 
@@ -58,7 +58,7 @@ namespace BookStore.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             var success = await _userService.DeleteUserAsync(id);
             if(!success) return NotFound();

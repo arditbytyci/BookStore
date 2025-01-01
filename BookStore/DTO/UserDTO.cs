@@ -1,19 +1,19 @@
-﻿namespace BookStore.DTO
-{
-    public class UserDTO
+﻿    namespace BookStore.DTO
     {
+        public class UserDTO
+        {
 
-        public string Id { get; set; }
-        public string UserName { get; set; }    
-        public string Email { get; set; }
-        public string Role { get; set; } = "Customer";
+            public string Id { get; set; }
+            public string UserName { get; set; }    
+            public string? Email { get; set; }
+            public string Role { get; set; } = "Customer";
 
-        public DateTime? CreatedAt { get; set; }
+            public DateTime? CreatedAt { get; set; }
 
-        public string? FullName { get; set; }
+            public string? FullName { get; set; }
 
-        public string? Phone {  get; set; }
+            public string? Phone {  get; set; }
 
-        public int? CustomerID { get; set; }
+            public int? CustomerID { get; set; }
+        }
     }
-}

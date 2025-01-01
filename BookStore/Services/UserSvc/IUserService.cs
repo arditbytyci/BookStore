@@ -7,12 +7,12 @@ namespace BookStore.Services.UserSvc
 
         Task<IEnumerable<UserDTO>> GetAllUsersAsync();
 
-        Task<UserDTO> GetUserByIdAsync(int id);
+        Task<UserDTO> GetUserByIdAsync(string id);
 
         Task<UserDTO> CreateUserAsync(UserDTO userDTO);
 
-        Task<bool> UpdateUserAsync(int id,UserDTO userDTO);
+        Task<bool> UpdateUserAsync(string id,UserDTO userDTO);
 
-        Task<bool> DeleteUserAsync(int id);
+        Task<bool> DeleteUserAsync(string id);
     }
 }
