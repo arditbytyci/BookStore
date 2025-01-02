@@ -27,12 +27,14 @@ namespace BookStore.Mapping
 
             //Order
             CreateMap<Order, OrderDTO>()
-         .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FullName))
-         .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails))
-         .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Customer.Email)) // Added Email mapping
-         .ReverseMap()
-         .ForMember(dest => dest.Customer, opt => opt.Ignore()) // Prevent overwriting the Customer entity
-         .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails));
+.ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FullName))
+.ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails))
+.ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Customer.Email))
+.ReverseMap()
+.ForMember(dest => dest.Customer, opt => opt.Ignore())
+.ForMember(dest => dest.OrderDetails, opt => opt.Ignore());
+
+
 
             //OrderDetail
             CreateMap<OrderDetail, OrderDetailDTO>().ForMember(dest => dest.BookName, opt => opt.MapFrom(src => src.Book.Title))

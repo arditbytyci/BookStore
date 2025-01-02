@@ -8,5 +8,7 @@ namespace BookStore.Interfaces.UserInterface
         Task<User> GetUserByIdAsync(string id);
         Task DeleteUserAsync(string id);
 
+        Task<User?> GetUserByUsernameAsync(string username);
+
     }
 }
