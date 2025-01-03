@@ -27,12 +27,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol.Core.Types;
+using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+
+
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -90,7 +96,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", policy =>
     {
-        policy.WithOrigins("http://localhost:5174") // Allow your frontend origin
+        policy.WithOrigins("http://localhost:5173") // Allow your frontend origin
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -111,15 +117,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     .AddEntityFrameworkStores<BookContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigins", builder =>
-    {
-        builder.WithOrigins("http://localhost:5173") // Allow your frontend origin
-               .AllowAnyHeader()
-               .AllowAnyMethod();
-    });
-});
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -138,6 +136,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<User>>();
+    var conf = app.Services.GetRequiredService<IConfiguration>();
+
+    await SeedRolesAndAdminAsync(roleManager, userManager, conf);
+
+   
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -150,9 +160,90 @@ app.UseCors("AllowSpecificOrigins");
 
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();
+
+
+async Task SeedRolesAndAdminAsync(RoleManager<IdentityRole> roleManager, UserManager<User> userManager, IConfiguration conf)
+{
+    var roles = new[] { "Admin", "Customer" };
+
+    // Create roles if they don't exist
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            var roleResult = await roleManager.CreateAsync(new IdentityRole(role));
+            Console.WriteLine($"Created role '{role}': {roleResult.Succeeded}");
+        }
+    }
+
+    // Get the admin user email and password from configuration
+    var adminEmail = conf["AdminSettings:Email"];
+    var adminPassword = conf["AdminSettings:Password"];
+    Console.WriteLine($"Admin Email: {adminEmail}, Admin Password: {adminPassword}");
+
+    // Try to find the admin user
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    if (adminUser == null)
+    {
+        // If the user doesn't exist, create a new one
+        adminUser = new User
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            EmailConfirmed = true
+        };
+
+        var result = await userManager.CreateAsync(adminUser, adminPassword);
+        if (result.Succeeded)
+        {
+            Console.WriteLine($"Admin user created successfully: {adminUser.UserName}");
+
+            // Explicitly assign Admin role
+            var roleAssignResult = await userManager.AddToRoleAsync(adminUser, "Admin");
+            Console.WriteLine($"Admin role assignment result (after creation): {roleAssignResult.Succeeded}");
+
+            // Optionally check if the assignment is reflected in the database
+            var userRoles = await userManager.GetRolesAsync(adminUser);
+            Console.WriteLine($"Roles assigned to {adminUser.UserName}: {string.Join(", ", userRoles)}");
+        }
+        else
+        {
+            Console.WriteLine($"Error creating admin user: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+        }
+    }
+    else
+    {
+        // If the admin user exists, check for roles and assign "Admin" explicitly
+        var rolesForUser = await userManager.GetRolesAsync(adminUser);
+        if (!rolesForUser.Contains("Admin"))
+        {
+            // Remove any incorrect roles first
+            var removeResult = await userManager.RemoveFromRoleAsync(adminUser, "Customer");
+            Console.WriteLine($"Removed Customer role: {removeResult.Succeeded}");
+
+            // Now assign the Admin role explicitly
+            var roleAssignResult = await userManager.AddToRoleAsync(adminUser, "Admin");
+            Console.WriteLine($"Re-assigned Admin role: {roleAssignResult.Succeeded}");
+        }
+        else
+        {
+            Console.WriteLine("Admin role is already assigned to the user.");
+        }
+    }
+
+    // Optional: Check roles in the database to confirm
+    var rolesInDb = await roleManager.Roles.ToListAsync();
+    foreach (var role in rolesInDb)
+    {
+        Console.WriteLine($"Role in DB: {role.Name}");
+    }
+
+    var userRolesInDb = await userManager.GetRolesAsync(adminUser);
+    Console.WriteLine($"Roles assigned to {adminUser.UserName}: {string.Join(", ", userRolesInDb)}");
+}

@@ -6,14 +6,12 @@ const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleRegistrationComplete = () => {
-    alert("Registration successful! Redirecting to login..");
-
     navigate("/login");
   };
 
   return (
     <div>
-      <RegisterForm />
+      <RegisterForm onRegistrationComplete={handleRegistrationComplete} />
     </div>
   );
 };

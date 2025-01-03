@@ -29,6 +29,16 @@ namespace BookStore.Services.AuthenticationService
 
         public async Task<string> RegisterAsync(RegisterDTO registerDto)
         {
+            if (string.IsNullOrEmpty(registerDto.Role))
+            {
+                registerDto.Role = "Customer"; // Default role
+            }
+            else if (registerDto.Role != "Admin" && registerDto.Role != "Customer")
+            {
+                throw new ArgumentException("Invalid role. Role must be either 'Admin' or 'Customer'.");
+            }
+
+            // Ensure you map the correct role value
             var user = _mapper.Map<User>(registerDto);
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
@@ -38,15 +48,17 @@ namespace BookStore.Services.AuthenticationService
                 throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
             }
 
-            if (!await _roleManager.RoleExistsAsync(registerDto.Role)) { 
+            // Create the role if it does not exist
+            if (!await _roleManager.RoleExistsAsync(registerDto.Role))
+            {
                 await _roleManager.CreateAsync(new IdentityRole(registerDto.Role));
             }
 
+            // Add the user to the correct role (Admin or Customer)
             await _userManager.AddToRoleAsync(user, registerDto.Role);
 
             return "User registered successfully!";
         }
-
 
 
         public async Task<string?> LoginAsync(LoginDTO loginDTO)
@@ -54,12 +66,21 @@ namespace BookStore.Services.AuthenticationService
             var user = await _userManager.FindByNameAsync(loginDTO.Username);
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginDTO.Password)) return null;
 
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+
+
+
+
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, user.Role),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+
+            authClaims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
+            
+
 
             var authSigninKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 

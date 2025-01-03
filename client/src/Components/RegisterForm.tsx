@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { register } from "../api/auth";
 
-export const RegisterForm: React.FC = () => {
+export const RegisterForm: React.FC<{
+  onRegistrationComplete: () => void;
+}> = ({ onRegistrationComplete }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,6 +14,7 @@ export const RegisterForm: React.FC = () => {
     try {
       await register(username, email, password);
       alert("Registration successful! You can now log in.");
+      onRegistrationComplete();
     } catch (error) {
       alert("Registration failed");
     }

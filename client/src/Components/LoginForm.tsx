@@ -13,8 +13,6 @@ const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
     try {
       const token = await login(username, password);
       onLogin(token);
-
-      alert("Login successful!");
     } catch (error) {
       alert("Invalid credentials!");
     }

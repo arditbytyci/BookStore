@@ -16,7 +16,6 @@ namespace BookStore.Mapping
             CreateMap<RegisterDTO, User>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Username))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(dest => dest.Role, opt => opt.Ignore()) // Role is handled separately
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore()) // Password is hashed by Identity
                 .ReverseMap();
 
@@ -69,12 +68,13 @@ namespace BookStore.Mapping
 
             //User
             CreateMap<User, UserDTO>()
-     .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.FullName : null))
-     .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.Phone : null))
-     .ForMember(dest => dest.CustomerID, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.CustomerID : (int?)null))
-     .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
-     .ReverseMap();
+    .ForMember(dest => dest.Role, opt => opt.Ignore()) // Ignore role here
+    .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.FullName : null))
+    .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.Phone : null))
+    .ForMember(dest => dest.CustomerID, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.CustomerID : (int?)null))
+    .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+    .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
+    .ReverseMap();
 
         }
     }
