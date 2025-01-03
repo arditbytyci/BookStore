@@ -22,8 +22,8 @@ namespace BookStore.Controllers
                 var result = await _authService.RegisterAsync(registerDTO);
                 return Ok(new { message = result });
             }
-            catch (Exception ex) { 
-              return BadRequest(new {error = ex.Message});
+            catch (Exception ex) {
+                return BadRequest(new { error = ex.Message });
             }
         }
 
@@ -32,10 +32,16 @@ namespace BookStore.Controllers
         {
             var token = await _authService.LoginAsync(loginDTO);
 
-            if (token == null) {
+            if (token == null)
+            {
                 return Unauthorized(new { error = "Invalid username or password" });
             }
 
             return Ok(new { token });
+        }
+    
     }
+
+
 }
+

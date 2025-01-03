@@ -5,7 +5,12 @@ export const register = async (
   email: string,
   password: string
 ) => {
-  await axiosClient.post("/auth/register", { username, email, password });
+  await axiosClient.post("/auth/register", {
+    username,
+    email,
+    password,
+    role: "Customer",
+  });
 };
 
 export const login = async (

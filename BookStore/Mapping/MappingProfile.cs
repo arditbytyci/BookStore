@@ -9,6 +9,22 @@ namespace BookStore.Mapping
 
         public MapperProfile()
         {
+
+
+
+            // RegisterDTO and LoginDTO Mappings
+            CreateMap<RegisterDTO, User>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Username))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.Role, opt => opt.Ignore()) // Role is handled separately
+                .ForMember(dest => dest.PasswordHash, opt => opt.Ignore()) // Password is hashed by Identity
+                .ReverseMap();
+
+            CreateMap<LoginDTO, User>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Username))
+                .ReverseMap();
+
+
             //Author
             CreateMap<Author, AuthorDTO>().ReverseMap();
 

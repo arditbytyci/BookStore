@@ -33,9 +33,7 @@ namespace BookStore.Repositories.UserRepo
         public async Task<User> GetUserByIdAsync(string id) =>
             await _context.Users.Include(u => u.Customer).FirstOrDefaultAsync(u => u.Id == id);
 
-        public async Task<User?> GetUserByUserNameAsync(string username) =>
-            await _context.Users.FirstOrDefaultAsync(u => u.UserName == username);
-
+ 
         public async Task AddAsync(User entity)
         {
             if (string.IsNullOrEmpty(entity.Id)) { 

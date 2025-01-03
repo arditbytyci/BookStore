@@ -14,6 +14,7 @@ using BookStore.Repositories.GenreRepo;
 using BookStore.Repositories.OrderDetailRepo;
 using BookStore.Repositories.OrderRepo;
 using BookStore.Repositories.UserRepo;
+using BookStore.Services.AuthenticationService;
 using BookStore.Services.AuthorSvc;
 using BookStore.Services.BookSvc;
 using BookStore.Services.CustomerSvc;
@@ -72,7 +73,12 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 //User 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();    
+builder.Services.AddScoped<IUserService, UserService>();
+
+//Auth 
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+
 
 // Retrieve JWT settings
 var key = configuration["Jwt:Key"];
@@ -96,7 +102,7 @@ if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(issuer) || string.IsNullOr
     throw new ArgumentNullException("JWT configuration is missing values.");
 }
 //Identity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;
     options.Password.RequiredLength = 8;
