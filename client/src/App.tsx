@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
-import "./App.css";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { useAuth } from "./Authentication/AuthContext"; // Import your AuthContext
 import BookView from "./Components/BookView";
 import AuthorView from "./Components/AuthorView";
 import GenreView from "./Components/GenreView";
@@ -9,7 +9,7 @@ import OrderDetailView from "./Components/OrderDetailView";
 import LoginPage from "./Components/LoginPage";
 import RegisterPage from "./Components/RegisterPage";
 import HomeView from "./Components/Home";
-import { useAuth } from "./Authentication/AuthContext";
+import ProtectedRoute from "../src/Authentication/ProtectedRoute";
 
 const Navbar: React.FC = () => {
   const { isLoggedIn, logout } = useAuth();
@@ -59,45 +59,26 @@ const Navbar: React.FC = () => {
   );
 };
 
-const ProtectedRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
-  const { isLoggedIn } = useAuth();
-  return isLoggedIn ? children : <Navigate to="/login" />;
-};
-
 const App: React.FC = () => {
   return (
     <div className="App">
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route
-            path="/BookView"
-            element={
-              <ProtectedRoute>
-                <BookView />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/AuthorView"
-            element={
-              <ProtectedRoute>
-                <AuthorView />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/GenreView"
-            element={
-              <ProtectedRoute>
-                <GenreView />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/Home" element={<HomeView />} />
+          <Route path="/Login" element={<LoginPage />} />
+          <Route path="/Register" element={<RegisterPage />} />
+
+          {/* Public Routes */}
+          <Route path="/BookView" element={<BookView />} />
+          <Route path="/AuthorView" element={<AuthorView />} />
+          <Route path="/GenreView" element={<GenreView />} />
+
+          {/* Protected Routes with Role Check */}
           <Route
             path="/OrderView"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={["Admin"]}>
                 <OrderView />
               </ProtectedRoute>
             }
@@ -105,7 +86,7 @@ const App: React.FC = () => {
           <Route
             path="/CustomerView"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={["Admin"]}>
                 <CustomerView />
               </ProtectedRoute>
             }
@@ -113,14 +94,11 @@ const App: React.FC = () => {
           <Route
             path="/OrderDetailView"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={["Admin"]}>
                 <OrderDetailView />
               </ProtectedRoute>
             }
           />
-          <Route path="/Login" element={<LoginPage />} />
-          <Route path="/Register" element={<RegisterPage />} />
-          <Route path="/Home" element={<HomeView />} />
         </Routes>
       </BrowserRouter>
     </div>

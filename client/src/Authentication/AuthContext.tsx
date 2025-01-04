@@ -1,7 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { getRoleFromToken } from "./utils";
 
 interface AuthContextType {
   isLoggedIn: boolean;
+  role: string | null;
   login: (token: string) => void;
   logout: () => void;
 }
@@ -14,10 +16,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
     !!localStorage.getItem("token")
   );
+  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setRole(getRoleFromToken(token));
+    }
     const handleStorageChange = () => {
-      setIsLoggedIn(!!localStorage.getItem("token"));
+      const updatedToken = localStorage.getItem("token");
+      setIsLoggedIn(!!updatedToken);
+      setRole(updatedToken ? getRoleFromToken(updatedToken) : null);
     };
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
@@ -26,15 +35,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const login = (token: string) => {
     localStorage.setItem("token", token);
     setIsLoggedIn(true);
+    setRole(getRoleFromToken(token));
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
+    setRole(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, role }}>
       {children}
     </AuthContext.Provider>
   );
