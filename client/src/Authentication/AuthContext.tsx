@@ -33,9 +33,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const login = (token: string) => {
+    console.log("Login Token:", token);
     localStorage.setItem("token", token);
     setIsLoggedIn(true);
-    setRole(getRoleFromToken(token));
+    const roleFromToken = getRoleFromToken(token);
+    console.log("Extracted Role from Token:", roleFromToken);
+    setRole(roleFromToken);
   };
 
   const logout = () => {

@@ -16,8 +16,19 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <Navigate to="login" />;
   }
 
-  if (!requiredRoles.includes(role || "")) {
-    return <Navigate to="/home" />;
+  console.log("User Role:", role);
+  console.log("Required Roles:", requiredRoles);
+
+  if (
+    !requiredRoles
+      .map((r) => r.toLowerCase())
+      .includes((role || "").toLowerCase())
+  ) {
+    console.log(
+      `Access denied. User role "${role}" does not match required roles:`,
+      requiredRoles
+    );
+    return <Navigate to="/home" replace />;
   }
 
   return children;
