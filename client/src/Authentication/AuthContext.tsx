@@ -3,7 +3,7 @@ import { getRoleFromToken } from "./utils";
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  role: string | null;
+  role: "Customer" | "Admin" | null;
   login: (token: string) => void;
   logout: () => void;
 }
@@ -16,18 +16,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
     !!localStorage.getItem("token")
   );
-  const [role, setRole] = useState<string | null>(null);
+  const [role, setRole] = useState<"Customer" | "Admin">("Customer");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setRole(getRoleFromToken(token));
+      const roleFromToken = getRoleFromToken(token);
+      // Ensure role is either 'Customer' or 'Admin'
+      if (roleFromToken === "Admin" || roleFromToken === "Customer") {
+        setRole(roleFromToken);
+      } else {
+        setRole("Customer"); // Default to "Customer" if the role is invalid
+      }
     }
+
     const handleStorageChange = () => {
       const updatedToken = localStorage.getItem("token");
       setIsLoggedIn(!!updatedToken);
-      setRole(updatedToken ? getRoleFromToken(updatedToken) : null);
+      if (updatedToken) {
+        const roleFromToken = getRoleFromToken(updatedToken);
+        // Ensure role is either 'Customer' or 'Admin'
+        if (roleFromToken === "Admin" || roleFromToken === "Customer") {
+          setRole(roleFromToken);
+        } else {
+          setRole("Customer"); // Default to "Customer" if the role is invalid
+        }
+      } else {
+        setRole("Customer"); // Default to "Customer" if no token
+      }
     };
+
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
@@ -37,14 +55,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem("token", token);
     setIsLoggedIn(true);
     const roleFromToken = getRoleFromToken(token);
-    console.log("Extracted Role from Token:", roleFromToken);
-    setRole(roleFromToken);
+    // Ensure role is either 'Customer' or 'Admin'
+    if (roleFromToken === "Admin" || roleFromToken === "Customer") {
+      setRole(roleFromToken);
+    } else {
+      setRole("Customer"); // Default to "Customer" if the role is invalid
+    }
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
-    setRole(null);
+    setRole("Customer"); // Reset to "Customer" on logout
   };
 
   return (

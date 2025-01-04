@@ -8,6 +8,9 @@ export const getRoleFromToken = (token: string): string => {
       decodedToken[
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
       ];
+    if (role === "Admin" || role === "Customer") {
+      return role;
+    }
     if (!role) {
       console.warn("Role not found in token. Defaulting to 'Customer'.");
     }

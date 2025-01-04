@@ -5,7 +5,7 @@ import {
   Link,
   useNavigate,
 } from "react-router-dom";
-import { useAuth } from "./Authentication/AuthContext"; // Import your AuthContext
+import { useAuth } from "./Authentication/AuthContext";
 import BookView from "./Components/BookView";
 import AuthorView from "./Components/AuthorView";
 import GenreView from "./Components/GenreView";
@@ -15,8 +15,18 @@ import OrderDetailView from "./Components/OrderDetailView";
 import LoginPage from "./Components/LoginPage";
 import RegisterPage from "./Components/RegisterPage";
 import HomeView from "./Components/Home";
-import ProtectedRoute from "../src/Authentication/ProtectedRoute";
+import ProtectedRoute from "./Authentication/ProtectedRoute";
 import AdminDashboard from "./Components/AdminComponents/AdminDashboard";
+
+const links = {
+  Customer: [
+    { path: "/Home", label: "Home" },
+    { path: "/BookView", label: "Books" },
+    { path: "/AuthorView", label: "Authors" },
+    { path: "/GenreView", label: "Genre" },
+  ],
+  Admin: [{ path: "/Admin", label: "Admin Dashboard" }],
+};
 
 const Navbar: React.FC = () => {
   const { isLoggedIn, logout, role } = useAuth();
@@ -30,35 +40,16 @@ const Navbar: React.FC = () => {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-2">
-        <Link to="/Home" className="btn btn-ghost text-xl">
-          Home
-        </Link>
-        <Link to="/BookView" className="btn btn-ghost text-xl">
-          Books
-        </Link>
-        <Link to="/AuthorView" className="btn btn-ghost text-xl">
-          Authors
-        </Link>
-        <Link to="/GenreView" className="btn btn-ghost text-xl">
-          Genre
-        </Link>
-
-        {role === "Admin" && (
-          <>
-            <Link to="/OrderView" className="btn btn-ghost text-xl">
-              Order
+        {role && // Ensure role is not null
+          links[role]?.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className="btn btn-ghost text-xl"
+            >
+              {link.label}
             </Link>
-            <Link to="/CustomerView" className="btn btn-ghost text-xl">
-              Customer
-            </Link>
-            <Link to="/OrderDetailView" className="btn btn-ghost text-xl">
-              OrderDetail
-            </Link>
-            <Link to="/Admin" className="btn btn-ghost text-xl">
-              Admin Dashboard
-            </Link>
-          </>
-        )}
+          ))}
       </div>
       <div>
         {isLoggedIn ? (
@@ -86,16 +77,15 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Navbar />
         <Routes>
+          {/* Public Routes */}
           <Route path="/Home" element={<HomeView />} />
           <Route path="/Login" element={<LoginPage />} />
           <Route path="/Register" element={<RegisterPage />} />
-
-          {/* Public Routes */}
           <Route path="/BookView" element={<BookView />} />
           <Route path="/AuthorView" element={<AuthorView />} />
           <Route path="/GenreView" element={<GenreView />} />
 
-          {/* Protected Routes with Role Check */}
+          {/* Protected Routes */}
           <Route
             path="/OrderView"
             element={

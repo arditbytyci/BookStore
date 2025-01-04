@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../Authentication/AuthContext";
 
 const AdminDashboard: React.FC = () => {
-  const { isLoggedIn, role, logout } = useAuth();
+  const { logout } = useAuth();
 
   return (
     <div className="flex">
