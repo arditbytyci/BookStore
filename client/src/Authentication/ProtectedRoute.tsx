@@ -1,8 +1,9 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import { ReactNode } from "react";
 
 interface ProtectedRouteProps {
-  children: JSX.Element;
+  children?: ReactNode;
   requiredRoles: string[];
 }
 
@@ -31,7 +32,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <Navigate to="/home" replace />;
   }
 
-  return children;
+  return children ? <>{children}</> : <Outlet />;
 };
 
 export default ProtectedRoute;

@@ -1,43 +1,73 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../Authentication/AuthContext";
+import { ReactNode } from "react";
 
-type Link = {
+export type Link = {
   path: string;
-  label: string;
+  label: ReactNode;
 };
 
-type RoleLinks = {
-  [role: string]: Link[];
+export type RoleLinks = {
+  Admin: Link[];
+  Customer: Link[];
 };
 
-const links: RoleLinks = {
+export const links: RoleLinks = {
   Customer: [
     { path: "/Home", label: "Home" },
-    { path: "/BookView", label: "Books" },
+    { path: "/BookView", label: "Book" },
     { path: "/AuthorView", label: "Authors" },
-    { path: "/GenreView", label: "Genres" },
+    { path: "/GenreView", label: "About Us" },
+    {
+      path: "/CartView",
+      label: (
+        <div className="flex items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="w-5 h-5 mr-2"
+          >
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2 13h13l3-9H6"></path>
+          </svg>
+        </div>
+      ),
+    },
   ],
+
   Admin: [{ path: "/Admin", label: "Admin Dashboard" }],
 };
 
-const NavBar: React.FC = () => {
+const NavBar: React.FC<{ links: RoleLinks }> = ({ links }) => {
   const { isLoggedIn, logout, role } = useAuth();
   const navigate = useNavigate();
 
+  
+
+
+  if (role !== "Customer" && role !== "Admin") {
+    return null; // or handle unauthorized access here
+  }
   const handleLogout = () => {
     logout();
     navigate("/Home", { replace: true });
   };
 
   return (
-    <div className="navbar bg-base-100">
-      <div className="flex-2">
+    <div className="navbar bg-custom-gradient-bg flex flex-row justify-around">
+      <div className="flex space-x-4">
         {role &&
           links[role]?.map((link) => (
             <Link
               key={link.path}
               to={link.path}
-              className="btn btn-ghost text-xl"
+              className="btn btn-ghost text-lg"
             >
               {link.label}
             </Link>

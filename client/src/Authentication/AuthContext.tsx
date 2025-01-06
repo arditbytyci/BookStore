@@ -22,11 +22,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const token = localStorage.getItem("token");
     if (token) {
       const roleFromToken = getRoleFromToken(token);
-      // Ensure role is either 'Customer' or 'Admin'
+
       if (roleFromToken === "Admin" || roleFromToken === "Customer") {
         setRole(roleFromToken);
       } else {
-        setRole("Customer"); // Default to "Customer" if the role is invalid
+        setRole("Customer");
       }
     }
 
@@ -35,14 +35,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setIsLoggedIn(!!updatedToken);
       if (updatedToken) {
         const roleFromToken = getRoleFromToken(updatedToken);
-        // Ensure role is either 'Customer' or 'Admin'
+
         if (roleFromToken === "Admin" || roleFromToken === "Customer") {
           setRole(roleFromToken);
         } else {
-          setRole("Customer"); // Default to "Customer" if the role is invalid
+          setRole("Customer");
         }
       } else {
-        setRole("Customer"); // Default to "Customer" if no token
+        setRole("Customer");
       }
     };
 
@@ -55,18 +55,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem("token", token);
     setIsLoggedIn(true);
     const roleFromToken = getRoleFromToken(token);
-    // Ensure role is either 'Customer' or 'Admin'
+
     if (roleFromToken === "Admin" || roleFromToken === "Customer") {
       setRole(roleFromToken);
     } else {
-      setRole("Customer"); // Default to "Customer" if the role is invalid
+      setRole("Customer");
     }
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
-    setRole("Customer"); // Reset to "Customer" on logout
+    setRole("Customer");
   };
 
   return (

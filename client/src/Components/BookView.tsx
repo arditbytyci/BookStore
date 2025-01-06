@@ -20,7 +20,7 @@ const BookView = () => {
   };
 
   return (
-    <div>
+    <div className="bg-custom-gradient-bg min-h-full">
       <table className="table">
         {/* head */}
         <thead>

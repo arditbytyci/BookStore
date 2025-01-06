@@ -1,6 +1,8 @@
-* {
-  margin: auto;
-}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply text-custom-text-color;
+  margin: auto;
+}
