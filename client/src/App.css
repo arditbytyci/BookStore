@@ -5,3 +5,23 @@
 * {
   margin: auto;
 }
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full height */
+  width: 7rem; /* Adjust as needed for your sidebar width */
+  background-color: #f0eee2; /* Replace with your Tailwind bg color */
+  padding: 1rem;
+  position: relative; /* Required for positioning the pseudo-element */
+}
+
+.sidebar::after {
+  content: ""; /* Required for pseudo-elements */
+  position: absolute; /* Enables positioning relative to the sidebar */
+  top: 20px; /* Start 20px from the top */
+  bottom: 20px; /* End 20px from the bottom */
+  right: 0; /* Align to the right edge */
+  width: 2.1px; /* Border thickness */
+  background-color: #cac8bc; /* The border color */
+}
