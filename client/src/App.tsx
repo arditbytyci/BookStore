@@ -6,8 +6,8 @@ import GenreView from "./Components/GenreView";
 import OrderView from "./Components/OrderView";
 import CustomerView from "./Components/CustomerView";
 import OrderDetailView from "./Components/OrderDetailView";
-import LoginPage from "./Components/LoginPage";
-import RegisterPage from "./Components/RegisterPage";
+import LoginHandler from "./Components/Login/loginHandler";
+import RegisterHandler from "./Components/Register/handleRegister";
 import HomeView from "./Components/Home";
 import ProtectedRoute from "./Authentication/ProtectedRoute";
 import AdminDashboard from "./Components/AdminComponents/AdminDashboard";
@@ -34,9 +34,16 @@ const App: React.FC = () => {
           <div className="main-content">
             <Routes>
               <Route path="/Home" element={<HomeView />} />
-              <Route path="/Login" element={<LoginPage />} />
-              <Route path="/Register" element={<RegisterPage />} />
-              <Route path="/BookView" element={<BookView />} />
+
+              {/*LOGIN */}
+              <Route path="/Login" element={<LoginHandler />} />
+
+              {/* REGISTER */}
+              <Route path="/Register" element={<RegisterHandler />} />
+
+              {/*BOOK*/}
+              <Route path="/Books" element={<BookView />} />
+
               <Route path="/AuthorView" element={<AuthorView />} />
               <Route path="/GenreView" element={<GenreView />} />
               <Route element={<ProtectedRoute requiredRoles={["Admin"]} />}>

@@ -25,7 +25,7 @@ export type RoleLinks = {
 export const links: RoleLinks = {
   Customer: [
     { path: "/Home", label: "Home", icon: homeOutline },
-    { path: "/BookView", label: "Books", icon: bookOutline },
+    { path: "/Books", label: "Books", icon: bookOutline },
     { path: "/AuthorView", label: "Authors", icon: cogOutline },
     { path: "/GenreView", label: "About Us", icon: informationCircleOutline },
   ],
@@ -66,27 +66,6 @@ const SideBar: React.FC<{
         </div>
 
         <div>but</div>
-
-        {/* Authentication Buttons
-        <div className="mt-auto space-y-2">
-          {isLoggedIn ? (
-            <button
-              onClick={handleLogout}
-              className="btn btn-warning w-full text-sm"
-            >
-              Logout
-            </button>
-          ) : (
-            <>
-              <Link to="/login" className="btn btn-primary w-full text-sm">
-                Login
-              </Link>
-              <Link to="/register" className="btn btn-secondary w-full text-sm">
-                Register
-              </Link>
-            </>
-          )}
-        </div> */}
       </div>
     </div>
   );

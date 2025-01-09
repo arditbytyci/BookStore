@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { login } from "../api/auth";
+import { login } from "../../api/auth";
 
 const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
   onLogin,
@@ -21,7 +21,6 @@ const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
         <input
           type="text"
           placeholder="Username"
@@ -34,7 +33,9 @@ const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+        <button type="submit" className="btn bg-button-color text-white">
+          Login
+        </button>
       </form>
     </div>
   );

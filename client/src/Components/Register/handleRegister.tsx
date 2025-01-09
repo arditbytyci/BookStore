@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { RegisterForm } from "./RegisterForm";
 
-const RegisterPage: React.FC = () => {
+const RegisterHandler: React.FC = () => {
   const navigate = useNavigate();
 
   const handleRegistrationComplete = () => {
@@ -16,4 +16,4 @@ const RegisterPage: React.FC = () => {
   );
 };
 
-export default RegisterPage;
+export default RegisterHandler;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { register } from "../api/auth";
+import { register } from "../../api/auth";
 
 export const RegisterForm: React.FC<{
   onRegistrationComplete: () => void;
