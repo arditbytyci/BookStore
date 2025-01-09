@@ -18,20 +18,20 @@ import TopBar from "./Components/TopBar";
 
 const App: React.FC = () => {
   return (
-    <div className="App bg-background-color min-h-screen">
+    <div className="App bg-background-color">
       <BrowserRouter>
         {/* Top Navbar */}
         <TopBar />
 
         {/* Main Content Wrapper */}
-        <div className="flex min-h-screen">
+        <div className="flex">
           {/* Sidebar */}
-          <div className="w-28 bg-gray-800 flex-shrink-0">
+          <div className="w-28">
             <SideBar links={links} />
           </div>
 
           {/* Main Content */}
-          <div className="flex-grow p-4 overflow-auto">
+          <div className="main-content">
             <Routes>
               <Route path="/Home" element={<HomeView />} />
               <Route path="/Login" element={<LoginPage />} />

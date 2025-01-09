@@ -1,7 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../Authentication/AuthContext";
 import { ReactNode } from "react";
 import { IonIcon } from "@ionic/react"; // Import IonIcon component from @ionic/react
+import bookicon from "../assets/icon.svg";
 import {
   bookOutline,
   cogOutline,
@@ -34,34 +35,32 @@ export const links: RoleLinks = {
 const SideBar: React.FC<{
   links: RoleLinks;
 }> = ({ links }) => {
-  const { isLoggedIn, logout, role } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/Home", { replace: true });
-  };
+  const { role } = useAuth();
 
   if (role !== "Customer" && role !== "Admin") {
     return null; // Handle unauthorized or default state
   }
 
   return (
-    <div className="flex flex-col justify-around min-h-screen ">
+    <div className="flex flex-col justify-around min-h-screen">
       {/* Sidebar with external CSS for styling */}
       <div className="sidebar">
         {/* Logo or Title */}
-        <div className="mb-6 text-md font-bold text-center">logo</div>
-
-        {/* Navigation Links */}
-        <div className="space-y-8">
+        <div
+          className="mb-6 
+         text-center"
+        >
+          {" "}
+          <img src={bookicon} alt="Bookstore Icon" width="58" height="58" />
+        </div>
+        <div className="space-y-16">
           {links[role]?.map((link) => (
             <Link
               key={link.path}
               to={link.path}
-              className="btn btn-ghost text-sm w-full text-left flex items-center space-x-2"
+              className="flex items-center space-x-2 text-gray-700 hover:text-black"
             >
-              <IonIcon icon={link.icon} className="w-6 h-6" />
+              <IonIcon icon={link.icon} className="w-8 h-8" />
             </Link>
           ))}
         </div>

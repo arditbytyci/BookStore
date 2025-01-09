@@ -1,7 +1,5 @@
-import React from "react";
-
 const HomeView = () => {
-  return <div>HomeView</div>;
+  return <div className="w-full flex flex-col items-start">HomeView</div>;
 };
 
 export default HomeView;
