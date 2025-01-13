@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { login } from "../../api/auth";
-
+import img from "../../img/login-img.jpg";
+import "./login.css";
 const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
   onLogin,
 }) => {
@@ -19,21 +20,29 @@ const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="login-container relative">
+      <div className="image-container shadow-xl">
+        <img src={img} alt="login-img" />
+      </div>
+      <form onSubmit={handleSubmit} className="shadow-xl">
         <input
           type="text"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          className="input focus:outline-none focus:ring-0 font-thin"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="input focus:outline-none focus:ring-0 font-thin"
         />
-        <button type="submit" className="btn bg-button-color text-white">
+        <button
+          type="submit"
+          className="btn btn-sm w-[100px] bg-button-color text-white font-semibold mt-3 rounded-2xl"
+        >
           Login
         </button>
       </form>

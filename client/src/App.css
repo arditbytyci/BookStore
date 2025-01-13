@@ -52,3 +52,18 @@
   height: 100vh;
   margin: auto;
 }
+
+.loginRegister-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0eee2;
+  height: 100vh;
+}
+
+.btn:hover {
+  border: 0.1px solid #007561;
+  border-color: #007561;
+  background-color: transparent;
+  color: #36362e;
+}

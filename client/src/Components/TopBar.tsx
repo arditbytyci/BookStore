@@ -15,22 +15,26 @@ const TopBar: React.FC = () => {
   return (
     <header className="header absolute left-20 right-0">
       <div className="text-gray-600">
-        <IonIcon
-          icon={searchOutline}
-          className="w-[17px] h-6 text-gray-600 font-semibold relative top-[5.5px] left-3"
-        />
-        <input
-          type="text"
-          name="search"
-          placeholder="Search book name, authors..."
-          className="input w-[250px] max-h-6 text-md border-none focus:outline-none focus:ring-0 bg-background-color"
-        />
+        {isLoggedIn && (
+          <>
+            <IonIcon
+              icon={searchOutline}
+              className="w-[17px] h-6 text-gray-600 font-semibold relative top-[5.5px] left-3"
+            />
+            <input
+              type="text"
+              name="search"
+              placeholder="Search book name, authors..."
+              className="input w-[250px] max-h-6 text-md border-none focus:outline-none focus:ring-0 bg-background-color"
+            />
+          </>
+        )}
       </div>
-      <div className="text-gray-600 flex flex-row items-center justify-center mt-3">
+      <div className=" text-gray-600 flex flex-row items-center justify-center mt-3">
         {isLoggedIn ? (
           <button
             onClick={handleLogout}
-            className="btn btn-sm bg-button-color text-white w-[100px] text-sm"
+            className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
           >
             Logout
           </button>
@@ -38,13 +42,13 @@ const TopBar: React.FC = () => {
           <>
             <Link
               to="/login"
-              className="btn btn-sm bg-button-color text-white w-[100px] text-sm"
+              className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
             >
               Login
             </Link>
             <Link
               to="/register"
-              className="btn btn-sm bg-[#1C1E2B] text-white w-[100px] text-sm ml-2"
+              className="btn btn-sm bg-button-color text-white w-[100px] text-sm ml-2 rounded-3xl"
             >
               Register
             </Link>
