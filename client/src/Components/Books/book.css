@@ -1,0 +1,4 @@
+.book-container {
+  border: 1px solid blueviolet;
+  display: grid;
+}

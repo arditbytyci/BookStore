@@ -39,7 +39,7 @@
 /* Main content area */
 .main-content {
   flex-grow: 1;
-  padding: 15rem 8rem;
+  padding: 7rem 5rem;
   background-color: #f0eee2;
 }
 
@@ -55,10 +55,12 @@
 
 .loginRegister-container {
   display: flex;
+
   justify-content: center;
   align-items: center;
   background-color: #f0eee2;
   height: 100vh;
+  border: 5px solid purple;
 }
 
 .btn:hover {
@@ -66,4 +68,6 @@
   border-color: #007561;
   background-color: transparent;
   color: #36362e;
+  transition: ease-out;
+  transition-duration: 500ms;
 }
