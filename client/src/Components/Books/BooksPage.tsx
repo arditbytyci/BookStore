@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axiosClient from "../../axiosClient";
 import { Book } from "../../Models/Book";
 import "./book.css";
-import harrypotter from "../../img/harrypotter.jpg";
+
 import { useNavigate } from "react-router-dom";
 
 const BooksPage = () => {
@@ -12,6 +12,10 @@ const BooksPage = () => {
   useEffect(() => {
     fetchBooks();
   }, []);
+
+  const redirectToDetails = (id: string | number) => {
+    navigate(`/bookdetails/${id}`);
+  };
 
   const fetchBooks = async () => {
     try {
@@ -27,7 +31,7 @@ const BooksPage = () => {
         <div className="card">
           <figure>
             <img
-              src={harrypotter}
+              src={b.imageUrl}
               alt="bookimg"
               className="h-[300px] w-[230px]"
             />
@@ -38,7 +42,7 @@ const BooksPage = () => {
             <div className="card-actions justify-end">
               <button
                 className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
-                onClick={() => navigate("/BookDetails")}
+                onClick={() => redirectToDetails(b.bookID)}
               >
                 Details
               </button>

@@ -1,6 +1,6 @@
 import "./App.css";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import BookView from "./Components/Books/BookDetails";
+import { Routes, Route, useLocation } from "react-router-dom";
+
 import AuthorView from "./Components/AuthorView";
 import GenreView from "./Components/GenreView";
 import OrderView from "./Components/OrderView";
@@ -20,7 +20,7 @@ import BookDetails from "./Components/Books/BookDetails";
 
 const App: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const hidden =
     location.pathname === "/login" || location.pathname === "/register";
@@ -57,7 +57,7 @@ const App: React.FC = () => {
 
                 {/*BOOK*/}
                 <Route path="/Books" element={<BooksPage />} />
-                <Route path="/BookDetails" element={<BookDetails />} />
+                <Route path="/BookDetails/:id" element={<BookDetails />} />
 
                 <Route path="/AuthorView" element={<AuthorView />} />
                 <Route path="/GenreView" element={<GenreView />} />

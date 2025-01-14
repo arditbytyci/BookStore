@@ -7,4 +7,6 @@ export interface Book {
   genreID: number;
   genreName: string;
   authorName: string;
+  imageUrl: string;
+  description: string;
 }

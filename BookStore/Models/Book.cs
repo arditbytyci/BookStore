@@ -11,7 +11,8 @@ namespace BookStore.Models
        
         public decimal Price { get; set; }
         public DateTime? PublishedDate { get; set; }
-
+        public string? ImageUrl {  get; set; }
+        public string? Description { get; set; }
 
         public int AuthorID { get; set; }
         public int GenreID {  get; set; }

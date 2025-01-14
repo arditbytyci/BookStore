@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axiosClient from "../axiosClient";
 import { Book } from "../Models/Book";
-import harrypotter from "../img/harrypotter.jpg";
+import harrypotter from "../../public/images/harrypotter.jpg";
 import "./home.css";
 import { useNavigate } from "react-router-dom";
 const HomeView = () => {

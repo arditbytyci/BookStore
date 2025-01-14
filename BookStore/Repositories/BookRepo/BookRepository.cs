@@ -23,8 +23,14 @@ namespace BookStore.Repositories.BookRepo
             .Include(b => b.Genre).
             ToListAsync();
 
-        public async Task<Book> GetByIdAsync(int id) => 
-            await _context.Books.FindAsync(id);
+        public async Task<Book> GetByIdAsync(int id)
+        {
+            return await _context.Books
+        .Include(b => b.Author)
+        .Include(b => b.Genre)
+        .FirstOrDefaultAsync(b => b.BookID == id);
+        }
+           
 
         public async Task AddAsync(Book entity) { 
             await _context.Books.AddAsync(entity);
