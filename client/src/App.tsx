@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import BookView from "./Components/BookView";
+import BookView from "./Components/Books/BookDetails";
 import AuthorView from "./Components/AuthorView";
 import GenreView from "./Components/GenreView";
 import OrderView from "./Components/OrderView";
@@ -16,6 +16,7 @@ import DashboardLayout from "./Components/AdminComponents/DashboardLayout";
 import SideBar, { links } from "./Components/SideBar";
 import TopBar from "./Components/TopBar";
 import BooksPage from "./Components/Books/BooksPage";
+import BookDetails from "./Components/Books/BookDetails";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -50,12 +51,13 @@ const App: React.FC = () => {
 
             {/* Main Content */}
 
-            <div className="main-content">
+            <div className="main-content overflow-scroll">
               <Routes>
                 <Route path="/Home" element={<HomeView />} />
 
                 {/*BOOK*/}
                 <Route path="/Books" element={<BooksPage />} />
+                <Route path="/BookDetails" element={<BookDetails />} />
 
                 <Route path="/AuthorView" element={<AuthorView />} />
                 <Route path="/GenreView" element={<GenreView />} />

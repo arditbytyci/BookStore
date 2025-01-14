@@ -1,5 +1,9 @@
 .App {
   background-color: #f0eee2;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Make the app take full viewport height */
+  overflow: hidden; /* Prevent scrolling on the entire app */
 }
 
 .sidebar {
@@ -13,6 +17,12 @@
   background-color: #f0eee2; /* Light background color */
   padding: 1rem;
   position: relative;
+  flex-shrink: 0;
+}
+.flex {
+  display: flex;
+  flex-grow: 1; /* Allow the content area to grow */
+  overflow: hidden; /* Prevent overflow on the entire flex container */
 }
 
 .sidebar::after {
@@ -34,13 +44,21 @@
   align-items: center;
   padding: 0 0rem;
   top: 5px;
+  flex-shrink: 0; /* Ensure header height doesn't shrink */
+  z-index: 10;
 }
 
 /* Main content area */
 .main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   flex-grow: 1;
   padding: 7rem 5rem;
   background-color: #f0eee2;
+  overflow-y: auto; /* Allow scrolling only on this area */
+  height: calc(100vh - 4rem); /* Subtract header height */
+  overflow-x: hidden;
 }
 
 .card {

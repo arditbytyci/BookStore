@@ -1,4 +1,9 @@
 .book-container {
-  border: 1px solid blueviolet;
-  display: grid;
+  width: 100%;
+  
+}
+
+.card {
+  height: 74vh;
+  padding: 2rem;
 }
