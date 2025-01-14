@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Book } from "../../Models/Book";
 import axiosClient from "../../axiosClient";
 import { useParams } from "react-router-dom";
-import harrypotter from "../../img/harrypotter.jpg";
 
 const BookDetails: React.FC = () => {
   const [book, setBook] = useState<Book>();

@@ -1,15 +1,12 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../Authentication/AuthContext";
 import { ReactNode } from "react";
-import { IonIcon } from "@ionic/react"; // Import IonIcon component from @ionic/react
-import bookicon from "../assets/icon.svg";
-import {
-  bookOutline,
-  cogOutline,
-  cogSharp,
-  homeOutline,
-  informationCircleOutline,
-} from "ionicons/icons"; // Import the icon components
+import icon from "../assets/book-shop.png";
+import homeIcon from "../assets/home-icon.png";
+import authorIcon from "../assets/inkwell.png";
+import bookIcon from "../assets/book.png";
+import orderIcon from "../assets/order.png";
+import { cogSharp } from "ionicons/icons"; // Import the icon components
 
 export type LinkType = {
   path: string;
@@ -24,10 +21,10 @@ export type RoleLinks = {
 
 export const links: RoleLinks = {
   Customer: [
-    { path: "/Home", label: "Home", icon: homeOutline },
-    { path: "/Books", label: "Books", icon: bookOutline },
-    { path: "/AuthorView", label: "Authors", icon: cogOutline },
-    { path: "/GenreView", label: "About Us", icon: informationCircleOutline },
+    { path: "/Home", label: "Home", icon: homeIcon },
+    { path: "/Books", label: "Books", icon: bookIcon },
+    { path: "/Authors", label: "Authors", icon: authorIcon },
+    { path: "/GenreView", label: "Orders", icon: orderIcon },
   ],
   Admin: [{ path: "/Admin", label: "Admin Dashboard", icon: cogSharp }],
 };
@@ -51,7 +48,7 @@ const SideBar: React.FC<{
          text-center"
         >
           {" "}
-          <img src={bookicon} alt="Bookstore Icon" width="58" height="58" />
+          <img src={icon} alt="Bookstore Icon" width="58" height="58" />
         </div>
         <div className="space-y-16">
           {links[role]?.map((link) => (
@@ -60,7 +57,11 @@ const SideBar: React.FC<{
               to={link.path}
               className="flex items-center space-x-2 text-gray-700 hover:text-black"
             >
-              <IonIcon icon={link.icon} className="w-8 h-8" />
+              <img
+                src={link.icon}
+                alt="author icon"
+                className="w-[2.5rem] h-[2.5rem]"
+              ></img>
             </Link>
           ))}
         </div>

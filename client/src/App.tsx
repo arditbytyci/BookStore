@@ -1,7 +1,5 @@
 import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
-
-import AuthorView from "./Components/AuthorView";
 import GenreView from "./Components/GenreView";
 import OrderView from "./Components/OrderView";
 import CustomerView from "./Components/CustomerView";
@@ -17,6 +15,8 @@ import SideBar, { links } from "./Components/SideBar";
 import TopBar from "./Components/TopBar";
 import BooksPage from "./Components/Books/BooksPage";
 import BookDetails from "./Components/Books/BookDetails";
+import AuthorPage from "./Components/Authors/AuthorPage";
+import AuthorDetails from "./Components/Authors/AuthorDetails";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -58,8 +58,10 @@ const App: React.FC = () => {
                 {/*BOOK*/}
                 <Route path="/Books" element={<BooksPage />} />
                 <Route path="/BookDetails/:id" element={<BookDetails />} />
+                {/* AUTHOR */}
+                <Route path="/Authors" element={<AuthorPage />} />
+                <Route path="/AuthorDetails/:id" element={<AuthorDetails />} />
 
-                <Route path="/AuthorView" element={<AuthorView />} />
                 <Route path="/GenreView" element={<GenreView />} />
                 <Route element={<ProtectedRoute requiredRoles={["Admin"]} />}>
                   <Route element={<DashboardLayout />}>

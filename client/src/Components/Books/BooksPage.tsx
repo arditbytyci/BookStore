@@ -23,6 +23,7 @@ const BooksPage = () => {
       setBookData(res.data);
     } catch (error) {
       setError("Failed to fetch books");
+      console.log(error);
     }
   };
   return (

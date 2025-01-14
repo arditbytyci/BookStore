@@ -7,7 +7,7 @@
         public string? Bio { get; set; }
         public DateTime? BirthDate { get; set; }
 
-
+        public string? ImageUrl { get; set; }
         //Nav properties
         public ICollection<Book> Books { get; set; } = new List<Book>(); // one-to-many
     }
