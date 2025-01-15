@@ -13,5 +13,7 @@ namespace BookStore.Services.AuthorSvc
         Task<bool> UpdateAuthorAsync(int id, AuthorDTO authorDTO);
 
         Task<bool> DeleteAuthorAsync(int id);
+
+        Task<AuthorDTO> GetAuthorsWithBooksByIdAsync(int id);
     }
 }

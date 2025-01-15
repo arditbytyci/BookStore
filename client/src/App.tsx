@@ -10,7 +10,6 @@ import HomeView from "./Components/Home";
 import ProtectedRoute from "./Authentication/ProtectedRoute";
 import AdminDashboard from "./Components/AdminComponents/AdminDashboard";
 import DashboardLayout from "./Components/AdminComponents/DashboardLayout";
-
 import SideBar, { links } from "./Components/SideBar";
 import TopBar from "./Components/TopBar";
 import BooksPage from "./Components/Books/BooksPage";

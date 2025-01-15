@@ -24,7 +24,7 @@ export const links: RoleLinks = {
     { path: "/Home", label: "Home", icon: homeIcon },
     { path: "/Books", label: "Books", icon: bookIcon },
     { path: "/Authors", label: "Authors", icon: authorIcon },
-    { path: "/GenreView", label: "Orders", icon: orderIcon },
+    // { path: "/GenreView", label: "Orders", icon: orderIcon },
   ],
   Admin: [{ path: "/Admin", label: "Admin Dashboard", icon: cogSharp }],
 };
@@ -33,6 +33,7 @@ const SideBar: React.FC<{
   links: RoleLinks;
 }> = ({ links }) => {
   const { role } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
 
   if (role !== "Customer" && role !== "Admin") {
     return null; // Handle unauthorized or default state
@@ -48,7 +49,9 @@ const SideBar: React.FC<{
          text-center"
         >
           {" "}
-          <img src={icon} alt="Bookstore Icon" width="58" height="58" />
+          <Link to="/Home">
+            <img src={icon} alt="Bookstore Icon" width="58" height="58" />
+          </Link>
         </div>
         <div className="space-y-16">
           {links[role]?.map((link) => (
@@ -70,6 +73,23 @@ const SideBar: React.FC<{
             </div>
           ))}
         </div>
+        {isLoggedIn && (
+          <div className="relative group">
+            <Link
+              to="/GenreView"
+              className="flex items-center space-x-2 text-gray-700 hover:text-black"
+            >
+              <img
+                src={orderIcon} // Use your icon for GenreView
+                alt="Orders"
+                className="w-[2.5rem] h-[2.5rem]"
+              />
+            </Link>
+            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-sm text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
+              Orders
+            </span>
+          </div>
+        )}
 
         <div>but</div>
       </div>

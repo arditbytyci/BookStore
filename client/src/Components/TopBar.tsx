@@ -1,11 +1,31 @@
 import { IonIcon } from "@ionic/react"; // Import IonIcon component from @ionic/react
 import { searchOutline } from "ionicons/icons";
 import { useAuth } from "../Authentication/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { User } from "../Models/User";
+import axiosClient from "../axiosClient";
 
 const TopBar: React.FC = () => {
   const { isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
+
+  const [user, setUser] = useState<User[]>();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchUser();
+    }
+  }, [isLoggedIn]);
+
+  const fetchUser = async () => {
+    try {
+      const response = await axiosClient.get(`/user`);
+      setUser(response.data);
+    } catch (error) {
+      console.log("fetchUserById API error", error);
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -32,12 +52,18 @@ const TopBar: React.FC = () => {
       </div>
       <div className=" text-gray-600 flex flex-row items-center justify-center mt-3">
         {isLoggedIn ? (
-          <button
-            onClick={handleLogout}
-            className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
-          >
-            Logout
-          </button>
+          <>
+            <p className="mr-1">Welcome,</p>
+            {user?.map((u) => (
+              <p key={u.id}> {u.fullName} </p>
+            ))}
+            <button
+              onClick={handleLogout}
+              className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
+            >
+              Logout
+            </button>
+          </>
         ) : (
           <>
             <Link

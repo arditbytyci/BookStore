@@ -17,7 +17,7 @@ namespace BookStore.Repositories.AuthorRepo
 
 
         public async Task<IEnumerable<Author>> GetAllAsync() =>
-            await _context.Authors.ToListAsync();
+            await _context.Authors.Include(b => b.Books).ToListAsync();
 
             
 

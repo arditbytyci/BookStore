@@ -29,7 +29,7 @@ namespace BookStore.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAuthorById(int id)
         {
-            var author = await _authorService.GetAuthorById(id);
+            var author = await _authorService.GetAuthorsWithBooksByIdAsync(id);
 
             if (author == null) return NotFound();
 

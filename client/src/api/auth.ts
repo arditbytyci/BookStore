@@ -1,11 +1,13 @@
 import axiosClient from "../axiosClient";
 
 export const register = async (
+  fullName: string,
   username: string,
   email: string,
   password: string
 ) => {
   await axiosClient.post("/auth/register", {
+    fullName,
     username,
     email,
     password,

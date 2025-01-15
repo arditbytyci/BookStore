@@ -1,4 +1,6 @@
-﻿namespace BookStore.DTO
+﻿using BookStore.Models;
+
+namespace BookStore.DTO
 {
     public class AuthorDTO
     {
@@ -8,6 +10,9 @@
         public DateTime? BirthDate { get; set; }
 
         public string? ImageUrl { get; set; }
+
+        public IEnumerable<BookDTO>? Books { get; set; }
+
 
     }
 }

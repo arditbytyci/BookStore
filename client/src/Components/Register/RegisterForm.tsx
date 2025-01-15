@@ -8,17 +8,19 @@ export const RegisterForm: React.FC<{
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullname, setFullName] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      await register(username, email, password);
+      await register(fullname, username, email, password);
       alert("Registration successful! You can now log in.");
       onRegistrationComplete();
       setEmail("");
       setPassword("");
       setUsername("");
+      setFullName("");
     } catch (error) {
       alert("Registration failed");
     }
@@ -31,6 +33,13 @@ export const RegisterForm: React.FC<{
       </div>
       <form onSubmit={handleSubmit} className="shadow-xl">
         <h3>Register</h3>
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={fullname}
+          onChange={(e) => setFullName(e.target.value)}
+          className="input focus:outline-none focus:ring-0 font-thin"
+        />
         <input
           type="text"
           placeholder="Username"

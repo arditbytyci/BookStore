@@ -79,7 +79,8 @@ namespace BookStore.Services.AuthenticationService
             };
 
             authClaims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
-            
+            authClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
+
 
 
             var authSigninKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

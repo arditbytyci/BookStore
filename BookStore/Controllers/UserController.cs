@@ -1,7 +1,9 @@
 ﻿using BookStore.DTO;
 using BookStore.Services.UserSvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BookStore.Controllers
 {
@@ -38,6 +40,29 @@ namespace BookStore.Controllers
 
         }
 
+        [Authorize]
+        [HttpGet("current")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(userId == null) return Unauthorized();
+
+
+            var user = await _userService.GetUserByIdAsync(userId);
+
+            if (user == null) return NotFound();
+
+            return Ok(new
+            {
+                user.Id,
+                user.UserName,
+                user.Email,
+                user.FullName,
+                user.Role,
+            });
+        }
+
+
         [HttpPost]
 
         public async Task<IActionResult> CreateUser([FromBody] UserDTO userDto)
@@ -56,7 +81,7 @@ namespace BookStore.Controllers
 
             return NoContent();
         }
-
+       
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(string id)
         {

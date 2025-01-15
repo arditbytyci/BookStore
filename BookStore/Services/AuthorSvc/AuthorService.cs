@@ -68,5 +68,13 @@ namespace BookStore.Services.AuthorSvc
             var authors = await _authorRepository.SearchAuthorsByNameAsync(authorName);
             return _mapper.Map<IEnumerable<AuthorDTO>>(authors);
         }
+
+
+        public async Task<AuthorDTO> GetAuthorsWithBooksByIdAsync(int id)
+        {
+            var author = await _authorRepository.GetAuthorsWithBooksByIdAsync(id);
+
+            return author == null ? null : _mapper.Map<AuthorDTO>(author);
+        }
     }
 }
