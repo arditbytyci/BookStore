@@ -52,17 +52,22 @@ const SideBar: React.FC<{
         </div>
         <div className="space-y-16">
           {links[role]?.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className="flex items-center space-x-2 text-gray-700 hover:text-black"
-            >
-              <img
-                src={link.icon}
-                alt="author icon"
-                className="w-[2.5rem] h-[2.5rem]"
-              ></img>
-            </Link>
+            <div className="relative group" key={link.path}>
+              <Link
+                key={link.path}
+                to={link.path}
+                className="flex items-center space-x-2 text-gray-700 hover:text-black"
+              >
+                <img
+                  src={link.icon}
+                  alt={link.label as string}
+                  className="w-[2.5rem] h-[2.5rem]"
+                ></img>
+              </Link>
+              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-sm text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                {link.label}
+              </span>
+            </div>
           ))}
         </div>
 
