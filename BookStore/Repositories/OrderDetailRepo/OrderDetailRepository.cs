@@ -23,8 +23,13 @@ namespace BookStore.Repositories.OrderDetailRepo
 
 
 
-        public async Task<OrderDetail> GetByIdAsync(int id) =>
-            await _context.OrderDetails.FindAsync(id);
+        public async Task<OrderDetail> GetByIdAsync(int id)
+        {
+            return await _context.OrderDetails
+                .Include(o => o.Order)
+                .Include(b => b.Book)
+                .FirstOrDefaultAsync(o => o.OrderDetailID == id);
+        }
 
         public async Task AddAsync(OrderDetail entity)
         {
@@ -45,7 +50,7 @@ namespace BookStore.Repositories.OrderDetailRepo
                 await _context.SaveChangesAsync();
             }
         }
-
+        // im not using below methods so ignore them
         public async Task<IEnumerable<OrderDetail>> GetAllOrderDetailsWithOrderAsync() =>
             await _context.OrderDetails.Include(od => od.Order).ToListAsync();
 

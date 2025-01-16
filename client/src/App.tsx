@@ -1,9 +1,9 @@
 import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
 import GenreView from "./Components/GenreView";
-import OrderView from "./Components/OrderView";
+
 import CustomerView from "./Components/CustomerView";
-import OrderDetailView from "./Components/OrderDetailView";
+
 import LoginHandler from "./Components/Login/loginHandler";
 import RegisterHandler from "./Components/Register/handleRegister";
 import HomeView from "./Components/Home";
@@ -16,6 +16,8 @@ import BooksPage from "./Components/Books/BooksPage";
 import BookDetails from "./Components/Books/BookDetails";
 import AuthorPage from "./Components/Authors/AuthorPage";
 import AuthorDetails from "./Components/Authors/AuthorDetails";
+import OrderView from "./Components/Orders/OrderView";
+import OrderDetails from "./Components/Orders/OrderDetails";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -61,16 +63,20 @@ const App: React.FC = () => {
                 <Route path="/Authors" element={<AuthorPage />} />
                 <Route path="/AuthorDetails/:id" element={<AuthorDetails />} />
 
+                {/* ORDER */}
+                <Route path="/Orders" element={<OrderView />} />
+                <Route path="/OrderDetails/:id" element={<OrderDetails />} />
+
                 <Route path="/GenreView" element={<GenreView />} />
                 <Route element={<ProtectedRoute requiredRoles={["Admin"]} />}>
                   <Route element={<DashboardLayout />}>
                     <Route path="/Admin" element={<AdminDashboard />} />
-                    <Route path="/OrderView" element={<OrderView />} />
+                    <Route path="/Orders" element={<OrderView />} />
                     <Route path="/CustomerView" element={<CustomerView />} />
-                    <Route
+                    {/* <Route
                       path="/OrderDetailView"
-                      element={<OrderDetailView />}
-                    />
+                      element={<OrderDetails />}
+                    /> */}
                   </Route>
                 </Route>
               </Routes>

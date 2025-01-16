@@ -17,7 +17,7 @@ namespace BookStore.Repositories.CustomerRepo
         public async Task<IEnumerable<Customer>> GetAllAsync() =>
             await _context.Customers
             .Include(c => c.User)
-            .Include(c => c.Orders)
+            //.Include(c => c.Orders)
             .ToListAsync();
 
 

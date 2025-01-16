@@ -1,6 +1,7 @@
 ﻿using BookStore.DATA;
 using BookStore.Interfaces.OrderInterface;
 using BookStore.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Repositories.OrderRepo
@@ -19,7 +20,7 @@ namespace BookStore.Repositories.OrderRepo
 
         public async Task<IEnumerable<Order>> GetAllAsync() =>
            await _context.Orders.
-            Include(o => o.Customer)
+            Include(o => o.User)
             .Include(o => o.OrderDetails)
                .ThenInclude(od => od.Book)
             
@@ -28,7 +29,7 @@ namespace BookStore.Repositories.OrderRepo
 
         public async Task<Order> GetByIdAsync(int id) =>
             await _context.Orders.
-            Include(o => o.Customer)
+            Include(o => o.User)
             .Include(o => o.OrderDetails)
             .ThenInclude(od => od.Book)
             .FirstOrDefaultAsync(o => o.OrderID == id);
@@ -57,9 +58,9 @@ namespace BookStore.Repositories.OrderRepo
         }
 
         public async Task<IEnumerable<Order>> GetOrdersWithCustomersAsync() => 
-            await _context.Orders.Include(o => o.Customer).ToListAsync();
+            await _context.Orders.ToListAsync();
 
         public async Task<Order> GetOrdersWithCustomersByIdAsync(int id) =>
-            await _context.Orders.Include(o => o.Customer).FirstOrDefaultAsync(o => o.CustomerID == id);
+            null;
     }
 }

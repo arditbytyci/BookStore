@@ -7,16 +7,11 @@ export interface OrderDetail {
   bookPrice: number;
 }
 
-// public class OrderDetailDTO
 // {
-//     public int OrderDetailID { get; set; } // PK
-//     public int Quantity { get; set; }
-
-//     //FK
-//     public int OrderID { get; set; }
-//     public int BookID { get; set; }
-
-//     public string BookName { get; set; } = string.Empty;
-
-//     public decimal BookPrice { get; set; }
+//   "orderDetailID": 0,
+//   "quantity": 3,
+//   "orderID": 7,
+//   "bookID": 10,
+//   "bookName": "",
+//   "bookPrice": 0
 // }

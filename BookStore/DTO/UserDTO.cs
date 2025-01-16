@@ -14,6 +14,8 @@
 
             
 
-            public int? CustomerID { get; set; }
-        }
+            public int? CustomerID { get; set; } // ignore
+
+        public List<OrderDTO> Orders { get; set; } = new List<OrderDTO>();
+    }
     }

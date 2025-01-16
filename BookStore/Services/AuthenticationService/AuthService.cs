@@ -79,7 +79,7 @@ namespace BookStore.Services.AuthenticationService
             };
 
             authClaims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
-            authClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
+           
 
 
 

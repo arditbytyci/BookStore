@@ -7,12 +7,13 @@
 
         public decimal TotalAmount { get; set; } 
 
-        public int CustomerID   { get; set; }
-
+        
+        public string UserId { get; set; }
         
         // navigation properties
 
-        public Customer Customer { get; set; } = null!; // many - to - one
+        
+        public User User { get; set; } = null!;
 
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }

@@ -33,7 +33,7 @@ const SideBar: React.FC<{
   links: RoleLinks;
 }> = ({ links }) => {
   const { role } = useAuth();
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn } = useAuth();
 
   if (role !== "Customer" && role !== "Admin") {
     return null; // Handle unauthorized or default state
@@ -76,7 +76,7 @@ const SideBar: React.FC<{
         {isLoggedIn && (
           <div className="relative group">
             <Link
-              to="/GenreView"
+              to="/Orders"
               className="flex items-center space-x-2 text-gray-700 hover:text-black"
             >
               <img

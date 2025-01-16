@@ -11,6 +11,7 @@ namespace BookStore.Models
 
 
         public Customer? Customer;
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
 
     }
 }

@@ -1,18 +1,21 @@
+import { OrderDetail } from "./OrderDetail";
+
 export interface Order {
   orderID: number;
   orderDate: string;
   totalAmount: number;
-  customerID: number;
-  customerName: string;
+  userId: string;
+  email: string;
+  fullName: string;
+  orderDetails: OrderDetail[];
 }
 
-// public int OrderID { get; set; } // PK
-// public DateTime? OrderDate { get; set; } = DateTime.UtcNow;
-
-// public decimal TotalAmount { get; set; }
-
-// public int CustomerID { get; set; }
-
-// public string CustomerName { get; set; } = string.Empty;
-
-// public List<OrderDTO> OrderDetails { get; set; } = new List<OrderDTO>();
+// {
+//   "orderID": 0,
+//   "orderDate": "2025-01-16",
+//   "totalAmount": 40,
+//   "userId": "f559ebd8-5ee5-4953-bb3e-a98c1be32484",
+//   "email": "",
+//   "fullName": "",
+//   "orderDetails": [
+//   ]

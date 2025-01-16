@@ -43,10 +43,16 @@ namespace BookStore.DATA
                 .WithOne(u => u.Customer)
                 .HasForeignKey<Customer>(c => c.UserID);
 
-            modelBuilder.Entity<Customer>()
-                .HasMany(c => c.Orders)
-                .WithOne(o => o.Customer)
-                .HasForeignKey(o => o.CustomerID);
+            //modelBuilder.Entity<Customer>()
+            //    .HasMany(c => c.Orders)
+            //    .WithOne(o => o.Customer)
+            //    .HasForeignKey(o => o.CustomerID);
+
+            modelBuilder.Entity<Order>()
+    .HasOne(o => o.User)
+    .WithMany(u => u.Orders)
+    .HasForeignKey(o => o.UserId)
+    .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Book>()
                 .HasOne(b => b.Author)

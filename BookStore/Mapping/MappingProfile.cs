@@ -43,12 +43,14 @@ namespace BookStore.Mapping
 
             //Order
             CreateMap<Order, OrderDTO>()
-.ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FullName))
-.ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails))
-.ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Customer.Email))
-.ReverseMap()
-.ForMember(dest => dest.Customer, opt => opt.Ignore())
-.ForMember(dest => dest.OrderDetails, opt => opt.Ignore());
+    .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
+    .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails))
+    .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email))
+    .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.User.Id)) // Correctly map to UserId
+    .ReverseMap()
+    .ForMember(dest => dest.User, opt => opt.Ignore()) // Ignore navigation properties when mapping back
+    .ForMember(dest => dest.OrderDetails, opt => opt.Ignore());
+
 
 
 
@@ -63,19 +65,20 @@ namespace BookStore.Mapping
             //Customer
             CreateMap<Customer, CustomerDTO>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
-                .ForMember(dest => dest.Orders, opt => opt.MapFrom(src => src.Orders))
+                //.ForMember(dest => dest.Orders, opt => opt.MapFrom(src => src.Orders))
                 .ReverseMap();
 
 
             //User
-            CreateMap<User, UserDTO>()
-    .ForMember(dest => dest.Role, opt => opt.Ignore()) // Ignore role here
-    .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.FullName : null))
-     .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName))
-    .ForMember(dest => dest.CustomerID, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.CustomerID : (int?)null))
-    .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-    .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
-    .ReverseMap();
+         CreateMap<User, UserDTO>()
+        .ForMember(dest => dest.Role, opt => opt.Ignore()) // Ignore role here
+        .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.FullName : null))
+        .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName))
+        .ForMember(dest => dest.CustomerID, opt => opt.MapFrom(src => src.Customer != null ? src.Customer.CustomerID : (int?)null))
+        .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+        .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
+         .ForMember(dest => dest.Orders, opt => opt.MapFrom(src => src.Orders))
+        .ReverseMap();
 
         }
     }

@@ -14,7 +14,7 @@
 
         public User? User { get; set; } // one-to-one
 
-        public ICollection<Order> Orders { get; set; } = new List<Order>(); // one to many
+        
 
 
 

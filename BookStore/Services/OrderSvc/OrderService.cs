@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BookStore.DTO;
 using BookStore.Interfaces.OrderInterface;
+using BookStore.Interfaces.UserInterface;
 using BookStore.Models;
 
 namespace BookStore.Services.OrderSvc
@@ -10,13 +11,15 @@ namespace BookStore.Services.OrderSvc
 
 
         private readonly IOrderRepository _orderRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
 
-        public OrderService(IMapper mapper, IOrderRepository orderRepository)
+        public OrderService(IMapper mapper, IOrderRepository orderRepository, IUserRepository userRepository)
         {
             _mapper = mapper;
             _orderRepository = orderRepository;
+            _userRepository = userRepository;
         }
 
 
@@ -24,7 +27,16 @@ namespace BookStore.Services.OrderSvc
 
         public async Task<OrderDTO> CreateOrderAsync(OrderDTO orderDTO)
         {
+            var user = await _userRepository.GetUserByIdAsync(orderDTO.UserId);
+            if (user == null)
+            {
+                throw new Exception("User not found."); // Or return a meaningful error response
+            }
+
+
             var order = _mapper.Map<Order>(orderDTO);
+
+            order.User = user;
 
             await _orderRepository.AddAsync(order);
 

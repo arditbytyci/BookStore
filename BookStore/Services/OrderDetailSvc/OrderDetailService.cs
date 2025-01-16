@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookStore.DTO;
+using BookStore.Interfaces.BookInterface;
 using BookStore.Interfaces.OrderDetailInterface;
 using BookStore.Models;
 
@@ -9,11 +10,13 @@ namespace BookStore.Services.OrderDetailSvc
     {
 
         private readonly IOrderDetailRepository _orderDetailRepository;
+        private readonly IBookRepository _bookRepository;
         private readonly IMapper _mapper;
-        public OrderDetailService(IOrderDetailRepository orderDetailRepository, IMapper mapper)
+        public OrderDetailService(IOrderDetailRepository orderDetailRepository, IMapper mapper, IBookRepository bookRepository)
         {
             _orderDetailRepository = orderDetailRepository;
             _mapper = mapper;
+            _bookRepository = bookRepository;
         }
 
 
@@ -22,6 +25,14 @@ namespace BookStore.Services.OrderDetailSvc
         public async Task<OrderDetailDTO> CreateOrderDetailAsync(OrderDetailDTO orderDetailDTO)
         {
             var orderdtl = _mapper.Map<OrderDetail>(orderDetailDTO);
+            var book = await _bookRepository.GetByIdAsync(orderDetailDTO.BookID);
+
+
+            if (book == null) {
+                throw new Exception("Book not found");
+            }
+
+            orderdtl.Book = book;
 
             await _orderDetailRepository.AddAsync(orderdtl);
 

@@ -40,27 +40,7 @@ namespace BookStore.Controllers
 
         }
 
-        [Authorize]
-        [HttpGet("current")]
-        public async Task<IActionResult> GetCurrentUser()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if(userId == null) return Unauthorized();
-
-
-            var user = await _userService.GetUserByIdAsync(userId);
-
-            if (user == null) return NotFound();
-
-            return Ok(new
-            {
-                user.Id,
-                user.UserName,
-                user.Email,
-                user.FullName,
-                user.Role,
-            });
-        }
+       
 
 
         [HttpPost]

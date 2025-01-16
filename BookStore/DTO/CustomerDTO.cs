@@ -12,7 +12,7 @@
 
         public string UserName { get; set; }
 
-        public List<OrderDTO> Orders { get; set; } = new List<OrderDTO>();
+        
 
     }
 }
