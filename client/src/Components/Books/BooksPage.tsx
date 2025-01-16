@@ -4,11 +4,13 @@ import { Book } from "../../Models/Book";
 import "./book.css";
 
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../Cart/CartContext";
 
 const BooksPage = () => {
   const [bookData, setBookData] = useState<Book[]>([]);
   const [, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { dispatch } = useCart();
   useEffect(() => {
     fetchBooks();
   }, []);
@@ -26,6 +28,22 @@ const BooksPage = () => {
       console.log(error);
     }
   };
+
+  const handleAddToCart = (book: Book) => {
+    dispatch({
+      type: "ADD_ITEM",
+      payload: {
+        bookId: book.bookID,
+        name: book.title,
+        price: book.price,
+        quantity: 1,
+      },
+    });
+    console.log(book);
+
+    alert(`${book.title} added to cart!`);
+  };
+
   return (
     <div className="book-container h-fit grid grid-cols-3 gap-24">
       {bookData.map((b) => (
@@ -46,6 +64,12 @@ const BooksPage = () => {
                 onClick={() => redirectToDetails(b.bookID)}
               >
                 Details
+              </button>
+              <button
+                className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
+                onClick={() => handleAddToCart(b)}
+              >
+                Add to Cart
               </button>
             </div>
           </div>

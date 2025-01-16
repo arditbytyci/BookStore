@@ -18,6 +18,8 @@ import AuthorPage from "./Components/Authors/AuthorPage";
 import AuthorDetails from "./Components/Authors/AuthorDetails";
 import OrderView from "./Components/Orders/OrderView";
 import OrderDetails from "./Components/Orders/OrderDetails";
+import CartPage from "./Components/Cart/CartPage";
+import CheckOutPage from "./Components/Cart/Checkout";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -66,6 +68,8 @@ const App: React.FC = () => {
                 {/* ORDER */}
                 <Route path="/Orders" element={<OrderView />} />
                 <Route path="/OrderDetails/:id" element={<OrderDetails />} />
+                <Route path="/Cart" element={<CartPage />} />
+                <Route path="/Checkout" element={<CheckOutPage />} />
 
                 <Route path="/GenreView" element={<GenreView />} />
                 <Route element={<ProtectedRoute requiredRoles={["Admin"]} />}>
