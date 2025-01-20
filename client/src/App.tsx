@@ -2,8 +2,6 @@ import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
 import GenreView from "./Components/GenreView";
 
-import CustomerView from "./Components/CustomerView";
-
 import LoginHandler from "./Components/Login/loginHandler";
 import RegisterHandler from "./Components/Register/handleRegister";
 import HomeView from "./Components/Home";
@@ -16,10 +14,13 @@ import BooksPage from "./Components/Books/BooksPage";
 import BookDetails from "./Components/Books/BookDetails";
 import AuthorPage from "./Components/Authors/AuthorPage";
 import AuthorDetails from "./Components/Authors/AuthorDetails";
-import OrderView from "./Components/Orders/OrderView";
-import OrderDetails from "./Components/Orders/OrderDetails";
+
 import CartPage from "./Components/Cart/CartPage";
 import CheckOutPage from "./Components/Cart/Checkout";
+import BookList from "./Components/AdminComponents/BookList";
+import AuthorList from "./Components/AdminComponents/AuthorList";
+import UserList from "./Components/AdminComponents/UserList";
+import OrderList from "./Components/AdminComponents/OrderList";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -65,9 +66,6 @@ const App: React.FC = () => {
                 <Route path="/Authors" element={<AuthorPage />} />
                 <Route path="/AuthorDetails/:id" element={<AuthorDetails />} />
 
-                {/* ORDER */}
-                <Route path="/Orders" element={<OrderView />} />
-                <Route path="/OrderDetails/:id" element={<OrderDetails />} />
                 <Route path="/Cart" element={<CartPage />} />
                 <Route path="/Checkout" element={<CheckOutPage />} />
 
@@ -75,8 +73,10 @@ const App: React.FC = () => {
                 <Route element={<ProtectedRoute requiredRoles={["Admin"]} />}>
                   <Route element={<DashboardLayout />}>
                     <Route path="/Admin" element={<AdminDashboard />} />
-                    <Route path="/Orders" element={<OrderView />} />
-                    <Route path="/CustomerView" element={<CustomerView />} />
+                    <Route path="/BookList" element={<BookList />} />
+                    <Route path="/AuthorList" element={<AuthorList />} />
+                    <Route path="/UserList" element={<UserList />} />
+                    <Route path="/OrderList" element={<OrderList />} />
                     {/* <Route
                       path="/OrderDetailView"
                       element={<OrderDetails />}

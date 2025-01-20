@@ -1,7 +1,46 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import axiosClient from "../../axiosClient";
+import { Book } from "../../Models/Book";
+import { User } from "../../Models/User";
+import { Order } from "../../Models/Order";
 
 const AdminDashboard: React.FC = () => {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
+  useEffect(() => {
+    fetchBooks();
+    fetchUsers();
+    fetchOrders();
+  }, []);
+
+  const fetchBooks = async () => {
+    try {
+      const response = await axiosClient.get("/book");
+      setBooks(response.data);
+    } catch (error) {
+      console.error("fetchBooks API error", error);
+    }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axiosClient.get("/user");
+      setUsers(response.data);
+    } catch (error) {
+      console.error("fetchUsers API error", error);
+    }
+  };
+  const fetchOrders = async () => {
+    try {
+      const response = await axiosClient.get("/order");
+      setOrders(response.data);
+    } catch (error) {
+      console.error("fetchUsers API error", error);
+    }
+  };
+
   return (
     <div className="flex-1">
       {/* Dashboard Header */}
@@ -12,21 +51,21 @@ const AdminDashboard: React.FC = () => {
         <div className="card w-60 bg-base-200 shadow-xl">
           <div className="card-body">
             <h2 className="card-title">Total Orders</h2>
-            <p>12,345</p>
+            <p>{orders.length}</p>
           </div>
         </div>
 
         <div className="card w-60 bg-base-200 shadow-xl">
           <div className="card-body">
-            <h2 className="card-title">Total Customers</h2>
-            <p>1,234</p>
+            <h2 className="card-title">Total Users</h2>
+            <p>{users.length - 1}</p>
           </div>
         </div>
 
         <div className="card w-60 bg-base-200 shadow-xl">
           <div className="card-body">
             <h2 className="card-title">Total Books</h2>
-            <p>456</p>
+            <p>{books.length}</p>
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@ import { Order } from "../../Models/Order";
 
 const CheckOutPage = () => {
   const { state, dispatch } = useCart();
-  const [order, setOrder] = useState<Order>();
+  const [order] = useState<Order>();
 
   const handleCheckOut = async () => {
     try {

@@ -1,57 +1,49 @@
 import { Link, Outlet } from "react-router-dom";
 import { useAuth } from "../../Authentication/AuthContext";
-
+import "./admin.css";
 const DashboardLayout: React.FC = () => {
-  const { logout, role } = useAuth();
+  const { role } = useAuth();
 
   return (
-    <div className="flex">
+    <div className="flex h-screen justify-center">
       {/* Only show sidebar for Admin role */}
       {role === "Admin" && (
-        <div className="w-64 bg-base-200 h-screen sticky top-0 p-4">
+        <div className="w-34  bg-background-color h-fit p-6 shadow-md">
           <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-semibold">Admin Dashboard</h2>
-          </div>
-          <ul>
-            <li>
+            <h2 className="text-2xl font-semibold">
+              {" "}
               <Link to="/Admin" className="btn btn-ghost w-full text-lg">
                 Admin Dashboard
               </Link>
-            </li>
+            </h2>
+          </div>
+          <ul className="space-y-4">
             <li>
-              <Link
-                to="/Admin/BookView"
-                className="btn btn-ghost w-full text-lg"
-              >
+              <Link to="/BookList" className="btn btn-ghost w-full text-lg">
                 Books
               </Link>
             </li>
             <li>
-              <Link to="/OrderView" className="btn btn-ghost w-full text-lg">
+              <Link to="/AuthorList" className="btn btn-ghost w-full text-lg">
+                Authors
+              </Link>
+            </li>
+            <li>
+              <Link to="/UserList" className="btn btn-ghost w-full text-lg">
+                Users
+              </Link>
+            </li>
+            <li>
+              <Link to="/OrderList" className="btn btn-ghost w-full text-lg">
                 Orders
               </Link>
             </li>
-            <li>
-              <Link to="/CustomerView" className="btn btn-ghost w-full text-lg">
-                Customers
-              </Link>
-            </li>
-            <li>
-              <Link to="/Settings" className="btn btn-ghost w-full text-lg">
-                Settings
-              </Link>
-            </li>
           </ul>
-          <div className="mt-8">
-            <button onClick={logout} className="btn btn-warning w-full">
-              Logout
-            </button>
-          </div>
         </div>
       )}
 
       {/* Main Content Area */}
-      <div className="flex-1 bg-base-100 p-6">
+      <div className="main flex-1  p-6  bg-background-color">
         <Outlet /> {/* This will render the child route components */}
       </div>
     </div>

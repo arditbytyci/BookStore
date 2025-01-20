@@ -9,6 +9,10 @@ export const RegisterForm: React.FC<{
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullname, setFullName] = useState("");
+  const [moveImage, setMoveImage] = useState(false);
+  const handleImageMove = () => {
+    setMoveImage(!moveImage); // Toggle the image position
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,6 +71,12 @@ export const RegisterForm: React.FC<{
         >
           Register
         </button>
+        <p className="mt-5">
+          Don't have an account?{" "}
+          <a className="link" onClick={handleImageMove}>
+            Login
+          </a>
+        </p>
       </form>
     </div>
   );

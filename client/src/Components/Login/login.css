@@ -5,11 +5,13 @@
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  border: 1px solid black;
-  overflow: hidden; /* Ensure content stays within bounds */
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+  /* Ensure co  ntent stays within bounds */
 }
 
-.login-container form {
+.login-container-right {
   display: flex;
   flex-direction: column;
   width: 50%;
@@ -17,9 +19,25 @@
   justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #ffffed 0%, #c3e5ff 150%);
-  border-radius: 20px;
-
+  border-radius: 0 20px 20px 0;
+  transition: all 0.4s ease-in-out;
   position: relative;
+  overflow: visible;
+  z-index: 1;
+  /* Ensure the form is above the image */
+}
+.register-container-left {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 20px 0px 0px 20px;
+  background: linear-gradient(135deg, #ffffed 0%, #c3e5ff 150%);
+  overflow: visible;
+  transition: transform 1s ease-in-out;
 }
 
 .login-container input {
@@ -30,54 +48,61 @@
   height: 40px;
 }
 
-/* Add transition effect */
-
-/* Image container styles */
 .image-container {
   width: 50%;
   height: 80%;
   display: flex;
+  position: relative;
+  z-index: 2;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
-  transition: transform 0.5s ease-in-out; /* Smooth transition */
-  position: relative;
-  overflow: hidden; /* Positioning for movement */
-  /* Start from the left */
-  /* Align with form */
+  transition: transform 1s ease-in-out;
+  overflow: visible;
+  border-radius: 20px 0px 0px 20px;
 }
 
-/* Image styles */
 .image-container img {
+  border-radius: 20px 0px 0px 20px !important;
+  position: absolute;
+  transition: border-radius 1s linear;
+}
+.cover {
+  transform: translateX(0);
+  overflow: visible;
   width: 100%;
   height: 100%;
-  border-radius: 0;
+  border-radius: 20px 0px 0px 20px; /* Initial border radius */
+  top: 0;
+  left: 0;
+  z-index: 3;
+  transition: transform 1s ease-in-out, border-radius 1s linear;
 }
 
-/* When moved, slide the image to the right */
+.img {
+  border-radius: 10px;
+}
+
 .moved-image {
-  transform: translateX(
-    100%
-  ); /* Move the image to the right to cover the form */
-  border-radius: 20px; /* Fully rounded corners */
-}
-
-/* Form styles */
-.login-container form {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  height: 80%;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #ffffed 0%, #c3e5ff 150%);
+  transform: translateX(100%);
   border-radius: 0 20px 20px 0;
-  /* Ensure the form is above the image */
-  transition: opacity 1s ease-in-out; /* Fade-out effect */
+  position: absolute;
+  overflow: visible;
+  z-index: 10; /* Ensure it appears above other elements */
+  transition: transform 1s ease-in-out, border-radius 1s linear;
 }
 
-/* Hidden state for the form */
-.hidden {
-  opacity: 0; /* Fade out the form when the image moves */
-  pointer-events: none; /* Disable interactions */
+.hide {
+  opacity: 0;
+
+  position: relative;
+}
+
+.test-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
