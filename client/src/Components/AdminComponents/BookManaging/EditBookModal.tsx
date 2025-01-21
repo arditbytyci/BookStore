@@ -1,19 +1,25 @@
 import { useEffect, useState } from "react";
 import { Book } from "../../../Models/Book";
+import { Author } from "../../../Models/Author";
+import { Genre } from "../../../Models/Genre";
 
-
-
-
-
-
-interface EditModalProps {
+interface EditBookModalProps {
   book: Book | null;
+  authors: Author[];
+  genres: Genre[];
   onClose: () => void;
   onSave: (book: Book) => void;
 }
 
-const EditModal: React.FC<EditModalProps> = ({ book, onClose, onSave }) => {
+const EditBookModal: React.FC<EditBookModalProps> = ({
+  book,
+  authors,
+  genres,
+  onClose,
+  onSave,
+}) => {
   const [editedBook, setEditedBook] = useState<Book | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
     setEditedBook(book);
@@ -22,6 +28,21 @@ const EditModal: React.FC<EditModalProps> = ({ book, onClose, onSave }) => {
   const handleInputChange = (field: keyof Book, value: any) => {
     if (editedBook) {
       setEditedBook({ ...editedBook, [field]: value });
+    }
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+        setEditedBook((prev) => ({
+          ...prev!,
+          imageUrl: reader.result as string,
+        }));
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -34,16 +55,23 @@ const EditModal: React.FC<EditModalProps> = ({ book, onClose, onSave }) => {
   return (
     <div className="modal modal-open">
       <div className="modal-box">
-        <h2 className="font-bold text-lg">Edit Book</h2>
-        <form>
-          <div className="form-control">
-            <label className="Image">Image</label>
+        <h1 className="text-2xl">Edit Book</h1>
+        <form className="flex flex-col gap-4">
+          <div className="form-control mt-2">
+            <label className="Image mb-4">Image</label>
             <input
-              type="image"
-              src={editedBook.imageUrl}
-              className="w-[24px] h-[24px]"
+              type="file"
+              accept="image/*"
               alt=""
+              onChange={handleImageChange}
             />
+            {imagePreview && (
+              <img
+                src={imagePreview}
+                alt="image preview"
+                className="w-[100px] h-[100px]"
+              />
+            )}
           </div>
           <div className="form-control">
             <label className="label">Title</label>
@@ -83,10 +111,35 @@ const EditModal: React.FC<EditModalProps> = ({ book, onClose, onSave }) => {
               />
               <div className="form-control">
                 <label className="label">Author</label>
+                <select
+                  value={editedBook.authorID}
+                  onChange={(e) =>
+                    handleInputChange("authorID", parseInt(e.target.value))
+                  }
+                  className="select select-bordered"
+                >
+                  {authors.map((a) => (
+                    <option key={a.authorID} value={a.authorID}>
+                      {a.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="form-control">
                 <label className="label">Genre</label>
-                <input type="text" className="input input-bordered disabled" />
+                <select
+                  value={editedBook.genreID}
+                  onChange={(e) =>
+                    handleInputChange("genreID", parseInt(e.target.value))
+                  }
+                  className="select select-bordered"
+                >
+                  {genres.map((g) => (
+                    <option key={g.genreID} value={g.genreID}>
+                      {g.genreName}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
@@ -94,11 +147,11 @@ const EditModal: React.FC<EditModalProps> = ({ book, onClose, onSave }) => {
         <div className="modal-action">
           <button
             onClick={() => onSave(editedBook)}
-            className="btn btn-success"
+            className="btn btn-success text-white"
           >
             Save
           </button>
-          <button onClick={onClose} className="btn btn-error">
+          <button onClick={onClose} className="btn btn-error text-white">
             Cancel
           </button>
         </div>
@@ -107,4 +160,4 @@ const EditModal: React.FC<EditModalProps> = ({ book, onClose, onSave }) => {
   );
 };
 
-export default EditModal;
+export default EditBookModal;

@@ -2,11 +2,18 @@ import { useState } from "react";
 import { Book } from "../../../Models/Book";
 import "../admin.css";
 import { useBooks } from "../hooks/useBooks";
-import EditModal from "./EditModal";
+import EditBookModal from "./EditBookModal";
 
 const BookList: React.FC = () => {
-  const { books, loading, error, handleUpdateBook, handleDeleteBook } =
-    useBooks();
+  const {
+    books,
+    authors,
+    genres,
+    loading,
+    error,
+    handleUpdateBook,
+    handleDeleteBook,
+  } = useBooks();
 
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
@@ -24,6 +31,7 @@ const BookList: React.FC = () => {
             <th>PublishedDate</th>
             <th>Price</th>
             <th>Author</th>
+            <th>Genre</th>
             <th className="pl-12">Actions</th>
           </tr>
         </thead>
@@ -35,6 +43,7 @@ const BookList: React.FC = () => {
               <td>{new Date(b.publishedDate).toLocaleDateString()}</td>
               <td>{b.price} €</td>
               <td>{b.authorName}</td>
+              <td>{b.genreName}</td>
               <td colSpan={2}>
                 <button
                   onClick={() => setSelectedBook(b)}
@@ -54,8 +63,10 @@ const BookList: React.FC = () => {
         </tbody>
       </table>
       {selectedBook && (
-        <EditModal
+        <EditBookModal
           book={selectedBook}
+          authors={authors}
+          genres={genres}
           onClose={() => setSelectedBook(null)}
           onSave={(updatedBook) => {
             handleUpdateBook(updatedBook);
