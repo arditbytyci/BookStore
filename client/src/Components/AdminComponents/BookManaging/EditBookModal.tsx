@@ -30,6 +30,7 @@ const EditBookModal: React.FC<EditBookModalProps> = ({
       setEditedBook({ ...editedBook, [field]: value });
     }
   };
+  if (!editedBook) return null;
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -45,8 +46,6 @@ const EditBookModal: React.FC<EditBookModalProps> = ({
       reader.readAsDataURL(file);
     }
   };
-
-  if (!editedBook) return null;
 
   const formattedDate = editedBook.publishedDate
     ? new Date(editedBook.publishedDate).toISOString().split("T")[0]

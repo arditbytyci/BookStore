@@ -29,6 +29,11 @@ const DashboardLayout: React.FC = () => {
               </Link>
             </li>
             <li>
+              <Link to="/GenreList" className="btn btn-ghost w-full text-lg">
+                Genres
+              </Link>
+            </li>
+            <li>
               <Link to="/UserList" className="btn btn-ghost w-full text-lg">
                 Users
               </Link>

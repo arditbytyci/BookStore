@@ -21,6 +21,7 @@ import BookList from "./Components/AdminComponents/BookManaging/BookList";
 import AuthorList from "./Components/AdminComponents/AuthorManaging/AuthorList";
 import UserList from "./Components/AdminComponents/UserList";
 import OrderList from "./Components/AdminComponents/OrderList";
+import GenreList from "./Components/AdminComponents/GenreManaging/GenreList";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -77,6 +78,7 @@ const App: React.FC = () => {
                     <Route path="/AuthorList" element={<AuthorList />} />
                     <Route path="/UserList" element={<UserList />} />
                     <Route path="/OrderList" element={<OrderList />} />
+                    <Route path="/GenreList" element={<GenreList />} />
                     {/* <Route
                       path="/OrderDetailView"
                       element={<OrderDetails />}
