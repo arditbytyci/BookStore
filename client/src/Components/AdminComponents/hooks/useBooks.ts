@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { Book } from "../../../Models/Book";
-import { getBooks, updateBook, deleteBook } from "../services/bookService";
+import {
+  getBooks,
+  updateBook,
+  deleteBook,
+  addBook,
+} from "../services/bookService";
 import { getAuthors } from "../services/authorService";
 import { Author } from "../../../Models/Author";
 import { Genre } from "../../../Models/Genre";
@@ -27,6 +32,15 @@ export const useBooks = () => {
       setError("Failed to fetch books.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCreateBook = async (newBook: Book) => {
+    try {
+      const addedBook = await addBook(newBook);
+      setBooks((prev) => [...prev, addedBook]);
+    } catch (error) {
+      setError("Failed to create book");
     }
   };
 
@@ -83,5 +97,6 @@ export const useBooks = () => {
     loading,
     handleUpdateBook,
     handleDeleteBook,
+    handleCreateBook,
   };
 };

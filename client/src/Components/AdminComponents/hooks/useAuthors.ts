@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Author } from "../../../Models/Author";
 import {
+  addAuthor,
   deleteAuthor,
   getAuthors,
   updateAuthor,
@@ -23,6 +24,15 @@ export const useAuthor = () => {
       setError("Failed to fetch authors.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCreateAuthor = async (newAuthor: Author) => {
+    try {
+      const addedAuthor = await addAuthor(newAuthor);
+      setAuthor((prev) => [...prev, addedAuthor]);
+    } catch (error) {
+      setError("Failed to add author");
     }
   };
 
@@ -58,6 +68,7 @@ export const useAuthor = () => {
     authors,
     handleAuthorUpdate,
     handleAuthorDelete,
+    handleCreateAuthor,
     error,
     loading,
   };

@@ -1,7 +1,5 @@
 import "./App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
-import GenreView from "./Components/GenreView";
-
 import LoginHandler from "./Components/Login/loginHandler";
 import RegisterHandler from "./Components/Register/handleRegister";
 import HomeView from "./Components/Home";
@@ -14,7 +12,6 @@ import BooksPage from "./Components/Books/BooksPage";
 import BookDetails from "./Components/Books/BookDetails";
 import AuthorPage from "./Components/Authors/AuthorPage";
 import AuthorDetails from "./Components/Authors/AuthorDetails";
-
 import CartPage from "./Components/Cart/CartPage";
 import CheckOutPage from "./Components/Cart/Checkout";
 import BookList from "./Components/AdminComponents/BookManaging/BookList";
@@ -70,7 +67,6 @@ const App: React.FC = () => {
                 <Route path="/Cart" element={<CartPage />} />
                 <Route path="/Checkout" element={<CheckOutPage />} />
 
-                <Route path="/GenreView" element={<GenreView />} />
                 <Route element={<ProtectedRoute requiredRoles={["Admin"]} />}>
                   <Route element={<DashboardLayout />}>
                     <Route path="/Admin" element={<AdminDashboard />} />

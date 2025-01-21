@@ -1,10 +1,13 @@
 import axiosClient from "../../../axiosClient";
 import { Book } from "../../../Models/Book";
 
-
-
 export const getBooks = async (): Promise<Book[]> => {
   const res = await axiosClient.get("/book");
+  return res.data;
+};
+
+export const addBook = async (book: Book): Promise<Book> => {
+  const res = await axiosClient.post("/book", book);
   return res.data;
 };
 

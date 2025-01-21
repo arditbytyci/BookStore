@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Book } from "../../../Models/Book";
 import "../admin.css";
 import { useBooks } from "../hooks/useBooks";
-import EditBookModal from "./EditBookModal";
+import BookModal from "./BookModal";
 
 const BookList: React.FC = () => {
   const {
@@ -13,6 +13,7 @@ const BookList: React.FC = () => {
     error,
     handleUpdateBook,
     handleDeleteBook,
+    handleCreateBook,
   } = useBooks();
 
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -20,8 +21,26 @@ const BookList: React.FC = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
+  const handleSave = () => {
+    setSelectedBook({
+      bookID: 0,
+      title: "",
+      price: 0,
+      description: "",
+      publishedDate: "",
+      authorID: authors[0]?.authorID || 0,
+      genreID: genres[0]?.genreID || 0,
+      authorName: "",
+      genreName: "",
+      imageUrl: "",
+    });
+  };
+
   return (
     <div className="booklist-container">
+      <button className="btn btn-primary" onClick={handleSave}>
+        Add Book
+      </button>
       <table className="table">
         {/* head */}
         <thead>
@@ -63,13 +82,18 @@ const BookList: React.FC = () => {
         </tbody>
       </table>
       {selectedBook && (
-        <EditBookModal
+        <BookModal
           book={selectedBook}
           authors={authors}
           genres={genres}
           onClose={() => setSelectedBook(null)}
           onSave={(updatedBook) => {
-            handleUpdateBook(updatedBook);
+            if (updatedBook.bookID === 0) {
+              handleCreateBook(updatedBook);
+            } else {
+              handleUpdateBook(updatedBook);
+            }
+
             setSelectedBook(null);
           }}
         />

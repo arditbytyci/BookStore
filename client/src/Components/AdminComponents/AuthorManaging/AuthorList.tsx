@@ -1,19 +1,40 @@
 import React, { useState } from "react";
 import { Author } from "../../../Models/Author";
 import { useAuthor } from "../hooks/useAuthors";
-import EditAuthorModal from "./EditAuthorModal";
+
+import AuthorModal from "./AuthorModal";
 
 const AuthorList: React.FC = () => {
-  const { authors, handleAuthorUpdate, handleAuthorDelete, error, loading } =
-    useAuthor();
+  const {
+    authors,
+    handleAuthorUpdate,
+    handleAuthorDelete,
+    handleCreateAuthor,
+    error,
+    loading,
+  } = useAuthor();
 
   const [selectedAuthor, setSelectedAuthor] = useState<Author | null>(null);
 
   if (loading) return <p>{loading}</p>;
   if (error) return <p>{error}</p>;
 
+  const handleSave = () => {
+    setSelectedAuthor({
+      authorID: 0,
+      name: "",
+      bio: "",
+      birthDate: "",
+      imageUrl: "",
+      books: [],
+    });
+  };
+
   return (
     <div className="authorlist-container">
+      <button className="btn btn-primary" onClick={handleSave}>
+        Add Author
+      </button>
       <table className="table">
         {/* head */}
         <thead>
@@ -49,11 +70,15 @@ const AuthorList: React.FC = () => {
         </tbody>
       </table>
       {selectedAuthor && (
-        <EditAuthorModal
+        <AuthorModal
           author={selectedAuthor}
           onClose={() => setSelectedAuthor(null)}
           onSave={(updatedAuthor) => {
-            handleAuthorUpdate(updatedAuthor);
+            if (updatedAuthor.authorID === 0) {
+              handleCreateAuthor(updatedAuthor);
+            } else {
+              handleAuthorUpdate(updatedAuthor);
+            }
             setSelectedAuthor(null);
           }}
         />

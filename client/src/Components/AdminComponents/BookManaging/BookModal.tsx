@@ -3,7 +3,7 @@ import { Book } from "../../../Models/Book";
 import { Author } from "../../../Models/Author";
 import { Genre } from "../../../Models/Genre";
 
-interface EditBookModalProps {
+interface BookModalProps {
   book: Book | null;
   authors: Author[];
   genres: Genre[];
@@ -11,34 +11,73 @@ interface EditBookModalProps {
   onSave: (book: Book) => void;
 }
 
-const EditBookModal: React.FC<EditBookModalProps> = ({
+const BookModal: React.FC<BookModalProps> = ({
   book,
   authors,
   genres,
   onClose,
   onSave,
 }) => {
-  const [editedBook, setEditedBook] = useState<Book | null>(null);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
-    setEditedBook(book);
-  }, [book]);
+    setSelectedBook(
+      book || {
+        bookID: 0,
+        title: "",
+        price: 0,
+        description: "",
+        publishedDate: "",
+        authorID: authors[0]?.authorID || 0,
+        genreID: genres[0]?.genreID || 0,
+        authorName: "",
+        genreName: "",
+        imageUrl: "",
+      }
+    );
+  }, [book, authors, genres]);
 
   const handleInputChange = (field: keyof Book, value: any) => {
-    if (editedBook) {
-      setEditedBook({ ...editedBook, [field]: value });
+    if (selectedBook) {
+      setSelectedBook({ ...selectedBook, [field]: value });
     }
   };
-  if (!editedBook) return null;
+  if (!selectedBook) return null;
+
+  const handleSubmit = () => {
+    if (!selectedBook.title.trim()) {
+      alert("Title cannot be empty");
+      return;
+    }
+    if (!selectedBook.price || selectedBook.price <= 0) {
+      alert("Price must be greater than 0");
+      return;
+    }
+    onSave(selectedBook);
+  };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
+
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        alert("Please upload a valid image file");
+        return;
+      }
+
+      // Optional: Validate file size (e.g., limit to 5MB)
+      const maxSizeInMB = 5;
+      if (file.size > maxSizeInMB * 1024 * 1024) {
+        alert(`File size should not exceed ${maxSizeInMB}MB`);
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
-        setEditedBook((prev) => ({
+        setSelectedBook((prev) => ({
           ...prev!,
           imageUrl: reader.result as string,
         }));
@@ -47,14 +86,16 @@ const EditBookModal: React.FC<EditBookModalProps> = ({
     }
   };
 
-  const formattedDate = editedBook.publishedDate
-    ? new Date(editedBook.publishedDate).toISOString().split("T")[0]
+  const formattedDate = selectedBook.publishedDate
+    ? new Date(selectedBook.publishedDate).toISOString().split("T")[0]
     : "";
 
   return (
     <div className="modal modal-open">
       <div className="modal-box">
-        <h1 className="text-2xl">Edit Book</h1>
+        <h1 className="text-2xl">
+          {book?.bookID === 0 ? "Add Book" : "Edit Book"}
+        </h1>
         <form className="flex flex-col gap-4">
           <div className="form-control mt-2">
             <label className="Image mb-4">Image</label>
@@ -76,7 +117,7 @@ const EditBookModal: React.FC<EditBookModalProps> = ({
             <label className="label">Title</label>
             <input
               type="text"
-              value={editedBook.title}
+              value={selectedBook.title}
               onChange={(e) => handleInputChange("title", e.target.value)}
               className="input input-bordered"
             />
@@ -85,7 +126,7 @@ const EditBookModal: React.FC<EditBookModalProps> = ({
             <label className="label">Price (€)</label>
             <input
               type="number"
-              value={editedBook.price}
+              value={selectedBook.price}
               onChange={(e) => handleInputChange("price", e.target.value)}
               className="input input-bordered"
             />
@@ -94,7 +135,7 @@ const EditBookModal: React.FC<EditBookModalProps> = ({
             <label className="label">Description</label>
             <input
               type="text"
-              value={editedBook.description}
+              value={selectedBook.description}
               onChange={(e) => handleInputChange("description", e.target.value)}
               className="input input-bordered textarea"
             />
@@ -111,7 +152,7 @@ const EditBookModal: React.FC<EditBookModalProps> = ({
               <div className="form-control">
                 <label className="label">Author</label>
                 <select
-                  value={editedBook.authorID}
+                  value={selectedBook.authorID}
                   onChange={(e) =>
                     handleInputChange("authorID", parseInt(e.target.value))
                   }
@@ -127,7 +168,7 @@ const EditBookModal: React.FC<EditBookModalProps> = ({
               <div className="form-control">
                 <label className="label">Genre</label>
                 <select
-                  value={editedBook.genreID}
+                  value={selectedBook.genreID}
                   onChange={(e) =>
                     handleInputChange("genreID", parseInt(e.target.value))
                   }
@@ -145,7 +186,7 @@ const EditBookModal: React.FC<EditBookModalProps> = ({
         </form>
         <div className="modal-action">
           <button
-            onClick={() => onSave(editedBook)}
+            onClick={() => onSave(selectedBook)}
             className="btn btn-success text-white"
           >
             Save
@@ -159,4 +200,4 @@ const EditBookModal: React.FC<EditBookModalProps> = ({
   );
 };
 
-export default EditBookModal;
+export default BookModal;

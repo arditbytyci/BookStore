@@ -1,39 +1,67 @@
 import { useEffect, useState } from "react";
 import { Author } from "../../../Models/Author";
 
-interface EditAuthorModalProps {
+interface AuthorModalProps {
   author: Author | null;
   onSave: (author: Author) => void;
   onClose: () => void;
 }
 
-const EditAuthorModal: React.FC<EditAuthorModalProps> = ({
+const AuthorModal: React.FC<AuthorModalProps> = ({
   author,
   onClose,
   onSave,
 }) => {
-  const [editedAuthor, setEditedAuthor] = useState<Author | null>(null);
+  const [selectedAuthor, setSelectedAuthor] = useState<Author | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
-    setEditedAuthor(author);
+    setSelectedAuthor(author);
   }, [author]);
 
-  if (!editedAuthor) return null;
+  if (!selectedAuthor) return null;
 
   const handleInputChange = (field: keyof Author, value: any) => {
-    if (editedAuthor) {
-      setEditedAuthor({ ...editedAuthor, [field]: value });
+    if (selectedAuthor) {
+      setSelectedAuthor({ ...selectedAuthor, [field]: value });
     }
+  };
+
+  const handleSubmit = () => {
+    if (!selectedAuthor.name.trim()) {
+      alert("Cannot insert empty name");
+      return;
+    } else if (!selectedAuthor.bio.trim()) {
+      alert("Cannot insert empty bio");
+      return;
+    } else if (!selectedAuthor.birthDate.trim()) {
+      alert("Cannot insert empty date");
+      return;
+    }
+    onSave(selectedAuthor);
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
+
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        alert("Please upload a valid image file");
+        return;
+      }
+
+      // Optional: Validate file size (e.g., limit to 5MB)
+      const maxSizeInMB = 5;
+      if (file.size > maxSizeInMB * 1024 * 1024) {
+        alert(`File size should not exceed ${maxSizeInMB}MB`);
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
-        setEditedAuthor((prev) => ({
+        setSelectedAuthor((prev) => ({
           ...prev!,
           imageUrl: reader.result as string,
         }));
@@ -42,14 +70,16 @@ const EditAuthorModal: React.FC<EditAuthorModalProps> = ({
     }
   };
 
-  const formattedDate = editedAuthor.birthDate
-    ? new Date(editedAuthor.birthDate).toISOString().split("T")[0]
+  const formattedDate = selectedAuthor.birthDate
+    ? new Date(selectedAuthor.birthDate).toISOString().split("T")[0]
     : "";
 
   return (
     <div className="modal modal-open">
       <div className="modal-box">
-        <h1 className="text-2xl">Edit Author</h1>
+        <h1 className="text-2xl">
+          {selectedAuthor.authorID === 0 ? "Add Author" : "Edit Author"}
+        </h1>
         <form className="flex flex-col gap-4">
           <div className="form-control mt-2">
             <label className="Image mb-4">Image</label>
@@ -72,14 +102,14 @@ const EditAuthorModal: React.FC<EditAuthorModalProps> = ({
             <input
               type="text"
               className="input input-bordered"
-              value={editedAuthor.name}
+              value={selectedAuthor.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
             />
           </div>
           <div className="form-control">
             <label className="label">Bio</label>
             <textarea
-              value={editedAuthor.bio}
+              value={selectedAuthor.bio}
               className="textarea textarea-bordered"
               onChange={(e) => handleInputChange("bio", e.target.value)}
             ></textarea>
@@ -96,7 +126,7 @@ const EditAuthorModal: React.FC<EditAuthorModalProps> = ({
         </form>
         <div className="modal-action">
           <button
-            onClick={() => onSave(editedAuthor)}
+            onClick={() => onSave(selectedAuthor)}
             className="btn btn-success text-white"
           >
             Save
@@ -110,4 +140,4 @@ const EditAuthorModal: React.FC<EditAuthorModalProps> = ({
   );
 };
 
-export default EditAuthorModal;
+export default AuthorModal;
