@@ -17,7 +17,7 @@ import AuthorDetails from "./Components/Authors/AuthorDetails";
 
 import CartPage from "./Components/Cart/CartPage";
 import CheckOutPage from "./Components/Cart/Checkout";
-import BookList from "./Components/AdminComponents/BookList";
+import BookList from "./Components/AdminComponents/BookManaging/BookList";
 import AuthorList from "./Components/AdminComponents/AuthorList";
 import UserList from "./Components/AdminComponents/UserList";
 import OrderList from "./Components/AdminComponents/OrderList";
