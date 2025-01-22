@@ -1,22 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { User } from "../../Models/User";
-import axiosClient from "../../axiosClient";
+import { useUsers } from "../hooks/useUsers";
 
 const UserList: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const { users, error, loading, handleDeleteUser } = useUsers();
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
-    try {
-      const response = await axiosClient.get("/user");
-      setUsers(response.data);
-    } catch (error) {
-      console.error("fetchUsers API error", error);
-    }
-  };
+  if (error) return <p>{error}</p>;
+  if (loading) return <p>{loading}</p>;
 
   return (
     <div className="userlist-container">
@@ -40,11 +28,11 @@ const UserList: React.FC = () => {
               <td>{u.email}</td>
               <td>{u.role}</td>
               <td>{new Date(u.createdAt).toLocaleDateString()}</td>
-              <td colSpan={2}>
-                <button className="btn btn-md btn-outline btn-circle btn-warning text-white font-semibold mr-4">
-                  Edit
-                </button>
-                <button className="btn btn-md btn-outline btn-circle btn-error text-white font-semibold">
+              <td>
+                <button
+                  onClick={() => handleDeleteUser(u.id)}
+                  className="btn btn-md btn-outline btn-circle btn-error text-white font-semibold"
+                >
                   Delete
                 </button>
               </td>
