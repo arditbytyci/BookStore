@@ -3,7 +3,8 @@
   display: flex;
   flex-direction: column;
   height: 100vh; /* Make the app take full viewport height */
-  overflow: hidden; /* Prevent scrolling on the entire app */
+  overflow-y: scroll;
+  /* Prevent scrolling on the entire app */
 }
 
 .sidebar {
@@ -11,64 +12,45 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  min-height: 100vh;
-  top: 10px;
+  min-height: 100%;
   width: 7rem; /* Adjusted width */
   background-color: #f0eee2; /* Light background color */
-  padding: 1rem;
-  position: relative;
-  flex-shrink: 0;
-}
-.flex {
-  display: flex;
-  flex-grow: 1; /* Allow the content area to grow */
-  overflow: hidden; /* Prevent overflow on the entire flex container */
+  padding: 2rem;
+  position: absolute;
+  z-index: 10;
 }
 
 .sidebar::after {
   content: "";
   position: absolute;
-  top: 25px;
-  bottom: 25px;
+  top: 30px;
+  bottom: 30px;
   right: 0;
-  width: 2.2px;
+  width: 2px;
   background-color: #d5d4d4;
 }
 
 /* Topbar styling */
-.header {
-  background: #f0eee2;
-  height: 4rem;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0 0rem;
-  top: 5px;
-  flex-shrink: 0; /* Ensure header height doesn't shrink */
-  z-index: 10;
-}
 
 /* Main content area */
 .main-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  flex-grow: 1;
-  padding: 7rem 5rem;
+  padding: 5rem 4rem;
   background-color: #f0eee2;
   overflow-y: auto; /* Allow scrolling only on this area */
-  height: calc(100vh - 4rem); /* Subtract header height */
+  height: calc(100vh - 0); /* Subtract header height */
   overflow-x: hidden;
 }
 
 .card {
   background: linear-gradient(to bottom, #f8f6ea, #fdfcf7);
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 4rem;
-  width: 100%;
-  height: 100vh;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
 }
 
 .loginRegister-container {

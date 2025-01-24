@@ -28,22 +28,20 @@ const AuthorPage: React.FC = () => {
   return (
     <div className="author-container">
       {authorData.map((a) => (
-        <>
-          <div key={a.authorID} className="card bg-base-100 w-96 shadow-xl">
-            <figure>
-              <img src={a.imageUrl} alt="" className="w-[250px]" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">{a.name}</h2>
+        <div key={a.authorID} className="card bg-base-100 w-96 shadow-xl">
+          <figure>
+            <img src={a.imageUrl} alt="" className="w-[250px]" />
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">{a.name}</h2>
 
-              <div className="card-actions justify-end">
-                <button onClick={() => redirectToDetails(a.authorID)}>
-                  View Biography
-                </button>
-              </div>
+            <div className="card-actions justify-end">
+              <button onClick={() => redirectToDetails(a.authorID)}>
+                View Biography
+              </button>
             </div>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );

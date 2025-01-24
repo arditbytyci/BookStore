@@ -5,12 +5,13 @@ import "./book.css";
 
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../Cart/CartContext";
+import { useAuth } from "../../Authentication/AuthContext";
 
 const BooksPage = () => {
   const [bookData, setBookData] = useState<Book[]>([]);
-  const [, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { dispatch } = useCart();
+  const { isLoggedIn } = useAuth();
   useEffect(() => {
     fetchBooks();
   }, []);
@@ -24,7 +25,6 @@ const BooksPage = () => {
       const res = await axiosClient.get("/book");
       setBookData(res.data);
     } catch (error) {
-      setError("Failed to fetch books");
       console.log(error);
     }
   };
@@ -47,30 +47,32 @@ const BooksPage = () => {
   return (
     <div className="book-container h-fit grid grid-cols-3 gap-24">
       {bookData.map((b) => (
-        <div className="card">
-          <figure>
+        <div key={b.bookID} className="card gap-1">
+          <figure className="border border-black h-full">
             <img
               src={b.imageUrl}
               alt="bookimg"
-              className="h-[300px] w-[230px]"
+              className="h-[260px] w-[250px]"
             />
           </figure>
           <div className="card-body">
-            <h2 className="card-title">{b.title}</h2>
+            <h2 className="card-title text-lg">{b.title}</h2>
             <p>{b.authorName}</p>
-            <div className="card-actions justify-end">
+            <div className="card-actions">
               <button
                 className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
                 onClick={() => redirectToDetails(b.bookID)}
               >
                 Details
               </button>
-              <button
-                className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
-                onClick={() => handleAddToCart(b)}
-              >
-                Add to Cart
-              </button>
+              {isLoggedIn && (
+                <button
+                  className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
+                  onClick={() => handleAddToCart(b)}
+                >
+                  Add to Cart
+                </button>
+              )}
             </div>
           </div>
         </div>

@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@ionic/react": "^8.4.1",
+    "@stripe/react-stripe-js": "^3.1.1",
+    "@stripe/stripe-js": "^5.5.0",
     "axios": "^1.7.9",
     "daisyui": "^4.12.22",
     "dotenv": "^16.4.7",

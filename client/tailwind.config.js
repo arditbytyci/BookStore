@@ -4,13 +4,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        "background-color": "#F0EEE2",
+        "background-color": "#f0eee2",
         "custom-text-color": "#36362E",
         "button-color": "#007561",
         "border-color": "#cac8bc",
       },
       backgroundImage: {
         "custom-gradient": "linear-gradient(to bottom, #F8F6EA, #FDFCF7)",
+
         "login-gradient":
           "linear-gradient(to bottom, #6ed0de, #c3e5ff, #f4f6f0, #ffffed, #fdfbf7, #2f4858)",
         "login-gradient2":

@@ -29,7 +29,7 @@ const App: React.FC = () => {
     location.pathname === "/login" || location.pathname === "/register";
 
   return (
-    <div className="App bg-background-color">
+    <div className="App ">
       {hidden ? (
         <>
           <div className="loginRegister-container">

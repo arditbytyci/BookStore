@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Author } from "../Models/Author";
 const HomeView = () => {
   const [bookData, setBookData] = useState<Book[]>([]);
+
   const [authorData, setAuthorData] = useState<Author[]>([]);
 
   // const bookId = bookData.map((b) => b.bookID);
@@ -26,6 +27,7 @@ const HomeView = () => {
       console.log("Failed to fetch books - Home Component", error);
     }
   };
+
   //authors
   const fetchAuthors = async () => {
     try {
@@ -40,52 +42,48 @@ const HomeView = () => {
       <h1>Books</h1>
       <div className="book-container-h  grid grid-cols-3 gap-24">
         {bookData.slice(0, 3).map((b) => (
-          <>
-            <div key={b.bookID} className="card">
-              <figure>
-                <img
-                  src={harrypotter}
-                  alt="car!"
-                  className="h-[300px] w-[230px]"
-                />
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">{b.title}</h2>
-                <p>{b.authorName}</p>
-                <div className="card-actions justify-end">
-                  <button
-                    className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
-                    onClick={() => navigate(`/BookDetails/${b.bookID}`)}
-                  >
-                    Details
-                  </button>
-                </div>
+          <div key={b.bookID} className="card">
+            <figure>
+              <img
+                src={harrypotter}
+                alt="car!"
+                className="h-[300px] w-[230px]"
+              />
+            </figure>
+            <div className="card-body">
+              <h2 className="card-title">{b.title}</h2>
+              <p>{b.authorName}</p>
+              <div className="card-actions justify-end">
+                <button
+                  className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
+                  onClick={() => navigate(`/BookDetails/${b.bookID}`)}
+                >
+                  Details
+                </button>
               </div>
             </div>
-          </>
+          </div>
         ))}
       </div>
       <div>Authors</div>
       <div className="author-containers-h grid grid-cols-3 gap-24">
         {authorData.map((a) => (
-          <>
-            <div key={a.authorID} className="card bg-base-100 w-96 shadow-xl">
-              <figure>
-                <img src={a.imageUrl} alt="" className="w-[250px]" />
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">{a.name}</h2>
+          <div key={a.authorID} className="card bg-base-100 w-96 shadow-xl">
+            <figure>
+              <img src={a.imageUrl} alt="" className="w-[250px]" />
+            </figure>
+            <div className="card-body">
+              <h2 className="card-title">{a.name}</h2>
 
-                <div className="card-actions justify-end">
-                  <button
-                    onClick={() => navigate(`/authorDetails/${a.authorID}`)}
-                  >
-                    View Biography
-                  </button>
-                </div>
+              <div className="card-actions justify-end">
+                <button
+                  onClick={() => navigate(`/authorDetails/${a.authorID}`)}
+                >
+                  View Biography
+                </button>
               </div>
             </div>
-          </>
+          </div>
         ))}
       </div>
     </div>

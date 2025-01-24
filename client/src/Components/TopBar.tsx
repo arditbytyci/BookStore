@@ -15,13 +15,13 @@ const TopBar: React.FC = () => {
   };
 
   return (
-    <header className="header absolute left-20 right-0">
+    <header className="flex flex-row left-[8.5rem] justify-between w-[88%] items-center h-[4rem] absolute z-10 bg-[#f0eee2]">
       <div className="text-gray-600">
         {isLoggedIn && (
-          <>
+          <div className="">
             <IonIcon
               icon={searchOutline}
-              className="w-[17px] h-6 text-gray-600 font-semibold relative top-[5.5px] left-3"
+              className="w-[17px] h-6 text-gray-600 font-semibold relative top-[5.7px] left-2"
             />
             <input
               type="text"
@@ -29,13 +29,15 @@ const TopBar: React.FC = () => {
               placeholder="Search book name, authors..."
               className="input w-[250px] max-h-6 text-md border-none focus:outline-none focus:ring-0 bg-background-color"
             />
-          </>
+          </div>
         )}
       </div>
-      <div className=" text-gray-600 flex flex-row items-center justify-center mt-3">
+      <div className="text-gray-600">
         {isLoggedIn ? (
           <>
-            <Link to="/Cart">Cart ({state.items.length})</Link>
+            <Link to="/Cart" className="mx-5">
+              Cart ({state.items.length})
+            </Link>
             <button
               onClick={handleLogout}
               className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"

@@ -1,3 +1,4 @@
+
 import { useCart } from "./CartContext";
 
 const AddToCartButton = ({
@@ -10,6 +11,7 @@ const AddToCartButton = ({
   price: number;
 }) => {
   const { dispatch } = useCart();
+
 
   const handleToCart = () => {
     dispatch({
