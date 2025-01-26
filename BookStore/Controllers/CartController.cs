@@ -3,6 +3,7 @@ using BookStore.Services.OrderSvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Stripe;
 
 namespace BookStore.Controllers
 {
@@ -12,10 +13,11 @@ namespace BookStore.Controllers
     {
 
         private readonly IOrderService _orderService;
-
-        public CartController(IOrderService orderService)
+        private readonly IConfiguration _configuration;
+        public CartController(IOrderService orderService, IConfiguration configuration)
         {
             _orderService = orderService;
+            _configuration = configuration;
         }
 
 
@@ -26,6 +28,41 @@ namespace BookStore.Controllers
             return Ok(cart == null ? new List<OrderDetailDTO>() : JsonConvert.DeserializeObject<List<OrderDetailDTO>>(cart));
         }
 
+        [HttpPost("payment/intent")]
+        public IActionResult CreatePaymentIntent([FromBody] PaymentIntentRequest request)
+        {
+            if (request == null || request.Amount <= 0)
+            {
+                return BadRequest("Invalid payment request");
+            }
+
+            var stripeSK = _configuration["Stripe:SecretKey"];
+
+            if(string.IsNullOrEmpty(stripeSK))
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Stripe key not found");
+            }
+
+            StripeConfiguration.ApiKey = stripeSK;
+
+            var options = new PaymentIntentCreateOptions
+            {
+                Amount = request.Amount,
+                Currency = "EUR",
+                PaymentMethodTypes = new List<string> { "card" }
+
+            };
+
+
+
+            var service = new PaymentIntentService();
+
+            var paymentIntent = service.Create(options);
+
+            return Ok(new { clientSecret = paymentIntent.ClientSecret });
+        }
+
+
         [HttpPost]
         public IActionResult AddToCart([FromBody] OrderDetailDTO item)
         {
@@ -34,18 +71,24 @@ namespace BookStore.Controllers
             var cartItems = cart == null ? new List<OrderDetailDTO>() : JsonConvert.DeserializeObject<List<OrderDetailDTO>>(cart);
 
             var existingItem = cartItems.FirstOrDefault(c => c.BookID == item.BookID);
-            if (existingItem == null)
+            if (existingItem != null)
             {
 
                 existingItem.Quantity += item.Quantity;
             }
             else
             {
-                cartItems.Add(existingItem);
+                cartItems.Add(item);
             }
 
             HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cartItems));
             return Ok(cartItems);
+        }
+        [HttpDelete]
+        public IActionResult ClearCart()
+        {
+            HttpContext.Session.Remove("Cart");
+            return Ok("Cart cleared successfully.");
         }
 
         [HttpDelete("{bookId}")]
@@ -63,5 +106,55 @@ namespace BookStore.Controllers
             HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cartItems));
             return Ok(cartItems);
         }
+
+        [HttpPost("order")]
+        public async Task<IActionResult> CreateOrder([FromBody] OrderRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest("Order request is null");
+            }
+
+            if (request.OrderDetails == null || !request.OrderDetails.Any())
+            {
+                return BadRequest("Order must contain at least one order detail");
+            }
+
+            if (request.TotalAmount <= 0)
+            {
+                return BadRequest("Total amount must be greater than zero");
+            }
+
+            if (request == null)
+            {
+                return BadRequest("Order request is null");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage).ToList();
+                return BadRequest(new { message = "Validation failed", errors = errors });
+            }
+
+            // Optionally log for debugging
+            Console.WriteLine(JsonConvert.SerializeObject(request));
+
+            var order = new OrderDTO
+            {
+                UserId = request.UserId,
+                OrderID = request.OrderID,
+                Email = request.Email,
+                FullName = request.FullName,
+                OrderDate = request.OrderDate,
+                TotalAmount = request.TotalAmount,
+                OrderDetails = request.OrderDetails,
+            };
+
+            await _orderService.CreateOrderAsync(order);
+
+            return Ok("Order created successfully");
+        }
+
     }
 }

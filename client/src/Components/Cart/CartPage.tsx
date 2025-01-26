@@ -1,12 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
 
 const CartPage = () => {
+  const navigate = useNavigate();
   const { state, dispatch } = useCart();
 
-  const handleRemoveItem = (bookId: number) => {
+  const handleRemoveItem = (bookID: number) => {
     dispatch({
       type: "REMOVE_ITEM",
-      payload: { bookId },
+      payload: { bookID },
     });
   };
 
@@ -17,12 +19,12 @@ const CartPage = () => {
         <p>Your cart is empty.</p>
       ) : (
         state.items.map((item) => (
-          <div key={item.bookId}>
-            <h3>{item.name}</h3>
+          <div key={item.bookID}>
+            <h3>{item.bookName}</h3>
             <p>Quantity: {item.quantity}</p>
             <p>Price: ${item.price}</p>
             <p>Total: ${item.price * item.quantity}</p>
-            <button onClick={() => handleRemoveItem(item.bookId)}>
+            <button onClick={() => handleRemoveItem(item.bookID)}>
               Remove
             </button>
           </div>
@@ -35,6 +37,10 @@ const CartPage = () => {
           0
         )}
       </p>
+
+      <button className="btn btn-primary" onClick={() => navigate("/checkout")}>
+        Procced to checkout
+      </button>
     </div>
   );
 };

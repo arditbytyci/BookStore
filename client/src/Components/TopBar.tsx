@@ -3,6 +3,8 @@ import { searchOutline } from "ionicons/icons";
 import { useAuth } from "../Authentication/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "./Cart/CartContext";
+import cart from "../assets/shopping-cart.png";
+import bag from "../assets/shopping.png";
 
 const TopBar: React.FC = () => {
   const { isLoggedIn, logout } = useAuth();
@@ -32,12 +34,16 @@ const TopBar: React.FC = () => {
           </div>
         )}
       </div>
-      <div className="text-gray-600">
+      <div className="flex flex-row items-center justify-between w-[150px]">
         {isLoggedIn ? (
           <>
-            <Link to="/Cart" className="mx-5">
-              Cart ({state.items.length})
+            <Link to="/Cart" className="flex flex-col items-end">
+              <img src={bag} alt="Cart" className="w-[30px] h-[30px]" />
+              <span className="absolute top-1 left-[90.5%]  bg-purple-800 text-white text-xs font-semibold rounded-full w-[15px] h-[15px] flex flex-row justify-center items-center">
+                {state.items.length}
+              </span>
             </Link>
+
             <button
               onClick={handleLogout}
               className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"

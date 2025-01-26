@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol.Core.Types;
+using Stripe;
 using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
@@ -45,11 +46,23 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Stripe
+StripeConfiguration.ApiKey = builder.Configuration["Stripe: SecretKey"];
 
 
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddDbContext<BookContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddControllersWithViews();
 
 //Author
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -74,8 +87,7 @@ builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
 
 //Customer 
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<ICustomerService, CustomerService>();
+
 
 //User 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -154,6 +166,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseSession();
 
 
 app.UseCors("AllowSpecificOrigins");

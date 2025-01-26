@@ -13,13 +13,13 @@ import BookDetails from "./Components/Books/BookDetails";
 import AuthorPage from "./Components/Authors/AuthorPage";
 import AuthorDetails from "./Components/Authors/AuthorDetails";
 import CartPage from "./Components/Cart/CartPage";
-import CheckOutPage from "./Components/Cart/Checkout";
 import BookList from "./Components/AdminComponents/BookManaging/BookList";
 import AuthorList from "./Components/AdminComponents/AuthorManaging/AuthorList";
-
 import OrderList from "./Components/AdminComponents/OrderList";
 import GenreList from "./Components/AdminComponents/GenreManaging/GenreList";
 import UserList from "./Components/AdminComponents/UserManaging/UserList";
+import CheckOutPage from "./Components/Cart/CheckoutForm";
+import Test from "./Components/test";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -29,10 +29,10 @@ const App: React.FC = () => {
     location.pathname === "/login" || location.pathname === "/register";
 
   return (
-    <div className="App ">
+    <div className="App bg-[#f0eee2] flex flex-col h-screen overflow-auto">
       {hidden ? (
         <>
-          <div className="loginRegister-container">
+          <div className="flex justify-center items-center bg-background-color height-[100vh]">
             {/* LOGIN */}
             <Routes>
               <Route path="/Login" element={<LoginHandler />} />
@@ -54,9 +54,11 @@ const App: React.FC = () => {
 
             {/* Main Content */}
 
-            <div className="main-content overflow-scroll">
+            <div className="flex flex-col py-20 px-16 bg-background-color overflow-y-auto height-[100vh]">
               <Routes>
                 <Route path="/Home" element={<HomeView />} />
+
+                <Route path="/Test" element={<Test />} />
 
                 {/*BOOK*/}
                 <Route path="/Books" element={<BooksPage />} />

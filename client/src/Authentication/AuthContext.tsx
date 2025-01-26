@@ -1,9 +1,17 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getRoleFromToken } from "./utils";
+import {
+  getEmailFromToken,
+  getFullNameFromToken,
+  getRoleFromToken,
+  getUserIdFromToken,
+} from "./utils";
 
 interface AuthContextType {
   isLoggedIn: boolean;
   role: "Customer" | "Admin" | null;
+  userId: string | null;
+  email: string | null;
+  fullName: string | null;
   login: (token: string) => void;
   logout: () => void;
 }
@@ -17,17 +25,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     !!localStorage.getItem("token")
   );
   const [role, setRole] = useState<"Customer" | "Admin">("Customer");
+  const [userId, setUserId] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
+  const [fullName, setFullName] = useState<string | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       const roleFromToken = getRoleFromToken(token);
-
+      const idFromToken = getUserIdFromToken(token);
+      const emailFromToken = getEmailFromToken(token);
+      const fullNameFromToken = getFullNameFromToken(token);
       if (roleFromToken === "Admin" || roleFromToken === "Customer") {
         setRole(roleFromToken);
       } else {
         setRole("Customer");
       }
+      setUserId(idFromToken);
+      setEmail(emailFromToken);
+      setFullName(fullNameFromToken);
     }
 
     const handleStorageChange = () => {
@@ -35,14 +51,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setIsLoggedIn(!!updatedToken);
       if (updatedToken) {
         const roleFromToken = getRoleFromToken(updatedToken);
-
+        const idFromToken = getUserIdFromToken(updatedToken);
+        const emailFromToken = getEmailFromToken(updatedToken);
+        const fullNameFromToken = getFullNameFromToken(updatedToken);
         if (roleFromToken === "Admin" || roleFromToken === "Customer") {
           setRole(roleFromToken);
         } else {
           setRole("Customer");
         }
+
+        setUserId(idFromToken);
+        setEmail(emailFromToken);
+        setFullName(fullNameFromToken);
       } else {
         setRole("Customer");
+        setUserId(null);
+        setEmail(null);
+        setFullName(null);
       }
     };
 
@@ -55,22 +80,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem("token", token);
     setIsLoggedIn(true);
     const roleFromToken = getRoleFromToken(token);
-
+    const idFromToken = getUserIdFromToken(token);
+    const emailFromToken = getEmailFromToken(token);
+    const fullNameFromToken = getFullNameFromToken(token);
     if (roleFromToken === "Admin" || roleFromToken === "Customer") {
       setRole(roleFromToken);
     } else {
       setRole("Customer");
     }
+
+    setUserId(idFromToken);
+    setEmail(emailFromToken);
+    setFullName(fullNameFromToken);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     setRole("Customer");
+    setUserId(null);
+    setEmail(null);
+    setFullName(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, role }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, login, logout, role, userId, email, fullName }}
+    >
       {children}
     </AuthContext.Provider>
   );

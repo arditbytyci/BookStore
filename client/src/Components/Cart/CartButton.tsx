@@ -1,28 +1,31 @@
-
 import { useCart } from "./CartContext";
 
 const AddToCartButton = ({
-  bookId,
-  name,
+  bookID,
+  bookName,
   price,
 }: {
-  bookId: number;
-  name: string;
+  bookID: number;
+  bookName: string;
   price: number;
 }) => {
   const { dispatch } = useCart();
 
-
   const handleToCart = () => {
     dispatch({
       type: "ADD_ITEM",
-      payload: { bookId, name, price, quantity: 1 },
+      payload: { bookID, bookName, price, quantity: 1 },
     });
   };
 
   return (
-    <button className="btn btn-md" onClick={handleToCart}>
+    <button
+      className="btn btn-sm mb-[-30px] text-white  btn-primary"
+      onClick={handleToCart}
+    >
       Add to Cart
     </button>
   );
 };
+
+export default AddToCartButton;

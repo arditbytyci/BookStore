@@ -5,7 +5,7 @@ import icon from "../assets/book-shop.png";
 import homeIcon from "../assets/home-icon.png";
 import authorIcon from "../assets/inkwell.png";
 import bookIcon from "../assets/book.png";
-import orderIcon from "../assets/order.png";
+import bookMark from "../assets/bookmark.png";
 import { cogSharp } from "ionicons/icons"; // Import the icon components
 
 export type LinkType = {
@@ -42,7 +42,7 @@ const SideBar: React.FC<{
   return (
     <div className="flex flex-col justify-around min-h-screen">
       {/* Sidebar with external CSS for styling */}
-      <div className="sidebar">
+      <div className="sidebar flex flex-col justify-between items-center min-h-[100%] w-[7rem] bg-background-color p-[2rem] absolute z-10">
         {/* Logo or Title */}
         <div
           className="mb-6 
@@ -80,9 +80,9 @@ const SideBar: React.FC<{
               className="flex items-center space-x-2 text-gray-700 hover:text-black"
             >
               <img
-                src={orderIcon} // Use your icon for GenreView
+                src={bookMark} // Use your icon for GenreView
                 alt="Orders"
-                className="w-[2.5rem] h-[2.5rem]"
+                className="w-[2.5rem] h-[2.3rem]"
               />
             </Link>
             <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-sm text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">

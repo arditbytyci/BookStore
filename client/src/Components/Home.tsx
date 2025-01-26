@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axiosClient from "../axiosClient";
 import { Book } from "../Models/Book";
-import harrypotter from "../../public/images/harrypotter.jpg";
+import harrypotter from "/images/harrypotter.jpg";
 import "./home.css";
 import { useNavigate } from "react-router-dom";
 import { Author } from "../Models/Author";
@@ -39,8 +39,8 @@ const HomeView = () => {
   };
   return (
     <div className="home-container h-fit">
-      <h1>Books</h1>
-      <div className="book-container-h  grid grid-cols-3 gap-24">
+      <h1>Books...</h1>
+      <div className="book-container-h  grid grid-cols-3 gap-24 border border-black">
         {bookData.slice(0, 3).map((b) => (
           <div key={b.bookID} className="card">
             <figure>
@@ -54,12 +54,12 @@ const HomeView = () => {
               <h2 className="card-title">{b.title}</h2>
               <p>{b.authorName}</p>
               <div className="card-actions justify-end">
-                <button
+                {/* <button
                   className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
                   onClick={() => navigate(`/BookDetails/${b.bookID}`)}
                 >
                   Details
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
