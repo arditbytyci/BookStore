@@ -6,7 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useCart } from "./CartContext";
-import axiosClient from "../../axiosClient";
+import axiosClient from "../../api/axiosClient";
 import { useAuth } from "../../Authentication/AuthContext";
 import axios from "axios";
 

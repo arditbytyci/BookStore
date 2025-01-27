@@ -1,19 +1,20 @@
 import React, { useState } from "react";
-import { login } from "../../api/auth";
-import img from "../../img/login-img.jpg";
-import "./login.css";
-import { RegisterForm } from "../Register/RegisterForm";
-import { useNavigate } from "react-router-dom";
+import { login, register } from "./auth";
+import img from "../img/login-img.jpg";
+import "./auth-style.css";
+import toast from "react-hot-toast";
 
-const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
-  onLogin,
-}) => {
+const AuthFrom: React.FC<{
+  onLogin: (token: string) => void;
+  onRegistrationComplete: () => void;
+}> = ({ onLogin, onRegistrationComplete }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
   const [moveImage, setMoveImage] = useState(false);
-  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -23,8 +24,29 @@ const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
       alert("Invalid credentials!");
     }
   };
+
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await register(fullName, username, email, password);
+      toast.success("Registration successful!");
+      onRegistrationComplete();
+      setEmail("");
+      setPassword("");
+      setUsername("");
+      setFullName("");
+    } catch (error: any) {
+      if (error.response && error.response.data.errors) {
+        error.response.data.errors.forEach((err: string) => toast.error(err));
+      } else {
+        toast.error("Registration failed, please try again.");
+      }
+    }
+  };
+
   const handleRegistrationComplete = () => {
-    navigate("/login");
+    setMoveImage(!moveImage);
   };
 
   const handleImageMove = () => {
@@ -36,7 +58,7 @@ const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
     <div className="login-container">
       <div className="image-container shadow-xl">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleRegisterSubmit}
           className="register-container-left relative shadow-xl"
         >
           <div className={`cover absolute ${moveImage ? "moved-image" : ""}`}>
@@ -46,6 +68,7 @@ const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
           <input
             type="text"
             placeholder="Full Name"
+            onChange={(e) => setFullName(e.target.value)}
             className="input focus:outline-none focus:ring-0 font-thin"
           />
           <input
@@ -58,6 +81,7 @@ const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
           <input
             type="email"
             placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
             className="input focus:outline-none focus:ring-0 font-thin"
           />
           <input
@@ -69,6 +93,7 @@ const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
           />
           <button
             type="submit"
+            onClick={handleRegistrationComplete}
             className="btn btn-sm w-[100px] bg-button-color rounded-2xl text-white mt-3"
           >
             Register
@@ -83,7 +108,7 @@ const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
       </div>
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleLoginSubmit}
         className={` login-container-right ${moveImage ? "hide" : ""}`}
       >
         <h2>Login</h2>
@@ -118,4 +143,4 @@ const LoginForm: React.FC<{ onLogin: (token: string) => void }> = ({
   );
 };
 
-export default LoginForm;
+export default AuthFrom;

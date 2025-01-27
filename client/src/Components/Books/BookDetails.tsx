@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Book } from "../../Models/Book";
-import axiosClient from "../../axiosClient";
+import axiosClient from "../../api/axiosClient";
 import { useParams } from "react-router-dom";
 import img from "../../../public/images/harrypotter.jpg";
 import bookmarkIcon from "../../assets/bookmark.png";

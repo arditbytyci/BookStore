@@ -1,4 +1,4 @@
-import axiosClient from "../../../axiosClient";
+import axiosClient from "../../../api/axiosClient";
 import { Genre } from "../../../Models/Genre";
 
 export const getGenres = async (): Promise<Genre[]> => {

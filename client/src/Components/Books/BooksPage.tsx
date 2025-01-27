@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axiosClient from "../../axiosClient";
+import axiosClient from "../../api/axiosClient";
 import { Book } from "../../Models/Book";
 import viewIcon from "../../assets/viewIcon.png";
 import "./book.css";

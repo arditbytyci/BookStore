@@ -1,4 +1,4 @@
-import axiosClient from "../../../axiosClient";
+import axiosClient from "../../../api/axiosClient";
 import { User } from "../../../Models/User";
 
 export const getUsers = async (): Promise<User[]> => {

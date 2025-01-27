@@ -1,4 +1,4 @@
-import axiosClient from "../../../axiosClient";
+import axiosClient from "../../../api/axiosClient";
 import { Author } from "../../../Models/Author";
 
 export const getAuthors = async (): Promise<Author[]> => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Order } from "../../Models/Order";
-import axiosClient from "../../axiosClient";
+import axiosClient from "../../api/axiosClient";
 
 const OrderList: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);

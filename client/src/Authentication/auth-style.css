@@ -8,7 +8,6 @@
   position: relative;
   overflow: visible;
   z-index: 1;
-  /* Ensure co  ntent stays within bounds */
 }
 
 .login-container-right {
@@ -24,7 +23,6 @@
   position: relative;
   overflow: visible;
   z-index: 1;
-  /* Ensure the form is above the image */
 }
 .register-container-left {
   display: flex;
@@ -66,13 +64,15 @@
   border-radius: 20px 0px 0px 20px !important;
   position: absolute;
   transition: border-radius 1s linear;
+  height: 100%;
+  width: 100%;
 }
 .cover {
   transform: translateX(0);
   overflow: visible;
   width: 100%;
   height: 100%;
-  border-radius: 20px 0px 0px 20px; /* Initial border radius */
+  border-radius: 20px 0px 0px 20px;
   top: 0;
   left: 0;
   z-index: 3;
@@ -88,21 +88,11 @@
   border-radius: 0 20px 20px 0;
   position: absolute;
   overflow: visible;
-  z-index: 10; /* Ensure it appears above other elements */
+  z-index: 10;
   transition: transform 1s ease-in-out, border-radius 1s linear;
 }
 
 .hide {
   opacity: 0;
-
-  position: relative;
-}
-
-.test-container {
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
 }

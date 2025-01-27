@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Author } from "../../Models/Author";
-import axiosClient from "../../axiosClient";
+import axiosClient from "../../api/axiosClient";
 import { useNavigate } from "react-router-dom";
 
 const AuthorPage: React.FC = () => {

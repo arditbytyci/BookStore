@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Author } from "../../Models/Author";
-import axiosClient from "../../axiosClient";
+import axiosClient from "../../api/axiosClient";
 import { useParams } from "react-router-dom";
 
 const AuthorDetails: React.FC = () => {

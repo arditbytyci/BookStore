@@ -3,7 +3,6 @@ import { searchOutline } from "ionicons/icons";
 import { useAuth } from "../Authentication/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "./Cart/CartContext";
-import cart from "../assets/shopping-cart.png";
 import bag from "../assets/shopping.png";
 
 const TopBar: React.FC = () => {
@@ -60,7 +59,7 @@ const TopBar: React.FC = () => {
               Login
             </Link>
             <Link
-              to="/register"
+              to="/login"
               className="btn btn-sm bg-button-color text-white w-[100px] text-sm ml-2 rounded-3xl"
             >
               Register

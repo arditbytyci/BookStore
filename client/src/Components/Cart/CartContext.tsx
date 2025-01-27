@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
-import axiosClient from "../../axiosClient";
+import axiosClient from "../../api/axiosClient";
 
 interface CartItem {
   bookID: number;
