@@ -10,6 +10,7 @@ namespace BookStore.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 
+
         public Customer? Customer; // please ignore Customer 
         public ICollection<Order> Orders { get; set; } = new List<Order>();
 

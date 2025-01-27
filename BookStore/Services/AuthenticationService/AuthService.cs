@@ -29,6 +29,21 @@ namespace BookStore.Services.AuthenticationService
 
         public async Task<string> RegisterAsync(RegisterDTO registerDto)
         {
+
+            var existingUser = await _userManager.FindByNameAsync(registerDto.Username);
+
+            if (existingUser != null) {
+                throw new InvalidOperationException("Username already exists.");
+            }
+
+
+            var existingEmail = await _userManager.FindByEmailAsync(registerDto.Email);
+
+            if (existingEmail != null) {
+                throw new InvalidOperationException("Email already exists.");
+            }
+
+
             if (string.IsNullOrEmpty(registerDto.Role))
             {
                 registerDto.Role = "Customer"; // Default role
@@ -43,9 +58,12 @@ namespace BookStore.Services.AuthenticationService
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
+
             if (!result.Succeeded)
             {
-                throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                throw new ApplicationException($"User registration failed: {errors}");
+
             }
 
             // Create the role if it does not exist

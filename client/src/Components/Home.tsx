@@ -1,16 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, CSSProperties } from "react";
 import axiosClient from "../axiosClient";
 import { Book } from "../Models/Book";
 import harrypotter from "/images/harrypotter.jpg";
 import "./home.css";
 import { useNavigate } from "react-router-dom";
 import { Author } from "../Models/Author";
+import Test from "./Test";
+import { ClipLoader } from "react-spinners";
+
 const HomeView = () => {
   const [bookData, setBookData] = useState<Book[]>([]);
 
   const [authorData, setAuthorData] = useState<Author[]>([]);
-
-  // const bookId = bookData.map((b) => b.bookID);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [color, setColor] = useState<string>("darkgreen");
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -25,6 +28,8 @@ const HomeView = () => {
       setBookData(res.data);
     } catch (error) {
       console.log("Failed to fetch books - Home Component", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,8 +44,20 @@ const HomeView = () => {
   };
   return (
     <div className="home-container h-fit">
+      <Test />
       <h1>Books...</h1>
+
       <div className="book-container-h  grid grid-cols-3 gap-24 border border-black">
+        {loading && (
+          <ClipLoader
+            color={color}
+            loading={loading}
+            size={100}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        )}
+
         {bookData.slice(0, 3).map((b) => (
           <div key={b.bookID} className="card">
             <figure>

@@ -1,5 +1,6 @@
 ﻿using BookStore.DTO;
 using BookStore.Services.AuthenticationService;
+using BookStore.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,13 +18,40 @@ namespace BookStore.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
         {
+
+
+
+
+            var validator = new RegisterValidator();
+
+            var validationResult = validator.Validate(registerDTO);
+
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                return BadRequest(new { errors });
+
+            }
+
             try
             {
                 var result = await _authService.RegisterAsync(registerDTO);
                 return Ok(new { message = result });
             }
-            catch (Exception ex) {
+            catch (InvalidOperationException ex)
+            {
                 return BadRequest(new { error = ex.Message });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (ApplicationException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (Exception ex) {
+                return StatusCode(500, new { error = "An unexpected error occurred. Please try again later." });
             }
         }
 

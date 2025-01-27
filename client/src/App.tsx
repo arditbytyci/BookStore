@@ -19,7 +19,7 @@ import OrderList from "./Components/AdminComponents/OrderList";
 import GenreList from "./Components/AdminComponents/GenreManaging/GenreList";
 import UserList from "./Components/AdminComponents/UserManaging/UserList";
 import CheckOutPage from "./Components/Cart/CheckoutForm";
-import Test from "./Components/test";
+import Test from "./Components/Test";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -54,7 +54,7 @@ const App: React.FC = () => {
 
             {/* Main Content */}
 
-            <div className="flex flex-col py-20 px-16 bg-background-color overflow-y-auto height-[100vh]">
+            <div className="flex flex-col py-20 px-16 bg-background-color overflow-y-auto height-[100vh] flex-1">
               <Routes>
                 <Route path="/Home" element={<HomeView />} />
 
