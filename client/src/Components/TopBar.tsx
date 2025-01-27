@@ -33,7 +33,7 @@ const TopBar: React.FC = () => {
           </div>
         )}
       </div>
-      <div className="flex flex-row items-center justify-between w-[150px]">
+      <div className="flex flex-row right-[5.7rem] absolute items-center justify-between w-[150px]">
         {isLoggedIn ? (
           <>
             <Link to="/Cart" className="flex flex-col items-end">
@@ -53,14 +53,14 @@ const TopBar: React.FC = () => {
         ) : (
           <>
             <Link
-              to="/login"
-              className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
+              to="/AuthPage"
+              className="btn btn-sm bg-button-color text-white flex flex-col  w-[80px] text-sm rounded-3xl"
             >
               Login
             </Link>
             <Link
-              to="/login"
-              className="btn btn-sm bg-button-color text-white w-[100px] text-sm ml-2 rounded-3xl"
+              to="/AuthPage"
+              className="btn btn-sm bg-button-color text-white w-[80px] text-sm ml-2 rounded-3xl"
             >
               Register
             </Link>

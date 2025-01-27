@@ -3,6 +3,7 @@ import { Book } from "../../../Models/Book";
 import "../admin.css";
 import { useBooks } from "../hooks/useBooks";
 import BookModal from "./BookModal";
+import toast from "react-hot-toast";
 
 const BookList: React.FC = () => {
   const {
@@ -90,8 +91,10 @@ const BookList: React.FC = () => {
           onSave={(updatedBook) => {
             if (updatedBook.bookID === 0) {
               handleCreateBook(updatedBook);
+              toast.success(`${updatedBook.title} created successfully`);
             } else {
               handleUpdateBook(updatedBook);
+              toast.success(`${updatedBook.bookID} edited successfully`);
             }
 
             setSelectedBook(null);

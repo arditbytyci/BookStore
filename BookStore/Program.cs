@@ -197,19 +197,19 @@ async Task SeedRolesAndAdminAsync(RoleManager<IdentityRole> roleManager, UserMan
     }
 
     // Get the admin user email and password from configuration
-    var adminEmail = conf["AdminSettings:Email"];
+    var adminUserName = conf["AdminSettings:UserName"];
     var adminPassword = conf["AdminSettings:Password"];
-    Console.WriteLine($"Admin Email: {adminEmail}, Admin Password: {adminPassword}");
+    Console.WriteLine($"Admin UserName: {adminUserName}, Admin Password: {adminPassword}");
 
     // Try to find the admin user
-    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    var adminUser = await userManager.FindByNameAsync(adminUserName);
     if (adminUser == null)
     {
         // If the user doesn't exist, create a new one
         adminUser = new User
         {
-            UserName = adminEmail,
-            Email = adminEmail,
+            UserName = adminUserName,
+            
             EmailConfirmed = true
         };
 

@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import { ReactNode } from "react";
+import toast from "react-hot-toast";
 
 interface ProtectedRouteProps {
   children?: ReactNode;
@@ -14,7 +15,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { isLoggedIn, role } = useAuth();
 
   if (!isLoggedIn) {
-    return <Navigate to="login" />;
+    return <Navigate to="/Auth" />;
   }
 
   console.log("User Role:", role);
@@ -25,11 +26,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       .map((r) => r.toLowerCase())
       .includes((role || "").toLowerCase())
   ) {
-    console.log(
-      `Access denied. User role "${role}" does not match required roles:`,
-      requiredRoles
+    toast.error(
+      `Access denied. User role "${role}" does not match required roles: ${requiredRoles}`
     );
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/Home" replace />;
   }
 
   return children ? <>{children}</> : <Outlet />;

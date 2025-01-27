@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Book } from "../../../Models/Book";
 import { Author } from "../../../Models/Author";
 import { Genre } from "../../../Models/Genre";
+import toast from "react-hot-toast";
+import { validateBook } from "../validators/bookValidator";
 
 interface BookModalProps {
   book: Book | null;
@@ -20,6 +22,7 @@ const BookModal: React.FC<BookModalProps> = ({
 }) => {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [errors, setErorrs] = useState<Record<string, string>>({});
 
   useEffect(() => {
     setSelectedBook(
@@ -38,24 +41,33 @@ const BookModal: React.FC<BookModalProps> = ({
     );
   }, [book, authors, genres]);
 
+  const handleSubmit = () => {
+    if (!selectedBook) {
+      toast.error("No book selected to save.");
+      return;
+    }
+    const validationErrors = validateBook(selectedBook);
+    if (Object.keys(validationErrors).length > 0) {
+      setErorrs(validationErrors);
+      toast.error("Please fix the validation errors before submitting.");
+      return;
+    }
+
+    onSave(selectedBook);
+    toast.success("Book saved successfully!");
+  };
+
   const handleInputChange = (field: keyof Book, value: any) => {
     if (selectedBook) {
       setSelectedBook({ ...selectedBook, [field]: value });
+      setErorrs((prevErrors) => ({ ...prevErrors, [field]: "" }));
     }
   };
   if (!selectedBook) return null;
 
-  const handleSubmit = () => {
-    if (!selectedBook.title.trim()) {
-      alert("Title cannot be empty");
-      return;
-    }
-    if (!selectedBook.price || selectedBook.price <= 0) {
-      alert("Price must be greater than 0");
-      return;
-    }
-    onSave(selectedBook);
-  };
+  // const handleSubmit = () => {
+  //   onSave(selectedBook);
+  // };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -63,14 +75,14 @@ const BookModal: React.FC<BookModalProps> = ({
 
       // Validate file type
       if (!file.type.startsWith("image/")) {
-        alert("Please upload a valid image file");
+        toast.error("Please upload a valid image file");
         return;
       }
 
       // Optional: Validate file size (e.g., limit to 5MB)
       const maxSizeInMB = 5;
       if (file.size > maxSizeInMB * 1024 * 1024) {
-        alert(`File size should not exceed ${maxSizeInMB}MB`);
+        toast.error(`File size should not exceed ${maxSizeInMB}MB`);
         return;
       }
 
@@ -99,6 +111,9 @@ const BookModal: React.FC<BookModalProps> = ({
         <form className="flex flex-col gap-4">
           <div className="form-control mt-2">
             <label className="Image mb-4">Image</label>
+            {errors.imageUrl && (
+              <p className="text-red-500 mb-2">{errors.imageUrl}</p>
+            )}
             <input
               type="file"
               accept="image/*"
@@ -115,6 +130,7 @@ const BookModal: React.FC<BookModalProps> = ({
           </div>
           <div className="form-control">
             <label className="label">Title</label>
+            {errors.title && <p className="text-red-500">{errors.title}</p>}
             <input
               type="text"
               value={selectedBook.title}
@@ -124,6 +140,7 @@ const BookModal: React.FC<BookModalProps> = ({
           </div>
           <div className="form-control">
             <label className="label">Price (€)</label>
+            {errors.price && <p className="text-red-500">{errors.price}</p>}
             <input
               type="number"
               value={selectedBook.price}
@@ -133,6 +150,9 @@ const BookModal: React.FC<BookModalProps> = ({
           </div>
           <div className="form-control">
             <label className="label">Description</label>
+            {errors.description && (
+              <p className="text-red-500">{errors.description}</p>
+            )}
             <input
               type="text"
               value={selectedBook.description}
@@ -141,6 +161,9 @@ const BookModal: React.FC<BookModalProps> = ({
             />
             <div className="form-control">
               <label className="label">Published date</label>
+              {errors.publishedDate && (
+                <p className="text-red-500">{errors.publishedDate}</p>
+              )}
               <input
                 type="date"
                 value={formattedDate}
@@ -151,6 +174,9 @@ const BookModal: React.FC<BookModalProps> = ({
               />
               <div className="form-control">
                 <label className="label">Author</label>
+                {errors.authorID && (
+                  <p className="text-red-500">{errors.authorID}</p>
+                )}
                 <select
                   value={selectedBook.authorID}
                   onChange={(e) =>
@@ -158,6 +184,9 @@ const BookModal: React.FC<BookModalProps> = ({
                   }
                   className="select select-bordered"
                 >
+                  <option value="" disabled>
+                    Select author
+                  </option>
                   {authors.map((a) => (
                     <option key={a.authorID} value={a.authorID}>
                       {a.name}
@@ -167,6 +196,9 @@ const BookModal: React.FC<BookModalProps> = ({
               </div>
               <div className="form-control">
                 <label className="label">Genre</label>
+                {errors.genreID && (
+                  <p className="text-red-500">{errors.genreID}</p>
+                )}
                 <select
                   value={selectedBook.genreID}
                   onChange={(e) =>
@@ -185,10 +217,7 @@ const BookModal: React.FC<BookModalProps> = ({
           </div>
         </form>
         <div className="modal-action">
-          <button
-            onClick={() => onSave(selectedBook)}
-            className="btn btn-success text-white"
-          >
+          <button onClick={handleSubmit} className="btn btn-success text-white">
             Save
           </button>
           <button onClick={onClose} className="btn btn-error text-white">

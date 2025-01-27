@@ -82,7 +82,21 @@ namespace BookStore.Services.AuthenticationService
         public async Task<string?> LoginAsync(LoginDTO loginDTO)
         {
             var user = await _userManager.FindByNameAsync(loginDTO.Username);
-            if (user == null || !await _userManager.CheckPasswordAsync(user, loginDTO.Password)) return null;
+
+            if (user == null) {
+
+                throw new UnauthorizedAccessException("Invalid username or password.");
+            }
+
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, loginDTO.Password);
+            if (!isPasswordValid) 
+            {
+                throw new UnauthorizedAccessException("Invalid username or password.");
+            }
+
+
+
+           
 
             var userRoles = await _userManager.GetRolesAsync(user);
 
@@ -95,7 +109,7 @@ namespace BookStore.Services.AuthenticationService
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim("fullName", user.FullName),
+                new Claim("fullName", user.FullName ?? "Unknown"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

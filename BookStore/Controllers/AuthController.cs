@@ -58,7 +58,21 @@ namespace BookStore.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
         {
+            
+
+
+            var validator = new LoginValidator();
+
+            var validationResult = validator.Validate(loginDTO);
+
+
             var token = await _authService.LoginAsync(loginDTO);
+
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                return BadRequest(new {errors});
+            }
 
             if (token == null)
             {

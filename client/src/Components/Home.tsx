@@ -6,14 +6,14 @@ import "./home.css";
 import { useNavigate } from "react-router-dom";
 import { Author } from "../Models/Author";
 import Test from "./Test";
-import { ClipLoader } from "react-spinners";
+import { DotLoader } from "react-spinners";
 
 const HomeView = () => {
   const [bookData, setBookData] = useState<Book[]>([]);
 
   const [authorData, setAuthorData] = useState<Author[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [color, setColor] = useState<string>("darkgreen");
+  const [color, setColor] = useState<string>("#007561");
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -47,17 +47,20 @@ const HomeView = () => {
       <Test />
       <h1>Books...</h1>
 
-      <div className="book-container-h  grid grid-cols-3 gap-24 border border-black">
-        {loading && (
-          <ClipLoader
+      {loading && (
+        <div className="loading-container flex justify-center items-center h-screen">
+          <DotLoader
             color={color}
             loading={loading}
-            size={100}
+            size={150}
             aria-label="Loading Spinner"
             data-testid="loader"
+            speedMultiplier={1}
           />
-        )}
+        </div>
+      )}
 
+      <div className="book-container-h grid grid-cols-3 gap-24 border border-black">
         {bookData.slice(0, 3).map((b) => (
           <div key={b.bookID} className="card">
             <figure>

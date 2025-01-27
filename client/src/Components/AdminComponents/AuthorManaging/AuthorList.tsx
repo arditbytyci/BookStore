@@ -3,6 +3,7 @@ import { Author } from "../../../Models/Author";
 import { useAuthor } from "../hooks/useAuthors";
 
 import AuthorModal from "./AuthorModal";
+import toast from "react-hot-toast";
 
 const AuthorList: React.FC = () => {
   const {
@@ -30,6 +31,7 @@ const AuthorList: React.FC = () => {
     });
   };
 
+  console.log("Rendering AuthorList");
   return (
     <div className="authorlist-container">
       <button className="btn btn-primary" onClick={handleSave}>
@@ -76,8 +78,12 @@ const AuthorList: React.FC = () => {
           onSave={(updatedAuthor) => {
             if (updatedAuthor.authorID === 0) {
               handleCreateAuthor(updatedAuthor);
+              toast.success(`${updatedAuthor.name} created successfully!`);
             } else {
               handleAuthorUpdate(updatedAuthor);
+              toast.success(
+                `Author with id:[${updatedAuthor.authorID}] edited successfully`
+              );
             }
             setSelectedAuthor(null);
           }}

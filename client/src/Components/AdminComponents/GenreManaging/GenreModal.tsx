@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Genre } from "../../../Models/Genre";
+import { validateGenre } from "../validators/genreValidator";
+import toast from "react-hot-toast";
 
 interface GenreModalProps {
   genre: Genre | null;
@@ -9,6 +11,7 @@ interface GenreModalProps {
 
 const GenreModal: React.FC<GenreModalProps> = ({ genre, onClose, onSave }) => {
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+  const [errors, setErorrs] = useState<Record<string, string>>({});
 
   useEffect(() => {
     setSelectedGenre(genre);
@@ -20,17 +23,21 @@ const GenreModal: React.FC<GenreModalProps> = ({ genre, onClose, onSave }) => {
         ...selectedGenre,
         [field]: value,
       });
+      setErorrs((prevErrors) => ({ ...prevErrors, [field]: "" }));
     }
   };
   if (!selectedGenre) return null;
 
   const handleSubmit = () => {
-    if (!selectedGenre.genreName.trim()) {
-      alert("Genre name cannot be empty");
+    const validationErrors = validateGenre(selectedGenre);
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErorrs(validationErrors);
+      toast.error("Please fill out the field before submitting");
       return;
     }
+
     onSave(selectedGenre);
-    onClose();
   };
 
   if (!genre) return null;
@@ -43,6 +50,9 @@ const GenreModal: React.FC<GenreModalProps> = ({ genre, onClose, onSave }) => {
         </h1>
         <form className="flex flex-col gap-4">
           <div className="form-control">
+            {errors.genreName && (
+              <p className="text-red-500">{errors.genreName}</p>
+            )}
             <label className="label">Name</label>
             <input
               type="text"
@@ -53,10 +63,7 @@ const GenreModal: React.FC<GenreModalProps> = ({ genre, onClose, onSave }) => {
           </div>
         </form>
         <div className="modal-action">
-          <button
-            onClick={() => onSave(selectedGenre)}
-            className="btn btn-success text-white"
-          >
+          <button onClick={handleSubmit} className="btn btn-success text-white">
             Save
           </button>
           <button onClick={onClose} className="btn btn-error text-white">

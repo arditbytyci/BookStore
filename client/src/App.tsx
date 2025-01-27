@@ -1,7 +1,6 @@
 import "./App.css";
 import { Toaster } from "react-hot-toast";
-import { Routes, Route, useLocation } from "react-router-dom";
-
+import { Routes, Route, useLocation, Outlet } from "react-router-dom";
 import HomeView from "./Components/Home";
 import ProtectedRoute from "./Authentication/ProtectedRoute";
 import AdminDashboard from "./Components/AdminComponents/AdminDashboard";
@@ -14,7 +13,7 @@ import AuthorPage from "./Components/Authors/AuthorPage";
 import AuthorDetails from "./Components/Authors/AuthorDetails";
 import CartPage from "./Components/Cart/CartPage";
 import BookList from "./Components/AdminComponents/BookManaging/BookList";
-import AuthorList from "./Components/AdminComponents/AuthorManaging/AuthorList";
+
 import OrderList from "./Components/AdminComponents/OrderList";
 import GenreList from "./Components/AdminComponents/GenreManaging/GenreList";
 import UserList from "./Components/AdminComponents/UserManaging/UserList";
@@ -22,75 +21,65 @@ import CheckOutPage from "./Components/Cart/CheckoutForm";
 import Test from "./Components/Test";
 import AuthHandler from "./Authentication/AuthHandler";
 
+import AuthorList from "./Components/AdminComponents/AuthorManaging/AuthorList";
+
+const MainLayout: React.FC = () => {
+  return (
+    <div className="flex flex-col h-screen overflow-auto bg-[#f0eee2]">
+      <TopBar />
+      <div className="flex">
+        <div className="w-28">
+          <SideBar links={links} />
+        </div>
+        <div className="py-24 px-14 overflow-y-auto">
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const App: React.FC = () => {
   const location = useLocation();
-  // const navigate = useNavigate();
-
-  const hidden =
-    location.pathname === "/login" || location.pathname === "/register";
+  const isAuthPage = location.pathname.startsWith("/AuthPage");
 
   return (
-    <div className="App bg-[#f0eee2] flex flex-col h-screen overflow-auto">
+    <div className="App">
       <Toaster position="top-center" reverseOrder={false} />
-      {hidden ? (
-        <>
-          <div className="flex justify-center items-center bg-background-color height-[100vh]">
-            {/* LOGIN */}
-            <Routes>
-              <Route path="/Login" element={<AuthHandler />} />
 
-              {/* REGISTER */}
-              <Route path="/Login" element={<AuthHandler />} />
-            </Routes>
-            {/* <button onClick={() => navigate("/home")}>Go back</button> */}
-          </div>
-        </>
-      ) : (
-        <>
-          <TopBar />
-          <div className="flex">
-            {/* Sidebar */}
-            <div className="w-28">
-              <SideBar links={links} />
-            </div>
+      <Routes>
+        <Route path="/AuthPage" element={<AuthHandler />} />
 
-            {/* Main Content */}
+        {!isAuthPage && (
+          <>
+            <Route element={<MainLayout />}>
+              <Route path="/Home" element={<HomeView />} />
+              <Route path="/Test" element={<Test />} />
+              <Route path="/Books" element={<BooksPage />} />
+              <Route path="/BookDetails/:id" element={<BookDetails />} />
+              <Route path="/Authors" element={<AuthorPage />} />
+              <Route path="/AuthorDetails/:id" element={<AuthorDetails />} />
+              <Route path="/Cart" element={<CartPage />} />
+              <Route path="/Checkout" element={<CheckOutPage />} />
 
-            <div className="flex flex-col py-20 px-16 bg-background-color overflow-y-auto height-[100vh] flex-1">
-              <Routes>
-                <Route path="/Home" element={<HomeView />} />
+              <Route element={<ProtectedRoute requiredRoles={["Admin"]} />}>
+                <Route element={<DashboardLayout />}>
+                  <Route path="/Admin" element={<AdminDashboard />} />
+                  {/* Admin-specific routes */}
+                  <Route path="/BookList" element={<BookList />} />
+                  <Route path="/AuthorList" element={<AuthorList />} />
 
-                <Route path="/Test" element={<Test />} />
-
-                {/*BOOK*/}
-                <Route path="/Books" element={<BooksPage />} />
-                <Route path="/BookDetails/:id" element={<BookDetails />} />
-                {/* AUTHOR */}
-                <Route path="/Authors" element={<AuthorPage />} />
-                <Route path="/AuthorDetails/:id" element={<AuthorDetails />} />
-
-                <Route path="/Cart" element={<CartPage />} />
-                <Route path="/Checkout" element={<CheckOutPage />} />
-
-                <Route element={<ProtectedRoute requiredRoles={["Admin"]} />}>
-                  <Route element={<DashboardLayout />}>
-                    <Route path="/Admin" element={<AdminDashboard />} />
-                    <Route path="/BookList" element={<BookList />} />
-                    <Route path="/AuthorList" element={<AuthorList />} />
-                    <Route path="/UserList" element={<UserList />} />
-                    <Route path="/OrderList" element={<OrderList />} />
-                    <Route path="/GenreList" element={<GenreList />} />
-                    {/* <Route
-                      path="/OrderDetailView"
-                      element={<OrderDetails />}
-                    /> */}
-                  </Route>
+                  <Route path="/UserList" element={<UserList />} />
+                  <Route path="/OrderList" element={<OrderList />} />
+                  <Route path="/GenreList" element={<GenreList />} />
                 </Route>
-              </Routes>
-            </div>
-          </div>
-        </>
-      )}
+              </Route>
+            </Route>
+
+            <Route path="*" element={<div>Page not found</div>} />
+          </>
+        )}
+      </Routes>
     </div>
   );
 };

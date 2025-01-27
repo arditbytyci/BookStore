@@ -3,6 +3,7 @@ import { useGenres } from "../hooks/useGenres";
 import { Genre } from "../../../Models/Genre";
 
 import GenreModal from "./GenreModal";
+import toast from "react-hot-toast";
 
 const GenreList: React.FC = () => {
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
@@ -70,8 +71,12 @@ const GenreList: React.FC = () => {
           onSave={(updatedGenre) => {
             if (updatedGenre.genreID === 0) {
               handleCreateGenre(updatedGenre);
+              toast.success(`Created ${updatedGenre.genreName} successfully!`);
             } else {
               handleUpdateGenre(updatedGenre);
+              toast.success(
+                `Edited genre with ID: ${updatedGenre.genreID} successfully!`
+              );
             }
             setSelectedGenre(null);
           }}

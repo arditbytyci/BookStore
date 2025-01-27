@@ -4,7 +4,7 @@ import img from "../img/login-img.jpg";
 import "./auth-style.css";
 import toast from "react-hot-toast";
 
-const AuthFrom: React.FC<{
+const AuthForm: React.FC<{
   onLogin: (token: string) => void;
   onRegistrationComplete: () => void;
 }> = ({ onLogin, onRegistrationComplete }) => {
@@ -20,8 +20,10 @@ const AuthFrom: React.FC<{
     try {
       const token = await login(username, password);
       onLogin(token);
-    } catch (error) {
-      alert("Invalid credentials!");
+    } catch (error: any) {
+      toast.error(
+        error.response?.data?.error || "Invalid username or password."
+      );
     }
   };
 
@@ -143,4 +145,4 @@ const AuthFrom: React.FC<{
   );
 };
 
-export default AuthFrom;
+export default AuthForm;

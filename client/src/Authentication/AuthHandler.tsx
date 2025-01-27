@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import AuthFrom from "./AuthForm";
+
 import { useAuth } from "./AuthContext";
 
 import "./auth-style.css";
 import toast from "react-hot-toast";
+import AuthForm from "./AuthForm";
 
 const AuthHandler: React.FC = () => {
   const navigate = useNavigate();
@@ -21,11 +22,11 @@ const AuthHandler: React.FC = () => {
   };
 
   return (
-    <div className="test-container">
-      <AuthFrom
+    <div className="flex justify-center items-center">
+      <AuthForm
         onLogin={handleLogin}
         onRegistrationComplete={handleRegistrationComplete}
-      ></AuthFrom>
+      ></AuthForm>
     </div>
   );
 };

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Author } from "../../../Models/Author";
+import { validateAuthor } from "../validators/authorValidator";
+import toast from "react-hot-toast";
 
 interface AuthorModalProps {
   author: Author | null;
@@ -14,6 +16,7 @@ const AuthorModal: React.FC<AuthorModalProps> = ({
 }) => {
   const [selectedAuthor, setSelectedAuthor] = useState<Author | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [errors, setErorrs] = useState<Record<string, string>>({});
 
   useEffect(() => {
     setSelectedAuthor(author);
@@ -24,20 +27,19 @@ const AuthorModal: React.FC<AuthorModalProps> = ({
   const handleInputChange = (field: keyof Author, value: any) => {
     if (selectedAuthor) {
       setSelectedAuthor({ ...selectedAuthor, [field]: value });
+      setErorrs((prevErrors) => ({ ...prevErrors, [field]: "" }));
     }
   };
 
   const handleSubmit = () => {
-    if (!selectedAuthor.name.trim()) {
-      alert("Cannot insert empty name");
-      return;
-    } else if (!selectedAuthor.bio.trim()) {
-      alert("Cannot insert empty bio");
-      return;
-    } else if (!selectedAuthor.birthDate.trim()) {
-      alert("Cannot insert empty date");
+    const validationErrors = validateAuthor(selectedAuthor);
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErorrs(validationErrors);
+      toast.error("Please fill out the fields before submitting");
       return;
     }
+
     onSave(selectedAuthor);
   };
 
@@ -47,14 +49,14 @@ const AuthorModal: React.FC<AuthorModalProps> = ({
 
       // Validate file type
       if (!file.type.startsWith("image/")) {
-        alert("Please upload a valid image file");
+        toast.error("Please upload a valid image file");
         return;
       }
 
       // Optional: Validate file size (e.g., limit to 5MB)
       const maxSizeInMB = 5;
       if (file.size > maxSizeInMB * 1024 * 1024) {
-        alert(`File size should not exceed ${maxSizeInMB}MB`);
+        toast.error(`File size should not exceed ${maxSizeInMB}MB`);
         return;
       }
 
@@ -82,7 +84,10 @@ const AuthorModal: React.FC<AuthorModalProps> = ({
         </h1>
         <form className="flex flex-col gap-4">
           <div className="form-control mt-2">
-            <label className="Image mb-4">Image</label>
+            <label className="Image mb-1">Image</label>
+            {errors.imageUrl && (
+              <p className="text-red-500">{errors.imageUrl}</p>
+            )}
             <input
               type="file"
               accept="image/*"
@@ -99,6 +104,7 @@ const AuthorModal: React.FC<AuthorModalProps> = ({
           </div>
           <div className="form-control">
             <label className="label">Name</label>
+            {errors.name && <p className="text-red-500">{errors.name}</p>}
             <input
               type="text"
               className="input input-bordered"
@@ -108,6 +114,7 @@ const AuthorModal: React.FC<AuthorModalProps> = ({
           </div>
           <div className="form-control">
             <label className="label">Bio</label>
+            {errors.bio && <p className="text-red-500">{errors.bio}</p>}
             <textarea
               value={selectedAuthor.bio}
               className="textarea textarea-bordered"
@@ -116,6 +123,9 @@ const AuthorModal: React.FC<AuthorModalProps> = ({
           </div>
           <div className="form-control">
             <label className="label">Date of birth</label>
+            {errors.birthDate && (
+              <p className="text-red-500">{errors.birthDate}</p>
+            )}
             <input
               type="date"
               value={formattedDate}
@@ -125,10 +135,7 @@ const AuthorModal: React.FC<AuthorModalProps> = ({
           </div>
         </form>
         <div className="modal-action">
-          <button
-            onClick={() => onSave(selectedAuthor)}
-            className="btn btn-success text-white"
-          >
+          <button onClick={handleSubmit} className="btn btn-success text-white">
             Save
           </button>
           <button onClick={onClose} className="btn btn-error text-white">
