@@ -11,17 +11,19 @@ import BooksPage from "./Components/Books/BooksPage";
 import BookDetails from "./Components/Books/BookDetails";
 import AuthorPage from "./Components/Authors/AuthorPage";
 import AuthorDetails from "./Components/Authors/AuthorDetails";
-import CartPage from "./Components/Cart/CartPage";
+
 import BookList from "./Components/AdminComponents/BookManaging/BookList";
 
 import OrderList from "./Components/AdminComponents/OrderList";
 import GenreList from "./Components/AdminComponents/GenreManaging/GenreList";
 import UserList from "./Components/AdminComponents/UserManaging/UserList";
-import CheckOutPage from "./Components/Cart/CheckoutForm";
-import Test from "./Components/Test";
+
+import Test from "./Components/Hero";
 import AuthHandler from "./Authentication/AuthHandler";
 
 import AuthorList from "./Components/AdminComponents/AuthorManaging/AuthorList";
+import CartPage from "./Components/Cart/CartPage";
+import Checkout from "./Components/Cart/Checkout";
 
 const MainLayout: React.FC = () => {
   return (
@@ -31,7 +33,7 @@ const MainLayout: React.FC = () => {
         <div className="w-28">
           <SideBar links={links} />
         </div>
-        <div className="py-24 px-14 overflow-y-auto">
+        <div className="py-24 px-14 overflow-y-auto w-[100%]  relative flex flex-row justify-center items-start">
           <Outlet />
         </div>
       </div>
@@ -60,7 +62,7 @@ const App: React.FC = () => {
               <Route path="/Authors" element={<AuthorPage />} />
               <Route path="/AuthorDetails/:id" element={<AuthorDetails />} />
               <Route path="/Cart" element={<CartPage />} />
-              <Route path="/Checkout" element={<CheckOutPage />} />
+              <Route path="/Checkout" element={<Checkout />} />
 
               <Route element={<ProtectedRoute requiredRoles={["Admin"]} />}>
                 <Route element={<DashboardLayout />}>

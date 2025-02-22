@@ -17,6 +17,9 @@ export default {
         "login-gradient2":
           "linear-gradient(to right, #f0eee2, #cdd1c0, #a8b6a1, #819b87)",
       },
+      boxShadow: {
+        "bottom-left": "-4px 4px 10px rgba(0, 0, 0, 0.9)",
+      },
       clipPath: {
         arrow: "polygon(0 0,100% 0, 100% 85%, 50% 100%, 0 85%)",
       },

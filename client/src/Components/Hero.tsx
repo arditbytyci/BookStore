@@ -2,14 +2,14 @@ import React from "react";
 import { motion } from "framer-motion";
 import img from "../img/bookshelf.jpg";
 
-const Test: React.FC = () => {
+const Hero: React.FC = () => {
   return (
     <section className="relative bg-button-color  text-white p-6 rounded-3xl">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-10">
         {/* Text Content */}
         <div>
           <motion.h1
-            className="text-4xl md:text-6xl font-bold mb-28"
+            className="text-4xl md:text-6xl font-bold mb-28 text-white"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -54,4 +54,4 @@ const Test: React.FC = () => {
   );
 };
 
-export default Test;
+export default Hero;

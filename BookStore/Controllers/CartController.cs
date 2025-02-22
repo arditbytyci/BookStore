@@ -21,14 +21,8 @@ namespace BookStore.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult GetCart()
-        {
-            var cart = HttpContext.Session.GetString("Cart");
-            return Ok(cart == null ? new List<OrderDetailDTO>() : JsonConvert.DeserializeObject<List<OrderDetailDTO>>(cart));
-        }
 
-        [HttpPost("payment/intent")]
+        [HttpPost("payment-intent")]
         public IActionResult CreatePaymentIntent([FromBody] PaymentIntentRequest request)
         {
             if (request == null || request.Amount <= 0)
@@ -63,49 +57,6 @@ namespace BookStore.Controllers
         }
 
 
-        [HttpPost]
-        public IActionResult AddToCart([FromBody] OrderDetailDTO item)
-        {
-            var cart = HttpContext.Session.GetString("Cart");
-
-            var cartItems = cart == null ? new List<OrderDetailDTO>() : JsonConvert.DeserializeObject<List<OrderDetailDTO>>(cart);
-
-            var existingItem = cartItems.FirstOrDefault(c => c.BookID == item.BookID);
-            if (existingItem != null)
-            {
-
-                existingItem.Quantity += item.Quantity;
-            }
-            else
-            {
-                cartItems.Add(item);
-            }
-
-            HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cartItems));
-            return Ok(cartItems);
-        }
-        [HttpDelete]
-        public IActionResult ClearCart()
-        {
-            HttpContext.Session.Remove("Cart");
-            return Ok("Cart cleared successfully.");
-        }
-
-        [HttpDelete("{bookId}")]
-
-        public IActionResult RemoveFromCart(int bookId)
-        {
-            var cart = HttpContext.Session.GetString("Cart");
-            if (cart == null) return NotFound();
-
-
-            var cartItems = JsonConvert.DeserializeObject<List<OrderDetailDTO>>(cart);
-
-            cartItems = cartItems.Where(c => c.BookID != bookId).ToList();
-
-            HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cartItems));
-            return Ok(cartItems);
-        }
 
         [HttpPost("order")]
         public async Task<IActionResult> CreateOrder([FromBody] OrderRequest request)

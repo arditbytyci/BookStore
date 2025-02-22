@@ -1,11 +1,11 @@
-import { useState, useEffect, CSSProperties } from "react";
+import { useState, useEffect } from "react";
 import axiosClient from "../api/axiosClient";
 import { Book } from "../Models/Book";
 import harrypotter from "/images/harrypotter.jpg";
 import "./home.css";
 import { useNavigate } from "react-router-dom";
 import { Author } from "../Models/Author";
-import Test from "./Test";
+import Hero from "./Hero";
 import { DotLoader } from "react-spinners";
 
 const HomeView = () => {
@@ -13,7 +13,7 @@ const HomeView = () => {
 
   const [authorData, setAuthorData] = useState<Author[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [color, setColor] = useState<string>("#007561");
+  const [color] = useState<string>("#007561");
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -44,7 +44,7 @@ const HomeView = () => {
   };
   return (
     <div className="home-container h-fit">
-      <Test />
+      <Hero />
       <h1>Books...</h1>
 
       {loading && (

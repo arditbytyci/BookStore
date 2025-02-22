@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import { useAuth } from "../Authentication/AuthContext";
 import { ReactNode } from "react";

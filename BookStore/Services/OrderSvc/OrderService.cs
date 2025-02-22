@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using BookStore.DATA;
 using BookStore.DTO;
+using BookStore.Interfaces.BookInterface;
 using BookStore.Interfaces.OrderInterface;
 using BookStore.Interfaces.UserInterface;
 using BookStore.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Services.OrderSvc
 {
@@ -12,14 +15,16 @@ namespace BookStore.Services.OrderSvc
 
         private readonly IOrderRepository _orderRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IBookRepository _bookRepository;
         private readonly IMapper _mapper;
 
 
-        public OrderService(IMapper mapper, IOrderRepository orderRepository, IUserRepository userRepository)
+        public OrderService(IMapper mapper, IOrderRepository orderRepository, IUserRepository userRepository, IBookRepository bookRepository)
         {
             _mapper = mapper;
             _orderRepository = orderRepository;
             _userRepository = userRepository;
+            _bookRepository = bookRepository;
         }
 
 
@@ -37,6 +42,25 @@ namespace BookStore.Services.OrderSvc
             var order = _mapper.Map<Order>(orderDTO);
 
             order.User = user;
+
+
+            var orderDetails = _mapper.Map<List<OrderDetail>>(orderDTO.OrderDetails);
+            foreach (var orderDetail in orderDetails)
+            {
+                // Ensure the Book is mapped from the OrderDetailDTO (based on the BookID)
+                // If necessary, you could fetch the book from the database by ID here
+                var book = await _bookRepository.GetByIdAsync(orderDetail.BookID);
+                if (book != null)
+                {
+                    orderDetail.Book = book; // Set the Book in the OrderDetail
+                    orderDetail.Order = order; // Set the Order in the OrderDetail
+                }
+                else
+                {
+                    throw new Exception("Book not found.");
+                }
+            }
+
 
             await _orderRepository.AddAsync(order);
 

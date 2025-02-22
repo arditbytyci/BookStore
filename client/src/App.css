@@ -1,3 +1,10 @@
+* {
+  font-family: "Jua", serif;
+  font-weight: lighter;
+  font-style: normal;
+  color: #36362e;
+}
+
 .sidebar::after {
   content: "";
   position: absolute;
@@ -22,12 +29,6 @@
   flex-direction: column;
   align-items: center;
 }
-
-.btn:hover {
-  border: 0.1px solid #007561;
-  border-color: #007561;
-  background-color: transparent;
-  color: #36362e;
-  transition: ease-out;
-  transition-duration: 500ms;
+.btn {
+  font-weight: lighter;
 }

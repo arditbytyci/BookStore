@@ -44,21 +44,25 @@ namespace BookStore.Mapping
             //Order
             CreateMap<Order, OrderDTO>()
     .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
-    .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails))
+    .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails)) // Map OrderDetails
     .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email))
     .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.User.Id)) // Correctly map to UserId
     .ReverseMap()
-    .ForMember(dest => dest.User, opt => opt.Ignore()) // Ignore navigation properties when mapping back
-    .ForMember(dest => dest.OrderDetails, opt => opt.Ignore());
+    .ForMember(dest => dest.User, opt => opt.Ignore()) // Ignore navigation property to User
+    .ForMember(dest => dest.OrderDetails, opt => opt.MapFrom(src => src.OrderDetails)); // Map OrderDetails back
+
 
 
 
 
             //OrderDetail
-            CreateMap<OrderDetail, OrderDetailDTO>().ForMember(dest => dest.BookName, opt => opt.MapFrom(src => src.Book.Title))
-                .ForMember(dest => dest.BookPrice, opt => opt.MapFrom(src => src.Book.Price))
-                .ReverseMap()
-                .ForMember(dest => dest.Book, opt => opt.Ignore());
+            CreateMap<OrderDetail, OrderDetailDTO>()
+    .ForMember(dest => dest.BookName, opt => opt.MapFrom(src => src.Book.Title))
+    .ForMember(dest => dest.BookPrice, opt => opt.MapFrom(src => src.Book.Price))
+    .ForMember(dest => dest.OrderID, opt => opt.MapFrom(src => src.Order.OrderID)) // Map OrderID to OrderDetailDTO
+    .ReverseMap()
+    .ForMember(dest => dest.Book, opt => opt.Ignore())
+    .ForMember(dest => dest.Order, opt => opt.Ignore());
 
 
 

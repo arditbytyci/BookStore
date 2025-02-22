@@ -2,13 +2,21 @@ import { IonIcon } from "@ionic/react"; // Import IonIcon component from @ionic/
 import { searchOutline } from "ionicons/icons";
 import { useAuth } from "../Authentication/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import { useCart } from "./Cart/CartContext";
+
 import bag from "../assets/shopping.png";
+import { useSelector } from "react-redux";
+import { RootState } from "./Cart/store";
 
 const TopBar: React.FC = () => {
   const { isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
-  const { state } = useCart();
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+
+  // Calculate total cart quantity
+  const totalCartQuantity = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
   const handleLogout = () => {
     logout();
@@ -36,11 +44,13 @@ const TopBar: React.FC = () => {
       <div className="flex flex-row right-[5.7rem] absolute items-center justify-between w-[150px]">
         {isLoggedIn ? (
           <>
-            <Link to="/Cart" className="flex flex-col items-end">
+            <Link to="/Cart" className="relative">
               <img src={bag} alt="Cart" className="w-[30px] h-[30px]" />
-              <span className="absolute top-1 left-[90.5%]  bg-purple-800 text-white text-xs font-semibold rounded-full w-[15px] h-[15px] flex flex-row justify-center items-center">
-                {state.items.length}
-              </span>
+              {totalCartQuantity > 0 && (
+                <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-purple-800 text-white text-xs font-semibold rounded-full w-[18px] h-[18px] flex justify-center items-center">
+                  {totalCartQuantity}
+                </span>
+              )}
             </Link>
 
             <button
