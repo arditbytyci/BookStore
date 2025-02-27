@@ -18,8 +18,9 @@ const BookDetails: React.FC = () => {
 
       setBook(response.data);
       console.log(book?.authorName);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      console.log(`failed to fetch book with ${id}`);
+      console.log(`failed to fetch book with ${id}`, error);
     }
   };
 

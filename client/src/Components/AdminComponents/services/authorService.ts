@@ -16,5 +16,5 @@ export const updateAuthor = async (author: Author): Promise<void> => {
 };
 
 export const deleteAuthor = async (authorID: number): Promise<void> => {
-  await axiosClient.delete(`/delete/${authorID}`);
+  await axiosClient.delete(`/author/${authorID}`);
 };

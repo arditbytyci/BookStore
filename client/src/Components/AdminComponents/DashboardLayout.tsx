@@ -9,9 +9,9 @@ const DashboardLayout: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen justify-center">
-      <div className="w-34 bg-background-color h-fit p-6 shadow-md">
-        <div className="flex justify-between items-center mb-8">
+    <div className="flex h-auto justify-center w-full">
+      <div className="flex flex-col justify-evenly items-center w-34 bg-background-color h-full p-6">
+        <div className="flex justify-between items-center ">
           <h2 className="text-2xl font-semibold">
             <Link to="/Admin" className="btn btn-ghost w-full text-lg">
               Admin Dashboard
@@ -47,7 +47,7 @@ const DashboardLayout: React.FC = () => {
         </ul>
       </div>
 
-      <div className="main flex-1 p-6 bg-background-color">
+      <div className="main flex-1 p-6 bg-background-color border border-black">
         <Outlet />
       </div>
     </div>

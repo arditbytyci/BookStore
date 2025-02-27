@@ -22,7 +22,7 @@ export type RoleLinks = {
 
 export const links: RoleLinks = {
   Customer: [
-    { path: "/Home", label: "Home", icon: homeIcon },
+    { path: "/", label: "Home", icon: homeIcon },
     { path: "/Books", label: "Books", icon: bookIcon },
     { path: "/Authors", label: "Authors", icon: authorIcon },
     // { path: "/GenreView", label: "Orders", icon: orderIcon },
@@ -42,31 +42,32 @@ const SideBar: React.FC<{
 
   return (
     <div className="flex flex-col justify-around min-h-screen">
-      {/* Sidebar with external CSS for styling */}
-      <div className="sidebar flex flex-col justify-between items-center min-h-[100%] w-[7rem] bg-background-color p-[2rem] absolute z-10">
+      {/* Sidebar with responsive width and positioning */}
+      <div className="sidebar flex flex-col justify-between items-center min-h-[100%] w-16 md:w-20 lg:w-24 xl:w-28 bg-background-color p-4 md:p-6 lg:p-8 absolute z-10">
         {/* Logo or Title */}
-        <div
-          className="mb-6 
-         text-center"
-        >
-          {" "}
-          <Link to="/Home">
-            <img src={icon} alt="Bookstore Icon" width="58" height="58" />
+        <div className="mb-6 text-center">
+          <Link to="/">
+            <img
+              src={icon}
+              alt="Bookstore Icon"
+              className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14"
+            />
           </Link>
         </div>
-        <div className="space-y-16">
+
+        {/* Navigation Links */}
+        <div className="space-y-8 md:space-y-12 lg:space-y-16">
           {links[role]?.map((link) => (
             <div className="relative group" key={link.path}>
               <Link
-                key={link.path}
                 to={link.path}
                 className="flex items-center space-x-2 text-gray-700 hover:text-black"
               >
                 <img
                   src={link.icon}
                   alt={link.label as string}
-                  className="w-[2.5rem] h-[2.5rem]"
-                ></img>
+                  className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
+                />
               </Link>
               <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-sm text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
                 {link.label}
@@ -74,6 +75,8 @@ const SideBar: React.FC<{
             </div>
           ))}
         </div>
+
+        {/* Orders Link (Conditional) */}
         {isLoggedIn && (
           <div className="relative group">
             <Link
@@ -81,9 +84,9 @@ const SideBar: React.FC<{
               className="flex items-center space-x-2 text-gray-700 hover:text-black"
             >
               <img
-                src={bookMark} // Use your icon for GenreView
+                src={bookMark}
                 alt="Orders"
-                className="w-[2.5rem] h-[2.3rem]"
+                className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
               />
             </Link>
             <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-sm text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
@@ -92,6 +95,7 @@ const SideBar: React.FC<{
           </div>
         )}
 
+        {/* Placeholder for additional content */}
         <div>but</div>
       </div>
     </div>

@@ -31,7 +31,6 @@ const AuthorList: React.FC = () => {
     });
   };
 
-  console.log("Rendering AuthorList");
   return (
     <div className="authorlist-container">
       <button className="btn btn-primary" onClick={handleSave}>

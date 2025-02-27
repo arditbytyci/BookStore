@@ -6,6 +6,7 @@ import {
   getAuthors,
   updateAuthor,
 } from "../services/authorService";
+import toast from "react-hot-toast";
 
 export const useAuthor = () => {
   const [authors, setAuthor] = useState<Author[]>([]);
@@ -55,15 +56,19 @@ export const useAuthor = () => {
   const handleAuthorDelete = async (authorID: number) => {
     try {
       await deleteAuthor(authorID);
-
       setAuthor((prev) =>
         prev.filter((author) => author.authorID !== authorID)
       );
-    } catch (error) {
-      setError("Failed to delete author");
+      toast.success("Author deleted successfully!");
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        toast.error("Author not found.");
+      } else {
+        toast.error("Failed to delete author.");
+      }
+      console.error("Delete failed:", error.response?.data || error.message);
     }
   };
-
   return {
     authors,
     handleAuthorUpdate,

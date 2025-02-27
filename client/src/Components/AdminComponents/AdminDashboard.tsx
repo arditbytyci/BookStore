@@ -42,30 +42,30 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="flex-1">
+    <div className="flex flex-col justify-center gap-10">
       {/* Dashboard Header */}
       <h1 className="text-3xl font-semibold">Dashboard Overview</h1>
 
       {/* Dashboard Cards */}
       <div className="grid grid-cols-3 gap-6 mt-8">
-        <div className="card w-60 bg-base-200 shadow-xl">
-          <div className="card-body">
+        <div className="card w-60 h-20 max-h-40 bg-base-400 shadow-xl">
+          <div className="card-body flex flex-col gap-8 items-center">
             <h2 className="card-title">Total Orders</h2>
-            <p>{orders.length}</p>
+            <p className="text-xl">{orders.length}</p>
           </div>
         </div>
 
-        <div className="card w-60 bg-base-200 shadow-xl">
-          <div className="card-body">
+        <div className="card w-60 h-20 max-h-40 bg-base-200 shadow-xl">
+          <div className="card-body flex flex-col gap-8 items-center">
             <h2 className="card-title">Total Users</h2>
-            <p>{users.length - 1}</p>
+            <p className="text-xl">{users.length - 1}</p>
           </div>
         </div>
 
-        <div className="card w-60 bg-base-200 shadow-xl">
-          <div className="card-body">
+        <div className="card w-60 h-20 max-h-40 bg-base-200 shadow-xl">
+          <div className="card-body flex flex-col gap-8 items-center">
             <h2 className="card-title">Total Books</h2>
-            <p>{books.length}</p>
+            <p className="text-xl">{books.length}</p>
           </div>
         </div>
       </div>

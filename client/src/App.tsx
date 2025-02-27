@@ -55,7 +55,7 @@ const App: React.FC = () => {
         {!isAuthPage && (
           <>
             <Route element={<MainLayout />}>
-              <Route path="/Home" element={<HomeView />} />
+              <Route path="/" element={<HomeView />} />
               <Route path="/Test" element={<Test />} />
               <Route path="/Books" element={<BooksPage />} />
               <Route path="/BookDetails/:id" element={<BookDetails />} />
