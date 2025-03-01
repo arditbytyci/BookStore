@@ -49,6 +49,9 @@ builder.Services.AddSwaggerGen();
 //Stripe
 StripeConfiguration.ApiKey = builder.Configuration["Stripe: SecretKey"];
 
+//Cloudinary
+
+builder.Services.AddSingleton<CloudinaryService>();
 
 
 builder.Services.AddAutoMapper(typeof(Program));

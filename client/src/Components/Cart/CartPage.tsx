@@ -73,16 +73,13 @@ const CartPage: React.FC = () => {
         )}
       </p>
       {cartItems.length > 0 && (
-        <button
-          className="btn btn-primary mt-4 text-white mr-5"
-          onClick={handleClearCart}
-        >
+        <button className="btn mt-4 text-white mr-5" onClick={handleClearCart}>
           Clear Cart
         </button>
       )}
 
       {cartItems.length > 0 && (
-        <Link to="/checkout" className="btn btn-primary">
+        <Link to="/checkout" className="btn ">
           Checkout
         </Link>
       )}

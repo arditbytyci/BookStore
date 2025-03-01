@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
@@ -8,6 +9,8 @@ import { Provider } from "react-redux";
 import store from "./Components/Cart/store.ts";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+
+
 
 const stripePromise = loadStripe(
   "pk_test_51PSffqGGsJXk0iHFsnaBLJVtQkcYI5xTtrBAyV9Qs4xDFOnyhTytToRNLy7zIE2AYc1a5AYZwpZlklH7MFHTNtSo00vpOOHG6h"

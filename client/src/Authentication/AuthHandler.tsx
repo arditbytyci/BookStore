@@ -11,14 +11,14 @@ const AuthHandler: React.FC = () => {
   const { login } = useAuth();
 
   const handleRegistrationComplete = () => {
-    navigate("/login");
+    navigate("/AuthPage");
   };
 
   const handleLogin = (token: string) => {
     login(token);
 
     toast.success("Login successful!");
-    navigate("/Home");
+    navigate("/");
   };
 
   return (

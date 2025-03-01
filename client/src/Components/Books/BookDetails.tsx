@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { Book } from "../../Models/Book";
 import axiosClient from "../../api/axiosClient";
 import { useParams } from "react-router-dom";
-import img from "../../../public/images/harrypotter.jpg";
-import bookmarkIcon from "../../assets/bookmark.png";
+import toast from "react-hot-toast";
+import { RotateLoader } from "react-spinners";
 
 const BookDetails: React.FC = () => {
   const [book, setBook] = useState<Book>();
+  const [loading, setLoading] = useState<boolean>(true);
   const { id } = useParams<{ id: string }>();
+
   useEffect(() => {
     if (id) fetchBookById(id);
   }, [id]);
@@ -15,71 +17,69 @@ const BookDetails: React.FC = () => {
   const fetchBookById = async (id: number | string): Promise<void> => {
     try {
       const response = await axiosClient.get(`/book/${id}`);
-
       setBook(response.data);
-      console.log(book?.authorName);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      console.log(`failed to fetch book with ${id}`, error);
+      toast.error(`failed to fetch book with ${id}`);
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="h-screen w-[190vh] absolute overflow-y-scroll">
-      <div className="flex flex-row justify-evenly w-full h-[40%] ">
-        <div className="w-[320px] h-[390px] absolute z-10 flex flex-col items-center left-28 top-0 shadow-2xl ">
-          <img src={img} alt="" className=" w-[320px] h-[390px] shadow-xl" />
+    <div>
+      {loading ? (
+        <div className="flex justify-center items-center h-screen w-full absolute left-0 top-0">
+          <RotateLoader
+            color="black"
+            loading={loading}
+            size={20}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+            margin={15}
+            speedMultiplier={1.5}
+          />
         </div>
-        <div className="flex flex-col justify-between absolute items-start left-[50%] h-[50%] z-10 top-5">
-          <h1 className=" text-4xl w-[60%] px-3">
-            Harry Potter: Half Blood Prince
-          </h1>
-          <h3 className="text-lg px-3">J.K Rowling</h3>
-          <div className="w-full  flex flex-row justify-between border-b-[1px] border-[#d5d2d5] pb-5">
-            <button className="btn bg-zinc-950 text-white">Order Now</button>
-            <button className="">
-              <img src={bookmarkIcon} alt="" className=" w-9 h-9" />
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-row items-center w-full  right-5 h-full relative z-5 bg-[#F8F6EA] shadow-2xl">
-        <div className="w-[50%] relative bottom-36 p-10">
-          <h1 className="font-semibold text-md my-3">Description</h1>
-          <p className="text-sm">
-            The book was published in the United Kingdom by Bloomsbury and in
-            the United States by Scholastic on 16 July 2005, as well as in
-            several other countries. It sold almost seven million copies in the
-            first 24 hours after its release,[1] a record eventually broken by
-            its sequel, Harry Potter and the Deathly Hallows.[2] There were many
-            controversies before and after it was published, including the
-            right-to-read copies delivered before the release date in Canada.
-            Reception to the novel was generally positive, and it won several
-            awards and honours, including the 2006 British Book of the Year
-            award.
-          </p>
-        </div>
+      ) : (
+        <div className="h-full w-full max-w-7xl mx-auto p-8">
+          <div className="flex flex-col md:flex-row gap-8">
+            <img
+              src={book?.imageUrl}
+              alt="Book Cover"
+              className="w-auto h-auto max-w-[250px] max-h-[400px] object-contain rounded-tr-lg rounded-br-lg shadow-bottom-left"
+            />
 
-        <div className="relative bottom-[6.4rem] p-6 w-[50%] h-inherit">
-          <div className="w-[60%]">
-            <h1 className="font-semibold text-md py-5">Editors</h1>
-            <p className="text-sm">
-              J.K Rowling(author), Christopher Reath, Alena Gestabon, Steve Korg
-            </p>
+            <div className="w-full md:w-2/3 flex flex-col justify-between">
+              <h1 className="text-4xl font-bold text-gray-800 mb-6">
+                {book?.title}
+              </h1>
+              <div className="w-full border-b-[1px] border-[#d5d2d5] pb-6">
+                <button className="btn bg-zinc-950 text-white px-8 py-3 rounded-lg hover:bg-zinc-800 transition-colors duration-300">
+                  Add to cart
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="w-[60%]">
-            <h1 className="font-semibold text-md py-5">Language</h1>
-            <p className="text-sm">Standard English (USA & UK)</p>
-          </div>
-          <div className="">
-            <h1 className="font-semibold text-md py-5">Paperback</h1>
-            <p className="text-sm pb-2">
-              paper textured, full colour, 345 pages
-            </p>
-            <p className="text-sm">ISBN: 967 3 321223 455 B</p>
+
+          <div className="flex flex-col md:flex-row gap-8 mt-12">
+            <div className="w-full md:w-1/2">
+              <h1 className="font-semibold text-xl text-gray-800 mb-4">
+                Description
+              </h1>
+              <p className="text-gray-600 leading-relaxed">
+                {book?.description}
+              </p>
+            </div>
+
+            <div className="w-full md:w-1/2">
+              <h1 className="font-semibold text-xl text-gray-800 mb-4">
+                Author
+              </h1>
+              <p className="text-gray-600">{book?.authorName}</p>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

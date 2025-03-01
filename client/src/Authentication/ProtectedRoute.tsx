@@ -15,11 +15,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { isLoggedIn, role } = useAuth();
 
   if (!isLoggedIn) {
-    return <Navigate to="/Auth" />;
+    return <Navigate to="/AuthPage" />;
   }
-
-  console.log("User Role:", role);
-  console.log("Required Roles:", requiredRoles);
 
   if (
     !requiredRoles
@@ -29,7 +26,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     toast.error(
       `Access denied. User role "${role}" does not match required roles: ${requiredRoles}`
     );
-    return <Navigate to="/Home" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return children ? <>{children}</> : <Outlet />;

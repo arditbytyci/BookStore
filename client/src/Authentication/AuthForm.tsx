@@ -58,6 +58,7 @@ const AuthForm: React.FC<{
 
   return (
     <div className="login-container">
+      <a>Go back</a>
       <div className="image-container shadow-xl">
         <form
           onSubmit={handleRegisterSubmit}

@@ -25,10 +25,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ book }) => {
   };
 
   return (
-    <button
-      className="btn btn-sm  text-white btn-primary"
-      onClick={handleAddToCart}
-    >
+    <button className="btn btn-sm" onClick={handleAddToCart}>
       Add to Cart
     </button>
   );

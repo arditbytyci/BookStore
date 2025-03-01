@@ -24,32 +24,53 @@ const AuthorDetails: React.FC = () => {
   };
 
   return (
-    <div className="authordetails-container">
-      <h1>{author?.name}</h1>
-      <p>{author?.bio}</p>
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      {/* Author Name */}
+      <div className="flex flex-row justify-between items-center my-5">
+        <h1 className="text-4xl font-bold mb-4 text-gray-800">
+          {author?.name}
+        </h1>
+        <img
+          src={author?.imageUrl}
+          className="w-44 h-44 rounded-2xl object-cover border border-black"
+          alt="author-img"
+        ></img>
+      </div>
+      {/* Author Bio */}
+      <p className="text-lg text-gray-600 mb-8">{author?.bio}</p>
 
-      <h3>Books: </h3>
-      <ul>
+      {/* Books Section */}
+      <h3 className="text-2xl font-semibold mb-4 text-gray-800">Books</h3>
+      <ul className="space-y-4">
         {author?.books.map((b) => (
-          <li key={b.bookID}>
-            <h4>Title: {b.title}</h4>
-            <p>Date: {new Date(b.publishedDate).toLocaleDateString()}</p>
+          <li
+            key={b.bookID}
+            className="p-6 bg-gray-50 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+          >
+            {/* Book Title */}
+            <h4 className="text-xl font-medium text-gray-700">
+              Title: {b.title}
+            </h4>
+
+            {/* Published Date */}
+            <p className="text-sm text-gray-500 mt-2">
+              Date: {new Date(b.publishedDate).toLocaleDateString()}
+            </p>
+
+            {/* Book Description */}
+            <p className="text-gray-600 mt-4">{b.description}</p>
+
+            {/* Book Image */}
+            {b.imageUrl && (
+              <img
+                src={b.imageUrl}
+                alt={b.title}
+                className="w-full h-48 object-contain rounded-lg mt-4"
+              />
+            )}
           </li>
         ))}
       </ul>
-
-      {/* {
-      "bookID": 10,
-      "title": "Harry Potter and the Chamber of Secrets",
-      "price": 13.5,
-      "publishedDate": "2002-11-14T00:00:00",
-      "authorID": 7,
-      "genreID": 1,
-      "authorName": "J.K. Rowling",
-      "genreName": null,
-      "imageUrl": "/images/harrypotter.jpg",
-      "description": "Summaries. Harry Potter lives his second year at Hogwarts with Ron and Hermione when a message on the wall announces that the legendary Chamber of Secrets has been opened. The trio soon realize that, to save the school, it will take a lot of courage."
-    } */}
     </div>
   );
 };

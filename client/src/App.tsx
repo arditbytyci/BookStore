@@ -1,6 +1,12 @@
 import "./App.css";
 import { Toaster } from "react-hot-toast";
-import { Routes, Route, useLocation, Outlet } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useLocation,
+  Outlet,
+  useNavigate,
+} from "react-router-dom";
 import HomeView from "./Components/Home";
 import ProtectedRoute from "./Authentication/ProtectedRoute";
 import AdminDashboard from "./Components/AdminComponents/AdminDashboard";
@@ -44,6 +50,7 @@ const MainLayout: React.FC = () => {
 const App: React.FC = () => {
   const location = useLocation();
   const isAuthPage = location.pathname.startsWith("/AuthPage");
+  const navigate = useNavigate();
 
   return (
     <div className="App">
@@ -78,7 +85,20 @@ const App: React.FC = () => {
               </Route>
             </Route>
 
-            <Route path="*" element={<div>Page not found</div>} />
+            <Route
+              path="*"
+              element={
+                <div className="flex flex-col justify-center items-center w-full gap-10 h-screen border border-black">
+                  <h1 className="text-2xl">Page not found</h1>
+                  <button
+                    className="btn btn-warning text-white"
+                    onClick={() => navigate("/")}
+                  >
+                    Return to Home
+                  </button>
+                </div>
+              }
+            />
           </>
         )}
       </Routes>

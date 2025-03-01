@@ -6,7 +6,7 @@ import icon from "../assets/book-shop.png";
 import homeIcon from "../assets/home-icon.png";
 import authorIcon from "../assets/inkwell.png";
 import bookIcon from "../assets/book.png";
-import bookMark from "../assets/bookmark.png";
+
 import { cogSharp } from "ionicons/icons"; // Import the icon components
 
 export type LinkType = {
@@ -34,7 +34,6 @@ const SideBar: React.FC<{
   links: RoleLinks;
 }> = ({ links }) => {
   const { role } = useAuth();
-  const { isLoggedIn } = useAuth();
 
   if (role !== "Customer" && role !== "Admin") {
     return null; // Handle unauthorized or default state
@@ -45,7 +44,7 @@ const SideBar: React.FC<{
       {/* Sidebar with responsive width and positioning */}
       <div className="sidebar flex flex-col justify-between items-center min-h-[100%] w-16 md:w-20 lg:w-24 xl:w-28 bg-background-color p-4 md:p-6 lg:p-8 absolute z-10">
         {/* Logo or Title */}
-        <div className="mb-6 text-center">
+        <div className=" text-center">
           <Link to="/">
             <img
               src={icon}
@@ -56,7 +55,7 @@ const SideBar: React.FC<{
         </div>
 
         {/* Navigation Links */}
-        <div className="space-y-8 md:space-y-12 lg:space-y-16">
+        <div className="space-y-20 md:space-y-12 lg:space-y-32">
           {links[role]?.map((link) => (
             <div className="relative group" key={link.path}>
               <Link
@@ -66,7 +65,7 @@ const SideBar: React.FC<{
                 <img
                   src={link.icon}
                   alt={link.label as string}
-                  className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
+                  className="w-8 h-8 sm:w-7 sm:h-7 sm:space-x-10 md:w-10 md:h-10 lg:w-10 lg:h-10"
                 />
               </Link>
               <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-sm text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
@@ -76,27 +75,8 @@ const SideBar: React.FC<{
           ))}
         </div>
 
-        {/* Orders Link (Conditional) */}
-        {isLoggedIn && (
-          <div className="relative group">
-            <Link
-              to="/Orders"
-              className="flex items-center space-x-2 text-gray-700 hover:text-black"
-            >
-              <img
-                src={bookMark}
-                alt="Orders"
-                className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
-              />
-            </Link>
-            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-sm text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
-              Orders
-            </span>
-          </div>
-        )}
-
         {/* Placeholder for additional content */}
-        <div>but</div>
+        <div></div>
       </div>
     </div>
   );

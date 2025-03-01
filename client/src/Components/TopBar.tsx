@@ -17,7 +17,7 @@ const TopBar: React.FC = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/Home", { replace: true });
+    navigate("/", { replace: true });
   };
 
   return (

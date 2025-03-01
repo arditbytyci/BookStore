@@ -24,6 +24,7 @@
   overflow: visible;
   z-index: 1;
 }
+
 .register-container-left {
   display: flex;
   flex-direction: column;
@@ -31,11 +32,12 @@
   height: 100%;
   justify-content: center;
   align-items: center;
-  position: relative;
-  border-radius: 20px 0px 0px 20px;
   background: linear-gradient(135deg, #ffffed 0%, #c3e5ff 150%);
+  border-radius: 20px 0px 0px 20px;
+  transition: all 0.4s ease-in-out, opacity 0.5s ease-in-out !important; /* Add opacity transition */
+  position: relative;
   overflow: visible;
-  transition: transform 1s ease-in-out;
+  z-index: 1;
 }
 
 .login-container input {
@@ -85,7 +87,9 @@
 
 .moved-image {
   transform: translateX(100%);
-  border-radius: 0 20px 20px 0;
+  border-radius: 20px 0px 0px 20px; /* Left corners remain rounded */
+  border-top-right-radius: 20px; /* Gradually round the top-right corner */
+  border-bottom-right-radius: 20px; /* Gradually round the bottom-right corner */
   position: absolute;
   overflow: visible;
   z-index: 10;

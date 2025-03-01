@@ -1,27 +1,26 @@
 import { useState, useEffect } from "react";
 import axiosClient from "../api/axiosClient";
 import { Book } from "../Models/Book";
-import harrypotter from "/images/harrypotter.jpg";
-import "./home.css";
+
 import { useNavigate } from "react-router-dom";
 import { Author } from "../Models/Author";
 import Hero from "./Hero";
-import { DotLoader } from "react-spinners";
+import { RotateLoader } from "react-spinners";
 
 const HomeView = () => {
   const [bookData, setBookData] = useState<Book[]>([]);
-
   const [authorData, setAuthorData] = useState<Author[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [color] = useState<string>("#007561");
+  const [color] = useState<string>("black");
 
   const navigate = useNavigate();
+
   useEffect(() => {
     fetchBooks();
     fetchAuthors();
   }, []);
 
-  //books
+  // Fetch books
   const fetchBooks = async () => {
     try {
       const res = await axiosClient.get("/book");
@@ -33,7 +32,7 @@ const HomeView = () => {
     }
   };
 
-  //authors
+  // Fetch authors
   const fetchAuthors = async () => {
     try {
       const res = await axiosClient.get("/author");
@@ -42,69 +41,96 @@ const HomeView = () => {
       console.log("Failed to fetch authors - Home component", error);
     }
   };
-  return (
-    <div className="home-container h-fit">
-      <Hero />
-      <h1>Books...</h1>
 
+  return (
+    <div className="home-container">
+      {/* Hero Section (untouched) */}
+      <Hero />
+
+      {/* Loading Spinner */}
       {loading && (
-        <div className="loading-container flex justify-center items-center h-screen">
-          <DotLoader
+        <div className="loading-container flex flex-col justify-start items-center h-screen my-32">
+          <RotateLoader
             color={color}
             loading={loading}
-            size={150}
+            size={20}
             aria-label="Loading Spinner"
             data-testid="loader"
+            margin={15}
             speedMultiplier={1}
           />
         </div>
       )}
 
-      <div className="book-container-h grid grid-cols-3 gap-24 border border-black">
-        {bookData.slice(0, 3).map((b) => (
-          <div key={b.bookID} className="card">
-            <figure>
+      {/* Books Section */}
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <h1 className="text-4xl font-semibold text-gray-800 mb-8 text-center">
+          Latest Arrivals
+        </h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
+          {bookData.slice(0, 3).map((b) => (
+            <div
+              key={b.bookID}
+              className="card h-auto w-auto flex flex-col justify-center max-w-[400px] max-h-[500px] bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+            >
               <img
-                src={harrypotter}
-                alt="car!"
-                className="h-[300px] w-[230px]"
+                src={b.imageUrl}
+                alt="bookimg"
+                className="w-auto h-auto max-w-full max-h-[200px] sm:max-h-[270px] object-contain shadow-bottom-left rounded-tr-lg rounded-br-lg"
               />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">{b.title}</h2>
-              <p>{b.authorName}</p>
-              <div className="card-actions justify-end">
-                {/* <button
-                  className="btn btn-sm bg-button-color text-white w-[100px] text-sm rounded-3xl"
-                  onClick={() => navigate(`/BookDetails/${b.bookID}`)}
-                >
-                  Details
-                </button> */}
+              <div className="p-6 flex flex-col justify-start items-start w-auto h-auto">
+                <h2 className="text-2xl w-[250px] h-[50px] font-semibold text-gray-800 mb-5">
+                  {b.title}
+                </h2>
+                <p className="text-gray-600 mb-4">By {b.authorName}</p>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        {/* View More Books Button */}
+        <div className="flex justify-center mt-8">
+          <button
+            className="bg-black text-white px-6 py-2 rounded-lg hover:bg-white hover:text-black duration-500"
+            onClick={() => navigate("/books")} // Update the route as needed
+          >
+            View More Books
+          </button>
+        </div>
       </div>
-      <div>Authors</div>
-      <div className="author-containers-h grid grid-cols-3 gap-24">
-        {authorData.map((a) => (
-          <div key={a.authorID} className="card bg-base-100 w-96 shadow-xl">
-            <figure>
-              <img src={a.imageUrl} alt="" className="w-[250px]" />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">{a.name}</h2>
 
-              <div className="card-actions justify-end">
-                <button
-                  onClick={() => navigate(`/authorDetails/${a.authorID}`)}
-                >
-                  View Biography
-                </button>
+      {/* Authors Section */}
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <h1 className="text-4xl font-semibold text-gray-800 mb-8 text-center">
+          Featured Authors
+        </h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
+          {authorData.map((a) => (
+            <div
+              key={a.authorID}
+              className="card h-auto p-5 w-auto flex flex-col justify-evenly max-w-[400px] max-h-[400px] bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+            >
+              <img
+                src={a.imageUrl}
+                alt={a.name}
+                className="w-auto h-auto max-w-full max-h-[200px] sm:max-h-[270px] object-contain shadow-2xl rounded-lg"
+              />
+              <div className="p-6 flex flex-col justify-start items-start w-auto h-auto">
+                <h2 className="text-2xl w-[250px] h-[50px] font-semibold text-gray-800 mb-5">
+                  {a.name}
+                </h2>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        {/* View More Authors Button */}
+        <div className="flex justify-center mt-8">
+          <button
+            className="bg-black text-white px-6 py-2 rounded-lg hover:bg-white hover:text-black duration-500"
+            onClick={() => navigate("/authors")} // Update the route as needed
+          >
+            View More Authors
+          </button>
+        </div>
       </div>
     </div>
   );

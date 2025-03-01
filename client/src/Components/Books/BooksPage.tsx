@@ -39,17 +39,16 @@ const BooksPage = () => {
       {loading ? (
         <div className="flex justify-center items-center h-screen w-full absolute left-0 top-0">
           <RotateLoader
-            color="#007561"
+            color="black"
             loading={loading}
             size={20}
             aria-label="Loading Spinner"
             data-testid="loader"
-            margin={1}
-            speedMultiplier={1.3}
+            margin={15}
+            speedMultiplier={1}
           />
         </div>
       ) : (
-        // Show books after loading is complete
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full p-4">
           {bookData.map((b) => (
             <div

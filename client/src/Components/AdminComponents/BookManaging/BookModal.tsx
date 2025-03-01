@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { Book } from "../../../Models/Book";
 import { Author } from "../../../Models/Author";
 import { Genre } from "../../../Models/Genre";
 import toast from "react-hot-toast";
 import { validateBook } from "../validators/bookValidator";
+
+import axiosClient from "../../../api/axiosClient";
 
 interface BookModalProps {
   book: Book | null;
@@ -65,11 +68,9 @@ const BookModal: React.FC<BookModalProps> = ({
   };
   if (!selectedBook) return null;
 
-  // const handleSubmit = () => {
-  //   onSave(selectedBook);
-  // };
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
 
@@ -86,15 +87,29 @@ const BookModal: React.FC<BookModalProps> = ({
         return;
       }
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
+      // Create a FormData object
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        // Upload the image to your backend API using axiosClient
+        const response = await axiosClient.post("/upload/image", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data", // Required for file uploads
+          },
+        });
+
+        const imageUrl = response.data.imageUrl; // Get the Cloudinary URL from the response
+        setImagePreview(imageUrl); // Set image preview
         setSelectedBook((prev) => ({
           ...prev!,
-          imageUrl: reader.result as string,
+          imageUrl: imageUrl, // Save Cloudinary URL
         }));
-      };
-      reader.readAsDataURL(file);
+        toast.success("Image uploaded successfully!");
+      } catch (error) {
+        toast.error("Failed to upload image");
+        console.error(error);
+      }
     }
   };
 

@@ -8,12 +8,12 @@
 .sidebar::after {
   content: "";
   position: absolute;
-  top: 30px;
-  bottom: 30px;
+  top: 20px;
+  bottom: 20px;
   right: 0;
-  width: 1.25px;
+  width: 0.1px;
 
-  background-color: #007561;
+  background-color: rgb(172, 170, 170);
 }
 
 /* Topbar styling */
@@ -28,7 +28,4 @@
   height: 90vh !important;
   flex-direction: column;
   align-items: center;
-}
-.btn {
-  font-weight: lighter;
 }
