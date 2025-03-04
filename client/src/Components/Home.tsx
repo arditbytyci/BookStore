@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import axiosClient from "../api/axiosClient";
 import { Book } from "../Models/Book";
-
-import { useNavigate } from "react-router-dom";
 import { Author } from "../Models/Author";
+import { useNavigate } from "react-router-dom";
 import Hero from "./Hero";
 import { RotateLoader } from "react-spinners";
 
@@ -20,7 +19,6 @@ const HomeView = () => {
     fetchAuthors();
   }, []);
 
-  // Fetch books
   const fetchBooks = async () => {
     try {
       const res = await axiosClient.get("/book");
@@ -32,7 +30,6 @@ const HomeView = () => {
     }
   };
 
-  // Fetch authors
   const fetchAuthors = async () => {
     try {
       const res = await axiosClient.get("/author");
@@ -42,12 +39,14 @@ const HomeView = () => {
     }
   };
 
+  const getLatestBooks = (books: Book[]) => {
+    return books.sort((a, b) => b.bookID - a.bookID).slice(0, 3);
+  };
+
   return (
     <div className="home-container">
-      {/* Hero Section (untouched) */}
       <Hero />
 
-      {/* Loading Spinner */}
       {loading && (
         <div className="loading-container flex flex-col justify-start items-center h-screen my-32">
           <RotateLoader
@@ -62,13 +61,12 @@ const HomeView = () => {
         </div>
       )}
 
-      {/* Books Section */}
       <div className="max-w-7xl mx-auto px-6 py-12">
         <h1 className="text-4xl font-semibold text-gray-800 mb-8 text-center">
           Latest Arrivals
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
-          {bookData.slice(0, 3).map((b) => (
+          {getLatestBooks(bookData).map((b) => (
             <div
               key={b.bookID}
               className="card h-auto w-auto flex flex-col justify-center max-w-[400px] max-h-[500px] bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
@@ -87,18 +85,16 @@ const HomeView = () => {
             </div>
           ))}
         </div>
-        {/* View More Books Button */}
         <div className="flex justify-center mt-8">
           <button
             className="bg-black text-white px-6 py-2 rounded-lg hover:bg-white hover:text-black duration-500"
-            onClick={() => navigate("/books")} // Update the route as needed
+            onClick={() => navigate("/books")}
           >
             View More Books
           </button>
         </div>
       </div>
 
-      {/* Authors Section */}
       <div className="max-w-7xl mx-auto px-6 py-12">
         <h1 className="text-4xl font-semibold text-gray-800 mb-8 text-center">
           Featured Authors
@@ -122,11 +118,10 @@ const HomeView = () => {
             </div>
           ))}
         </div>
-        {/* View More Authors Button */}
         <div className="flex justify-center mt-8">
           <button
             className="bg-black text-white px-6 py-2 rounded-lg hover:bg-white hover:text-black duration-500"
-            onClick={() => navigate("/authors")} // Update the route as needed
+            onClick={() => navigate("/authors")}
           >
             View More Authors
           </button>

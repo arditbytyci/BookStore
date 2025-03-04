@@ -1,33 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Order } from "../../Models/Order";
-import axiosClient from "../../api/axiosClient";
+import { useEffect } from "react";
+import { useOrder } from "./hooks/useOrder";
 
 const OrderList: React.FC = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const { orders, handleCancelOrder, fetchOrders } = useOrder();
 
   useEffect(() => {
     fetchOrders();
-  }, []);
-
-  const fetchOrders = async () => {
-    try {
-      const response = await axiosClient.get("order");
-      setOrders(response.data);
-    } catch (error) {
-      console.error("fetchOrders API error", error);
-    }
-  };
+  }, [fetchOrders]);
 
   return (
     <div className="orderlist-container">
       <table className="table">
         <thead>
-          <tr>
+          <tr className="text-lg">
             <th>OrderID</th>
             <th>Customer</th>
             <th>Email</th>
             <th>Date ordered</th>
             <th>Total</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -38,6 +29,12 @@ const OrderList: React.FC = () => {
               <td>{o.email}</td>
               <td>{new Date(o.orderDate).toLocaleDateString()}</td>
               <td>{o.totalAmount}</td>
+              <td
+                className="btn btn-md bg-red-700 btn-circle font-thin text-white"
+                onClick={() => handleCancelOrder(o.orderID)}
+              >
+                Cancel
+              </td>
             </tr>
           ))}
         </tbody>

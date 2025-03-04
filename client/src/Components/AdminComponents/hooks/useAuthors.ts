@@ -7,6 +7,7 @@ import {
   updateAuthor,
 } from "../services/authorService";
 import toast from "react-hot-toast";
+import { data } from "react-router-dom";
 
 export const useAuthor = () => {
   const [authors, setAuthor] = useState<Author[]>([]);
@@ -27,6 +28,15 @@ export const useAuthor = () => {
       setLoading(false);
     }
   };
+
+  // const getAuthorById = async (id: number) => {
+  //   try {
+  //     const authorId = await getAuthorById(id);
+      
+  //   } catch (error) {
+  //     setError(`Failed to fetch author with ${id}`);
+  //   }
+  // };
 
   const handleCreateAuthor = async (newAuthor: Author) => {
     try {

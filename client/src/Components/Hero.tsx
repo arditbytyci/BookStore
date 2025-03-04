@@ -1,8 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 import img from "../img/bookshelf.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Hero: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative bg-button-color  text-white p-6 rounded-3xl">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-10">
@@ -29,7 +32,10 @@ const Hero: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <button className=" bg-white text-black font-thin  px-6 py-3 rounded-lg hover:">
+            <button
+              className=" bg-button-color border-white border  text-white font-thin  px-6 py-3 rounded-lg hover:"
+              onClick={() => navigate("/Books")}
+            >
               Browse Books
             </button>
           </motion.div>

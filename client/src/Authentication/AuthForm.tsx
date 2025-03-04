@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { login, register } from "./auth";
 import img from "../img/login-img.jpg";
 import "./auth-style.css";
 import toast from "react-hot-toast";
+import previous from "../assets/previous.png";
+import { useNavigate } from "react-router-dom";
 
 const AuthForm: React.FC<{
   onLogin: (token: string) => void;
@@ -14,12 +16,24 @@ const AuthForm: React.FC<{
   const [fullName, setFullName] = useState("");
   const [moveImage, setMoveImage] = useState(false);
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setUsername("");
+    setPassword("");
+    setEmail("");
+    setFullName("");
+  }, []);
+
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       const token = await login(username, password);
       onLogin(token);
+
+      setUsername("");
+      setPassword("");
     } catch (error: any) {
       toast.error(
         error.response?.data?.error || "Invalid username or password."
@@ -34,6 +48,7 @@ const AuthForm: React.FC<{
       await register(fullName, username, email, password);
       toast.success("Registration successful!");
       onRegistrationComplete();
+      // Clear form fields after successful registration
       setEmail("");
       setPassword("");
       setUsername("");
@@ -47,18 +62,24 @@ const AuthForm: React.FC<{
     }
   };
 
-  const handleRegistrationComplete = () => {
-    setMoveImage(!moveImage);
-  };
-
   const handleImageMove = () => {
     setMoveImage(!moveImage); // Toggle the image position
     document.body.style.overflow = moveImage ? "hidden" : "visible";
+
+    setUsername("");
+    setPassword("");
+    setEmail("");
+    setFullName("");
   };
 
   return (
-    <div className="login-container">
-      <a>Go back</a>
+    <div className="login-container ">
+      <img
+        src={previous}
+        alt=""
+        className="w-10 h-10 cursor-pointer absolute left-0 top-5"
+        onClick={() => navigate("/")}
+      />
       <div className="image-container shadow-xl">
         <form
           onSubmit={handleRegisterSubmit}
@@ -71,6 +92,7 @@ const AuthForm: React.FC<{
           <input
             type="text"
             placeholder="Full Name"
+            value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             className="input focus:outline-none focus:ring-0 font-thin"
           />
@@ -84,6 +106,7 @@ const AuthForm: React.FC<{
           <input
             type="email"
             placeholder="Email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="input focus:outline-none focus:ring-0 font-thin"
           />
@@ -96,13 +119,12 @@ const AuthForm: React.FC<{
           />
           <button
             type="submit"
-            onClick={handleRegistrationComplete}
-            className="btn btn-sm w-[100px] bg-button-color rounded-2xl text-white mt-3"
+            className="btn btn-sm w-[100px] bg-button-color rounded-2xl text-white mt-3 font-thin hover:bg-transparent hover:border-button-color hover:text-gray-800"
           >
             Register
           </button>
           <p className="mt-5">
-            Don't have an account?{" "}
+            Already have an account?{" "}
             <a className="link" onClick={handleImageMove}>
               Login
             </a>
@@ -111,8 +133,9 @@ const AuthForm: React.FC<{
       </div>
 
       <form
+        autoComplete="off"
         onSubmit={handleLoginSubmit}
-        className={` login-container-right ${moveImage ? "hide" : ""}`}
+        className={`login-container-right ${moveImage ? "hide" : ""}`}
       >
         <h2>Login</h2>
         <input
@@ -131,7 +154,7 @@ const AuthForm: React.FC<{
         />
         <button
           type="submit"
-          className="btn btn-sm w-[100px] bg-button-color text-white font-semibold mt-3 rounded-2xl"
+          className="btn btn-sm w-[100px] bg-button-color text-white font-thin  hover:bg-transparent hover:border-button-color hover:text-gray-800 mt-3 rounded-2xl"
         >
           Login
         </button>

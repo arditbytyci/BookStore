@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from "react";
 import {
   getEmailFromToken,
@@ -5,6 +6,7 @@ import {
   getRoleFromToken,
   getUserIdFromToken,
 } from "./utils";
+
 
 interface AuthContextType {
   isLoggedIn: boolean;
@@ -101,8 +103,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUserId(null);
     setEmail(null);
     setFullName(null);
-  };
 
+    window.location.href = "/";
+  };
   return (
     <AuthContext.Provider
       value={{ isLoggedIn, login, logout, role, userId, email, fullName }}

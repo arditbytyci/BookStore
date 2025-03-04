@@ -57,13 +57,15 @@ namespace BookStore.DATA
             modelBuilder.Entity<Book>()
                 .HasOne(b => b.Author)
                 .WithMany(a => a.Books)
-                .HasForeignKey(b => b.AuthorID);
+                .HasForeignKey(b => b.AuthorID)
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             modelBuilder.Entity<Book>()
                 .HasOne(b => b.Genre)
                 .WithMany(g => g.Books)
-                .HasForeignKey(b => b.GenreID);
+                .HasForeignKey(b => b.GenreID)
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             modelBuilder.Entity<OrderDetail>()
@@ -74,7 +76,8 @@ namespace BookStore.DATA
             modelBuilder.Entity<OrderDetail>()
                  .HasOne(od => od.Book)
                  .WithMany(b => b.OrderDetails)
-                 .HasForeignKey(od => od.BookID);
+                 .HasForeignKey(od => od.BookID)
+                 .OnDelete(DeleteBehavior.Restrict);
 
 
 

@@ -38,14 +38,17 @@ const BookList: React.FC = () => {
   };
 
   return (
-    <div className="booklist-container">
-      <button className="btn btn-primary" onClick={handleSave}>
+    <div className="booklist-container  text-center ">
+      <button
+        className="btn btn-lg bg-green-900 text-white font-thin hover:border-green-950 hover:text-black mb-5 hover:bg-transparent transition-all duration-300 "
+        onClick={handleSave}
+      >
         Add Book
       </button>
       <table className="table">
         {/* head */}
         <thead>
-          <tr>
+          <tr className="text-base">
             <th>ID</th>
             <th>BookTitle</th>
             <th>PublishedDate</th>
@@ -67,13 +70,13 @@ const BookList: React.FC = () => {
               <td colSpan={2}>
                 <button
                   onClick={() => setSelectedBook(b)}
-                  className="btn btn-md btn-outline btn-circle btn-warning text-white font-semibold mr-4"
+                  className="btn btn-md btn-outline btn-circle btn-warning text-white font-thin mr-4 h"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDeleteBook(b.bookID)}
-                  className="btn btn-md btn-outline btn-circle btn-error text-white font-semibold"
+                  className="btn btn-md btn-outline btn-circle btn-error text-white font-thin"
                 >
                   Delete
                 </button>

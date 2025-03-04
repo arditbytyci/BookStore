@@ -4,12 +4,14 @@ import axiosClient from "../../api/axiosClient";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { RotateLoader } from "react-spinners";
+import AddToCartButton from "../Cart/AddToCartButton";
+import { useAuth } from "../../Authentication/AuthContext";
 
 const BookDetails: React.FC = () => {
   const [book, setBook] = useState<Book>();
   const [loading, setLoading] = useState<boolean>(true);
   const { id } = useParams<{ id: string }>();
-
+  const { isLoggedIn } = useAuth();
   useEffect(() => {
     if (id) fetchBookById(id);
   }, [id]);
@@ -54,9 +56,7 @@ const BookDetails: React.FC = () => {
                 {book?.title}
               </h1>
               <div className="w-full border-b-[1px] border-[#d5d2d5] pb-6">
-                <button className="btn bg-zinc-950 text-white px-8 py-3 rounded-lg hover:bg-zinc-800 transition-colors duration-300">
-                  Add to cart
-                </button>
+                <div> {isLoggedIn && <AddToCartButton book={book} />}</div>
               </div>
             </div>
           </div>

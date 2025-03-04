@@ -21,7 +21,7 @@ const GenreList: React.FC = () => {
   if (loading) return <p>{loading}</p>;
 
   return (
-    <div>
+    <div className="text-center">
       <button
         onClick={() =>
           setSelectedGenre({
@@ -29,13 +29,13 @@ const GenreList: React.FC = () => {
             genreName: "",
           })
         }
-        className="btn btn-primary"
+        className="btn btn-lg bg-green-900 text-white font-thin hover:border-green-950 hover:text-black mb-5 hover:bg-transparent transition-all duration-300 "
       >
         Add Genre
       </button>
       <table className="table">
         <thead>
-          <tr>
+          <tr className="text-lg">
             <th>GenreID</th>
             <th>GenreName</th>
             <th>Actions</th>

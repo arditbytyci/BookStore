@@ -6,7 +6,7 @@ import {
   deleteBook,
   addBook,
 } from "../services/bookService";
-import { getAuthors } from "../services/authorService";
+import { getAuthorById, getAuthors } from "../services/authorService";
 import { Author } from "../../../Models/Author";
 import { Genre } from "../../../Models/Genre";
 import { getGenres } from "../services/genreService";
@@ -39,6 +39,10 @@ export const useBooks = () => {
     try {
       const addedBook = await addBook(newBook);
       setBooks((prev) => [...prev, addedBook]);
+      if (newBook.authorID) {
+        const newAuthor = await getAuthorById(newBook.authorID);
+        setAuthors((prev) => [...prev, newAuthor]);
+      }
     } catch (error) {
       setError("Failed to create book");
     }

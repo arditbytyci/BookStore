@@ -5,13 +5,19 @@ import toast from "react-hot-toast";
 
 interface GenreModalProps {
   genre: Genre | null;
+  genres: Genre[];
   onClose: () => void;
   onSave: (genre: Genre) => void;
 }
 
-const GenreModal: React.FC<GenreModalProps> = ({ genre, onClose, onSave }) => {
+const GenreModal: React.FC<GenreModalProps> = ({
+  genre,
+  genres,
+  onClose,
+  onSave,
+}) => {
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-  const [errors, setErorrs] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     setSelectedGenre(genre);
@@ -23,24 +29,33 @@ const GenreModal: React.FC<GenreModalProps> = ({ genre, onClose, onSave }) => {
         ...selectedGenre,
         [field]: value,
       });
-      setErorrs((prevErrors) => ({ ...prevErrors, [field]: "" }));
+      setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
     }
   };
+
   if (!selectedGenre) return null;
 
   const handleSubmit = () => {
     const validationErrors = validateGenre(selectedGenre);
 
     if (Object.keys(validationErrors).length > 0) {
-      setErorrs(validationErrors);
+      setErrors(validationErrors);
       toast.error("Please fill out the field before submitting");
+      return;
+    }
+
+    // Check if genre already exists
+    const genreExists = genres.some(
+      (g) => g.genreName.toLowerCase() === selectedGenre.genreName.toLowerCase()
+    );
+
+    if (genreExists) {
+      toast.error("Genre already exists!");
       return;
     }
 
     onSave(selectedGenre);
   };
-
-  if (!genre) return null;
 
   return (
     <div className="modal modal-open">
@@ -63,10 +78,16 @@ const GenreModal: React.FC<GenreModalProps> = ({ genre, onClose, onSave }) => {
           </div>
         </form>
         <div className="modal-action">
-          <button onClick={handleSubmit} className="btn btn-success text-white">
+          <button
+            onClick={handleSubmit}
+            className="btn bg-green-800 font-thin text-white hover:bg-transparent hover:text-black hover:border-green-800"
+          >
             Save
           </button>
-          <button onClick={onClose} className="btn btn-error text-white">
+          <button
+            onClick={onClose}
+            className="btn bg-red-800 font-thin text-white hover:bg-transparent hover:text-black hover:border-red-800"
+          >
             Cancel
           </button>
         </div>

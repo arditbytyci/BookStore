@@ -32,14 +32,17 @@ const AuthorList: React.FC = () => {
   };
 
   return (
-    <div className="authorlist-container">
-      <button className="btn btn-primary" onClick={handleSave}>
+    <div className="authorlist-container text-center">
+      <button
+        className="btn btn-lg bg-green-900 text-white font-thin hover:border-green-950 hover:text-black mb-5 hover:bg-transparent transition-all duration-300 "
+        onClick={handleSave}
+      >
         Add Author
       </button>
       <table className="table">
         {/* head */}
         <thead>
-          <tr>
+          <tr className="text-lg">
             <th>ID</th>
             <th>Name</th>
             <th>BirthDate</th>

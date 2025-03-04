@@ -6,6 +6,11 @@ export const getAuthors = async (): Promise<Author[]> => {
   return response.data;
 };
 
+export const getAuthorById = async (id: number): Promise<Author> => {
+  const response = await axiosClient.get(`/author/${id}`);
+  return response.data;
+};
+
 export const addAuthor = async (author: Author): Promise<Author> => {
   const response = await axiosClient.post("/author", author);
   return response.data;

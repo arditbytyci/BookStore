@@ -46,13 +46,13 @@ const TopBar: React.FC = () => {
           <div className="flex items-center space-x-2 sm:space-x-4">
             <Link
               to="/AuthPage"
-              className="btn btn-sm bg-button-color text-white w-[60px] sm:w-[80px] text-xs sm:text-sm rounded-3xl"
+              className="btn btn-sm bg-button-color font-thin text-white hover:bg-transparent hover:border-button-color hover:text-gray-800 w-[60px] sm:w-[80px] text-xs sm:text-sm rounded-3xl"
             >
               Login
             </Link>
             <Link
               to="/AuthPage"
-              className="btn btn-sm bg-button-color text-white w-[70px] sm:w-[80px] text-xs sm:text-sm rounded-3xl"
+              className="btn btn-sm bg-button-color font-thin text-white hover:bg-transparent hover:border-button-color hover:text-gray-800 w-[70px] sm:w-[80px] text-xs sm:text-sm rounded-3xl"
             >
               Register
             </Link>

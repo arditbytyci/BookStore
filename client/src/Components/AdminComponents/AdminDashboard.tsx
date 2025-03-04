@@ -41,6 +41,10 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  const fetchLatestOrders = (orders: Order[]) => {
+    return orders.sort((a, b) => b.orderID - a.orderID).slice(0, 3);
+  };
+
   return (
     <div className="flex flex-col justify-center gap-10">
       {/* Dashboard Header */}
@@ -78,39 +82,36 @@ const AdminDashboard: React.FC = () => {
             <tr>
               <th>Order ID</th>
               <th>Customer</th>
-              <th>Status</th>
+
               <th>Amount</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>#1021</td>
-              <td>John Doe</td>
-              <td>Shipped</td>
-              <td>$250</td>
-            </tr>
-            <tr>
-              <td>#1022</td>
-              <td>Jane Smith</td>
-              <td>Processing</td>
-              <td>$120</td>
-            </tr>
-            <tr>
-              <td>#1023</td>
-              <td>Bob Johnson</td>
-              <td>Delivered</td>
-              <td>$310</td>
-            </tr>
+            {fetchLatestOrders(orders).map((o) => (
+              <tr key={o.orderID}>
+                <td>{o.orderID}</td>
+                <td>{o.fullName}</td>
+                <td>{o.totalAmount}</td>
+              </tr>
+            ))}
+
+            <tr></tr>
           </tbody>
         </table>
       </div>
 
       {/* Admin Actions (Optional) */}
-      <div className="mt-8">
-        <Link to="/OrderView" className="btn btn-primary w-full">
+      <div className="mt-8 flex flex-row justify-around items-center">
+        <Link
+          to="/OrderList"
+          className="btn bg-primary text-white font-thin hover:border-primary hover:bg-transparent hover:text-black "
+        >
           View All Orders
         </Link>
-        <Link to="/CustomerView" className="btn btn-secondary w-full mt-4">
+        <Link
+          to="/UserList"
+          className="btn bg-primary text-white font-thin hover:border-primary hover:bg-transparent hover:text-black"
+        >
           View All Customers
         </Link>
       </div>
