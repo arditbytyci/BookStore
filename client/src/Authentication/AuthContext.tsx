@@ -78,7 +78,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const login = (token: string) => {
-    console.log("Login Token:", token);
+    
     localStorage.setItem("token", token);
     setIsLoggedIn(true);
     const roleFromToken = getRoleFromToken(token);

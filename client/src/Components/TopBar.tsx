@@ -37,7 +37,7 @@ const TopBar: React.FC = () => {
 
             <button
               onClick={handleLogout}
-              className="btn btn-sm bg-button-color text-white w-[80px] sm:w-[100px] text-sm rounded-3xl"
+              className="btn btn-sm bg-button-color font-thin text-white hover:bg-transparent hover:border-button-color hover:text-gray-800 w-[80px] sm:w-[100px] text-sm rounded-3xl"
             >
               Logout
             </button>

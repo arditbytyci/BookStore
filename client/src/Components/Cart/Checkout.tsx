@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
@@ -7,10 +8,15 @@ import toast from "react-hot-toast";
 import previous from "../../assets/previous.png";
 import { clearCart } from "./cartSlice";
 
+import { Order } from "../../Models/Order";
+import axiosClient from "../../api/axiosClient";
+import { useAuth } from "../../Authentication/AuthContext";
+
 const Checkout: React.FC = () => {
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
+  const { userId } = useAuth();
   const cart = useSelector((state: RootState) => state.cart.items);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -27,22 +33,40 @@ const Checkout: React.FC = () => {
     setLoading(true);
     setError("");
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: elements.getElement(CardElement)!,
-    });
+    try {
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: elements.getElement(CardElement)!,
+      });
 
-    if (error) {
-      setError(error.message || "Payment failed");
+      if (error) {
+        setError(error.message || "Payment failed");
+        setLoading(false);
+        return;
+      }
+
+      const orderDetails = cart.map((item) => ({
+        bookId: item.bookID,
+        quantity: item.quantity,
+        bookPrice: item.price,
+      }));
+
+      const orderResponse = await axiosClient.post<Order>("/order", {
+        userId: userId,
+        orderDate: new Date().toISOString(),
+        totalAmount,
+        orderDetails,
+      });
+
+      dispatch(clearCart());
+      toast.success("Payment successful! Order placed.");
+      navigate("/");
+    } catch (error) {
+      console.error("Checkout Error:", error);
+      setError("Failed to place the order. Please try again.");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    console.log("Payment successful:", paymentMethod);
-    toast.success("Payment successful!");
-    dispatch(clearCart());
-    setLoading(false);
-    navigate("/");
   };
 
   return (
@@ -65,9 +89,7 @@ const Checkout: React.FC = () => {
           </p>
         </div>
 
-        {/* Payment Form */}
         <form onSubmit={handlePayment} className="space-y-6">
-          {/* Card Element */}
           <div className="border border-gray-200 rounded-lg p-3 bg-gray-50">
             <CardElement
               options={{
@@ -87,10 +109,8 @@ const Checkout: React.FC = () => {
             />
           </div>
 
-          {/* Error Message */}
           {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
-          {/* Pay Button */}
           <button
             type="submit"
             disabled={!stripe || loading}

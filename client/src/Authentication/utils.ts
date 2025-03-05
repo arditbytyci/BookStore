@@ -43,12 +43,12 @@ export const getUserIdFromToken = (token: string): string | null => {
 
 export const getEmailFromToken = (token: string): string | null => {
   try {
-    const payload = token.split(".")[1]; // Get the payload part of the JWT
-    const decodedPayload = atob(payload); // Decode the payload
-    const decodedToken = JSON.parse(decodedPayload); // Parse the payload as JSON
-    console.log("Decoded Token:", decodedToken); // Check the structure
+    const payload = token.split(".")[1]; 
+    const decodedPayload = atob(payload); 
+    const decodedToken = JSON.parse(decodedPayload); 
+ 
 
-    // Extract the email using the correct claim key
+    
     const email =
       decodedToken[
         "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
@@ -57,7 +57,7 @@ export const getEmailFromToken = (token: string): string | null => {
       console.warn("Email not found in token.");
     }
 
-    return email || null; // Return email or null if not found
+    return email || null; 
   } catch (error) {
     console.error("Error decoding token", error);
     return null;

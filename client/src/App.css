@@ -3,6 +3,7 @@
   font-weight: lighter;
   font-style: normal;
   color: #36362e;
+  transition: all 500ms ease-in-out;
 }
 
 .sidebar::after {
