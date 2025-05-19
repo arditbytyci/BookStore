@@ -4,7 +4,6 @@ A full-stack Bookstore Management App where users can browse books, register/log
 
 ---
 
-
 ## ✨ Features
 
 - 📖 Browse and filter book listings
@@ -42,19 +41,17 @@ A full-stack Bookstore Management App where users can browse books, register/log
 ### 🏠 Homepage
 ![Homepage](client/screenshots/home-page.png)
 
-### Author Page
+### 👨‍💼 Author Page
 ![Author Page](client/screenshots/author-page.png)
 
-### Book Page
+### 📚 Book Page
 ![Book Page](client/screenshots/book-page.png)
 
 ### 🛠️ Admin Panel
 ![Admin Panel](client/screenshots/admin-panel.png)
 
-### Cart
+### 🛒 Cart
 ![Cart](client/screenshots/cart.png)
-
-
 
 ---
 
@@ -66,4 +63,16 @@ A full-stack Bookstore Management App where users can browse books, register/log
 cd client
 yarn install
 yarn dev
+
+```
+
+### 🖧 Backend
+
+```bash
+cd api
+dotnet restore
+dotnet ef database update
+dotnet run
+
+
 
