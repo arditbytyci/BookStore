@@ -7,7 +7,6 @@ import {
   updateAuthor,
 } from "../services/authorService";
 import toast from "react-hot-toast";
-import { data } from "react-router-dom";
 
 export const useAuthor = () => {
   const [authors, setAuthor] = useState<Author[]>([]);
@@ -32,7 +31,7 @@ export const useAuthor = () => {
   // const getAuthorById = async (id: number) => {
   //   try {
   //     const authorId = await getAuthorById(id);
-      
+
   //   } catch (error) {
   //     setError(`Failed to fetch author with ${id}`);
   //   }
@@ -53,8 +52,8 @@ export const useAuthor = () => {
 
       setAuthor((prev) =>
         prev.map((author) =>
-          author.authorID === updatedAuthor.authorID ? updatedAuthor : author
-        )
+          author.authorID === updatedAuthor.authorID ? updatedAuthor : author,
+        ),
       );
       fetchAuthors();
     } catch (error: any) {
@@ -67,7 +66,7 @@ export const useAuthor = () => {
     try {
       await deleteAuthor(authorID);
       setAuthor((prev) =>
-        prev.filter((author) => author.authorID !== authorID)
+        prev.filter((author) => author.authorID !== authorID),
       );
       toast.success("Author deleted successfully!");
     } catch (error: any) {

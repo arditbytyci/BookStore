@@ -7,7 +7,6 @@ import {
   getUserIdFromToken,
 } from "./utils";
 
-
 interface AuthContextType {
   isLoggedIn: boolean;
   role: "Customer" | "Admin" | null;
@@ -24,7 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
-    !!localStorage.getItem("token")
+    !!localStorage.getItem("token"),
   );
   const [role, setRole] = useState<"Customer" | "Admin">("Customer");
   const [userId, setUserId] = useState<string | null>(null);
@@ -78,7 +77,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const login = (token: string) => {
-    
     localStorage.setItem("token", token);
     setIsLoggedIn(true);
     const roleFromToken = getRoleFromToken(token);

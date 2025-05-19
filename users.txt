@@ -1,0 +1,49 @@
+1. Full Name: Emily Johnson  
+   Username: emily_johnson23  
+   Email: emily.johnson23@example.com  
+   Password: Password-1  
+
+2. Full Name: Michael Anderson  
+   Username: mike_anderson89  
+   Email: mike.anderson89@example.com  
+   Password: Password-1  
+
+3. Full Name: Sarah Thompson  
+   Username: sarah_t_92  
+   Email: sarah.thompson92@example.com  
+   Password: Password-1  
+
+4. Full Name: David Martinez  
+   Username: dmartinez77  
+   Email: david.martinez77@example.com  
+   Password: Password-1  
+
+5. Full Name: Jessica Williams  
+   Username: jess_williams01  
+   Email: jess.williams01@example.com  
+   Password: Password-1  
+
+6. Full Name: Daniel Brown  
+   Username: dan_brown88  
+   Email: dan.brown88@example.com  
+   Password: Password-1  
+
+7. Full Name: Ashley Garcia  
+   Username: ashley_garcia34  
+   Email: ashley.garcia34@example.com  
+   Password: Password-1  
+
+8. Full Name: Christopher Wilson  
+   Username: chris_wilson56  
+   Email: chris.wilson56@example.com  
+   Password: Password-1  
+
+9. Full Name: Megan Robinson  
+   Username: megan_robinson99  
+   Email: megan.robinson99@example.com  
+   Password: Password-1  
+
+10. Full Name: James Lee  
+    Username: james_lee45  
+    Email: james.lee45@example.com  
+    Password: Password-1  

@@ -1,26 +1,31 @@
 using BookStore.DATA;
+using BookStore.Interfaces;
 using BookStore.Interfaces.AuthorInterface;
 using BookStore.Interfaces.BookInterface;
-using BookStore.Interfaces.CustomerInterface;
+
 using BookStore.Interfaces.GenreInterface;
 using BookStore.Interfaces.OrderDetailInterface;
 using BookStore.Interfaces.OrderInterface;
 using BookStore.Interfaces.UserInterface;
 using BookStore.Models;
+using BookStore.Repositories;
 using BookStore.Repositories.AuthorRepo;
 using BookStore.Repositories.BookRepo;
-using BookStore.Repositories.CustomerRepo;
+
 using BookStore.Repositories.GenreRepo;
+
 using BookStore.Repositories.OrderDetailRepo;
 using BookStore.Repositories.OrderRepo;
+
 using BookStore.Repositories.UserRepo;
 using BookStore.Services.AuthenticationService;
 using BookStore.Services.AuthorSvc;
 using BookStore.Services.BookSvc;
-using BookStore.Services.CustomerSvc;
+
 using BookStore.Services.GenreSvc;
 using BookStore.Services.OrderDetailSvc;
 using BookStore.Services.OrderSvc;
+
 using BookStore.Services.UserSvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -67,6 +72,13 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddControllersWithViews();
 
+
+
+
+
+
+
+
 //Author
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
@@ -75,6 +87,7 @@ builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 var configuration = builder.Configuration;
+
 
 
 //Genre 
@@ -89,7 +102,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
 
-//Customer 
+
 
 
 //User 
@@ -101,7 +114,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 
-// Retrieve JWT settings
+// JWT settings from app settings
 var key = configuration["Jwt:Key"];
 var issuer = configuration["Jwt:Issuer"];
 var audience = configuration["Jwt:Audience"];

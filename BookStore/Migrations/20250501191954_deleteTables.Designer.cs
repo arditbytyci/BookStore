@@ -4,6 +4,7 @@ using BookStore.DATA;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Migrations
 {
     [DbContext(typeof(BookContext))]
-    partial class BookContextModelSnapshot : ModelSnapshot
+    [Migration("20250501191954_deleteTables")]
+    partial class deleteTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,6 +88,37 @@ namespace BookStore.Migrations
                     b.HasIndex("GenreID");
 
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("BookStore.Models.Customer", b =>
+                {
+                    b.Property<int>("CustomerID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerID"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CustomerID");
+
+                    b.HasIndex("UserID")
+                        .IsUnique();
+
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("BookStore.Models.Genre", b =>
@@ -378,6 +412,17 @@ namespace BookStore.Migrations
                     b.Navigation("Genre");
                 });
 
+            modelBuilder.Entity("BookStore.Models.Customer", b =>
+                {
+                    b.HasOne("BookStore.Models.User", "User")
+                        .WithOne("Customer")
+                        .HasForeignKey("BookStore.Models.Customer", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("BookStore.Models.Order", b =>
                 {
                     b.HasOne("BookStore.Models.User", "User")
@@ -481,6 +526,8 @@ namespace BookStore.Migrations
 
             modelBuilder.Entity("BookStore.Models.User", b =>
                 {
+                    b.Navigation("Customer");
+
                     b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618

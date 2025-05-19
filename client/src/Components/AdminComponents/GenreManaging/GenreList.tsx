@@ -75,7 +75,7 @@ const GenreList: React.FC = () => {
             } else {
               handleUpdateGenre(updatedGenre);
               toast.success(
-                `Edited genre with ID: ${updatedGenre.genreID} successfully!`
+                `Edited genre with ID: ${updatedGenre.genreID} successfully!`,
               );
             }
             setSelectedGenre(null);

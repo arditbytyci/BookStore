@@ -45,7 +45,7 @@ const AuthorModal: React.FC<AuthorModalProps> = ({
 
     // Check if author already exists
     const authorExists = authors.some(
-      (a) => a.name.toLowerCase() === selectedAuthor.name.toLowerCase()
+      (a) => a.name.toLowerCase() === selectedAuthor.name.toLowerCase(),
     );
 
     if (authorExists) {

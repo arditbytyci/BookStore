@@ -68,6 +68,7 @@ const SideBar: React.FC<{
                   className="w-8 h-8 sm:w-7 sm:h-7 sm:space-x-10 md:w-10 md:h-10 lg:w-10 lg:h-10"
                 />
               </Link>
+
               <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-sm text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity">
                 {link.label}
               </span>
@@ -76,7 +77,7 @@ const SideBar: React.FC<{
         </div>
 
         {/* Placeholder for additional content */}
-        <div></div>
+        <div className="flex flex-col"></div>
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       .includes((role || "").toLowerCase())
   ) {
     toast.error(
-      `Access denied. User role "${role}" does not match required roles: ${requiredRoles}`
+      `Access denied. User role "${role}" does not match required roles: ${requiredRoles}`,
     );
     return <Navigate to="/" replace />;
   }

@@ -10,10 +10,8 @@ import store from "./Components/Cart/store.ts";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
-
-
 const stripePromise = loadStripe(
-  "pk_test_51PSffqGGsJXk0iHFsnaBLJVtQkcYI5xTtrBAyV9Qs4xDFOnyhTytToRNLy7zIE2AYc1a5AYZwpZlklH7MFHTNtSo00vpOOHG6h"
+  "pk_test_51PSffqGGsJXk0iHFsnaBLJVtQkcYI5xTtrBAyV9Qs4xDFOnyhTytToRNLy7zIE2AYc1a5AYZwpZlklH7MFHTNtSo00vpOOHG6h",
 );
 
 createRoot(document.getElementById("root")!).render(
@@ -27,5 +25,5 @@ createRoot(document.getElementById("root")!).render(
         </Provider>
       </BrowserRouter>
     </AuthProvider>
-  </StrictMode>
+  </StrictMode>,
 );

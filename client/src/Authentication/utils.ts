@@ -1,7 +1,6 @@
 export const getRoleFromToken = (token: string): string => {
   try {
     const decodedToken = JSON.parse(atob(token.split(".")[1]));
-    console.log("Decoded Token:", decodedToken); // Log decoded token for debugging
 
     // Extract role using the correct claim key
     const role =
@@ -25,7 +24,6 @@ export const getRoleFromToken = (token: string): string => {
 export const getUserIdFromToken = (token: string): string | null => {
   try {
     const decodedToken = JSON.parse(atob(token.split(".")[1]));
-    console.log("Decoded Token:", decodedToken);
 
     const userId = decodedToken["sub"] || decodedToken["userId"];
 
@@ -43,12 +41,10 @@ export const getUserIdFromToken = (token: string): string | null => {
 
 export const getEmailFromToken = (token: string): string | null => {
   try {
-    const payload = token.split(".")[1]; 
-    const decodedPayload = atob(payload); 
-    const decodedToken = JSON.parse(decodedPayload); 
- 
+    const payload = token.split(".")[1];
+    const decodedPayload = atob(payload);
+    const decodedToken = JSON.parse(decodedPayload);
 
-    
     const email =
       decodedToken[
         "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
@@ -57,7 +53,7 @@ export const getEmailFromToken = (token: string): string | null => {
       console.warn("Email not found in token.");
     }
 
-    return email || null; 
+    return email || null;
   } catch (error) {
     console.error("Error decoding token", error);
     return null;

@@ -47,7 +47,7 @@ const BookModal: React.FC<BookModalProps> = ({
         authorName: "",
         genreName: "",
         imageUrl: "",
-      }
+      },
     );
   }, [book, authors, genres]);
 
@@ -59,7 +59,7 @@ const BookModal: React.FC<BookModalProps> = ({
 
     if (newGenreName) {
       const genreExists = genres.some(
-        (g) => g.genreName.toLowerCase() === newGenreName.toLowerCase()
+        (g) => g.genreName.toLowerCase() === newGenreName.toLowerCase(),
       );
 
       if (genreExists) {
@@ -97,7 +97,7 @@ const BookModal: React.FC<BookModalProps> = ({
   };
 
   const handleImageChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -145,7 +145,7 @@ const BookModal: React.FC<BookModalProps> = ({
 
     // Check for duplicate author
     const authorExists = authors.some(
-      (a) => a.name.toLowerCase() === newAuthor.name!.toLowerCase()
+      (a) => a.name.toLowerCase() === newAuthor.name!.toLowerCase(),
     );
 
     if (authorExists) {
@@ -376,7 +376,7 @@ const BookModal: React.FC<BookModalProps> = ({
                             headers: {
                               "Content-Type": "multipart/form-data",
                             },
-                          }
+                          },
                         );
                         setNewAuthor({
                           ...newAuthor,

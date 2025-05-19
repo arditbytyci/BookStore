@@ -34,7 +34,9 @@
   align-items: center;
   background: linear-gradient(135deg, #ffffed 0%, #c3e5ff 150%);
   border-radius: 20px 0px 0px 20px;
-  transition: all 0.4s ease-in-out, opacity 0.5s ease-in-out !important; /* Add opacity transition */
+  transition:
+    all 0.4s ease-in-out,
+    opacity 0.5s ease-in-out !important; /* Add opacity transition */
   position: relative;
   overflow: visible;
   z-index: 1;
@@ -78,7 +80,9 @@
   top: 0;
   left: 0;
   z-index: 3;
-  transition: transform 1s ease-in-out, border-radius 1s linear;
+  transition:
+    transform 1s ease-in-out,
+    border-radius 1s linear;
 }
 
 .img {
@@ -93,7 +97,9 @@
   position: absolute;
   overflow: visible;
   z-index: 10;
-  transition: transform 1s ease-in-out, border-radius 1s linear;
+  transition:
+    transform 1s ease-in-out,
+    border-radius 1s linear;
 }
 
 .hide {

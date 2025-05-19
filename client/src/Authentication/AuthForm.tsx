@@ -36,7 +36,7 @@ const AuthForm: React.FC<{
       setPassword("");
     } catch (error: any) {
       toast.error(
-        error.response?.data?.error || "Invalid username or password."
+        error.response?.data?.error || "Invalid username or password.",
       );
     }
   };

@@ -12,7 +12,7 @@ const TopBar: React.FC = () => {
   // Calculate total cart quantity
   const totalCartQuantity = cartItems.reduce(
     (total, item) => total + item.quantity,
-    0
+    0,
   );
 
   const handleLogout = () => {

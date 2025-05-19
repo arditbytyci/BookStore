@@ -46,7 +46,8 @@ const GenreModal: React.FC<GenreModalProps> = ({
 
     // Check if genre already exists
     const genreExists = genres.some(
-      (g) => g.genreName.toLowerCase() === selectedGenre.genreName.toLowerCase()
+      (g) =>
+        g.genreName.toLowerCase() === selectedGenre.genreName.toLowerCase(),
     );
 
     if (genreExists) {

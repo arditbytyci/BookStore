@@ -7,6 +7,6 @@ export interface Book {
   publishedDate: string; //
   genreName: string; //
   authorName: string; //
-  imageUrl: string; // 
+  imageUrl: string; //
   description: string; //
 }

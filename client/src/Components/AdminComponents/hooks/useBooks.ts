@@ -54,8 +54,8 @@ export const useBooks = () => {
 
       setBooks((prev) =>
         prev.map((book) =>
-          book.bookID === updatedBook.bookID ? updatedBook : book
-        )
+          book.bookID === updatedBook.bookID ? updatedBook : book,
+        ),
       );
       fetchBooks();
     } catch (error) {

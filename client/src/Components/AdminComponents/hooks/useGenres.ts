@@ -11,7 +11,6 @@ export const useGenres = () => {
   const [genres, setGenres] = useState<Genre[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  
 
   useEffect(() => {
     fetchGenres();
@@ -43,8 +42,8 @@ export const useGenres = () => {
 
       setGenres((prev) =>
         prev.map((genre) =>
-          genre.genreID === updatedGenre.genreID ? updatedGenre : genre
-        )
+          genre.genreID === updatedGenre.genreID ? updatedGenre : genre,
+        ),
       );
       console.log("updated genre", updatedGenre);
     } catch (error: any) {

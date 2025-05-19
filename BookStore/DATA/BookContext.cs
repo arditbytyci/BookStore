@@ -13,7 +13,7 @@ namespace BookStore.DATA
 
 
 
-        public DbSet<Customer> Customers { get; set; }
+
 
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
@@ -23,6 +23,14 @@ namespace BookStore.DATA
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<OrderDetail> OrderDetails { get; set; }
+
+     
+
+
+
+
+
+       
 
 
 
@@ -36,18 +44,7 @@ namespace BookStore.DATA
 
             base.OnModelCreating(modelBuilder);
 
-
-
-            modelBuilder.Entity<Customer>()
-                .HasOne(c => c.User)
-                .WithOne(u => u.Customer)
-                .HasForeignKey<Customer>(c => c.UserID);
-
-            //modelBuilder.Entity<Customer>()
-            //    .HasMany(c => c.Orders)
-            //    .WithOne(o => o.Customer)
-            //    .HasForeignKey(o => o.CustomerID);
-
+     
             modelBuilder.Entity<Order>()
     .HasOne(o => o.User)
     .WithMany(u => u.Orders)

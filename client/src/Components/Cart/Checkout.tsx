@@ -23,7 +23,7 @@ const Checkout: React.FC = () => {
   const navigate = useNavigate();
   const totalAmount = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
 
   const handlePayment = async (e: React.FormEvent) => {

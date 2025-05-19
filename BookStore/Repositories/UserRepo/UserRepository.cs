@@ -28,10 +28,10 @@ namespace BookStore.Repositories.UserRepo
         }
 
         public async Task<IEnumerable<User>> GetAllAsync() =>
-            await _context.Users.Include(u => u.Customer).ToListAsync();
+            await _context.Users.ToListAsync();
 
         public async Task<User> GetUserByIdAsync(string id) =>
-            await _context.Users.Include(u => u.Customer).FirstOrDefaultAsync(u => u.Id == id);
+            await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
  
         public async Task AddAsync(User entity)

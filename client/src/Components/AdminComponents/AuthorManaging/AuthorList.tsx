@@ -84,7 +84,7 @@ const AuthorList: React.FC = () => {
             } else {
               handleAuthorUpdate(updatedAuthor);
               toast.success(
-                `Author with id:[${updatedAuthor.authorID}] edited successfully`
+                `Author with id:[${updatedAuthor.authorID}] edited successfully`,
               );
             }
             setSelectedAuthor(null);

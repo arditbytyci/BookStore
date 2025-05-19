@@ -4,7 +4,7 @@ export const register = async (
   fullName: string,
   username: string,
   email: string,
-  password: string
+  password: string,
 ) => {
   try {
     await axiosClient.post("/auth/register", {
@@ -22,7 +22,7 @@ export const register = async (
 
 export const login = async (
   username: string,
-  password: string
+  password: string,
 ): Promise<string> => {
   const response = await axiosClient.post("/auth/login", {
     username,
