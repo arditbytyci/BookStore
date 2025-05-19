@@ -55,6 +55,8 @@ A full-stack Bookstore Management App where users can browse books, register/log
 
 ---
 
+🎬 [Watch Full Demo on YouTube](https://youtu.be/oSi3481Z754)
+
 ## ⚙️ Getting Started
 
 ### 🖥️ Frontend
